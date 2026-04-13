@@ -2,20 +2,22 @@ import requests
 import sys
 from datetime import datetime
 
-class BackendAPITester:
+class RoleBasedAPITester:
     def __init__(self, base_url="https://fitness-registration-1.preview.emergentagent.com"):
         self.base_url = base_url
-        self.token = None
         self.tests_run = 0
         self.tests_passed = 0
-        self.session = requests.Session()
+        self.admin_session = requests.Session()
+        self.school_session = requests.Session()
+        self.trainer_session = requests.Session()
 
-    def run_test(self, name, method, endpoint, expected_status, data=None, cookies=None):
+    def run_test(self, name, method, endpoint, expected_status, data=None, session=None):
         """Run a single API test"""
+        if session is None:
+            session = self.admin_session
+            
         url = f"{self.base_url}/{endpoint}"
         headers = {'Content-Type': 'application/json'}
-        if self.token:
-            headers['Authorization'] = f'Bearer {self.token}'
 
         self.tests_run += 1
         print(f"\n🔍 Testing {name}...")
@@ -23,9 +25,11 @@ class BackendAPITester:
         
         try:
             if method == 'GET':
-                response = self.session.get(url, headers=headers)
+                response = session.get(url, headers=headers)
             elif method == 'POST':
-                response = self.session.post(url, json=data, headers=headers)
+                response = session.post(url, json=data, headers=headers)
+            elif method == 'DELETE':
+                response = session.delete(url, headers=headers)
 
             print(f"   Status: {response.status_code}")
             success = response.status_code == expected_status
@@ -52,114 +56,208 @@ class BackendAPITester:
             print(f"❌ Failed - Error: {str(e)}")
             return False, {}
 
-    def test_root_endpoint(self):
-        """Test root API endpoint"""
-        return self.run_test("Root API", "GET", "api/", 200)
-
-    def test_login_invalid(self):
-        """Test login with invalid credentials"""
+    def test_admin_login(self):
+        """Test admin login"""
         success, response = self.run_test(
-            "Login Invalid Credentials",
-            "POST",
-            "api/auth/login",
-            401,
-            data={"email": "invalid@test.com", "password": "wrongpass"}
-        )
-        return success
-
-    def test_login_valid(self):
-        """Test login with valid admin credentials"""
-        success, response = self.run_test(
-            "Login Valid Admin",
+            "Admin Login",
             "POST",
             "api/auth/login",
             200,
-            data={"email": "admin@admin.com", "password": "admin123"}
+            data={"email": "admin@admin.com", "password": "admin123"},
+            session=self.admin_session
         )
-        if success and 'id' in response:
-            # Check if cookies are set
-            cookies = self.session.cookies
-            print(f"   Cookies received: {dict(cookies)}")
-            return True
-        return False
-
-    def test_me_endpoint(self):
-        """Test /me endpoint after login"""
-        success, response = self.run_test(
-            "Get Current User",
-            "GET",
-            "api/auth/me",
-            200
-        )
-        if success:
-            print(f"   User data: {response}")
+        if success and 'role' in response:
+            print(f"   Admin role: {response.get('role')}")
             return response.get('role') == 'admin'
         return False
 
-    def test_register_new_user(self):
-        """Test registering a new user"""
-        timestamp = datetime.now().strftime('%H%M%S')
-        test_email = f"test_user_{timestamp}@test.com"
-        
+    def test_school_user_login(self):
+        """Test school user login"""
         success, response = self.run_test(
-            "Register New User",
+            "School User Login",
             "POST",
-            "api/auth/register",
+            "api/auth/login",
+            200,
+            data={"email": "doha@school.com", "password": "school123"},
+            session=self.school_session
+        )
+        if success and 'role' in response:
+            print(f"   School user role: {response.get('role')}")
+            print(f"   School user school_id: {response.get('school_id')}")
+            print(f"   School user school_name: {response.get('school_name')}")
+            return response.get('role') == 'school_user' and response.get('school_name') == 'مدرسة الدوحة الثانوية'
+        return False
+
+    def test_trainer_login(self):
+        """Test trainer login"""
+        success, response = self.run_test(
+            "Trainer Login",
+            "POST",
+            "api/auth/login",
+            200,
+            data={"email": "trainer@fitness.com", "password": "trainer123"},
+            session=self.trainer_session
+        )
+        if success and 'role' in response:
+            print(f"   Trainer role: {response.get('role')}")
+            return response.get('role') == 'trainer'
+        return False
+
+    def test_admin_me_endpoint(self):
+        """Test /me endpoint for admin"""
+        success, response = self.run_test(
+            "Admin /me endpoint",
+            "GET",
+            "api/auth/me",
+            200,
+            session=self.admin_session
+        )
+        if success:
+            return response.get('role') == 'admin'
+        return False
+
+    def test_school_user_me_endpoint(self):
+        """Test /me endpoint for school user"""
+        success, response = self.run_test(
+            "School User /me endpoint",
+            "GET",
+            "api/auth/me",
+            200,
+            session=self.school_session
+        )
+        if success:
+            return response.get('role') == 'school_user' and response.get('school_name') == 'مدرسة الدوحة الثانوية'
+        return False
+
+    def test_trainer_me_endpoint(self):
+        """Test /me endpoint for trainer"""
+        success, response = self.run_test(
+            "Trainer /me endpoint",
+            "GET",
+            "api/auth/me",
+            200,
+            session=self.trainer_session
+        )
+        if success:
+            return response.get('role') == 'trainer'
+        return False
+
+    def test_admin_list_users(self):
+        """Test admin can list users"""
+        success, response = self.run_test(
+            "Admin List Users",
+            "GET",
+            "api/admin/users",
+            200,
+            session=self.admin_session
+        )
+        if success and isinstance(response, list):
+            print(f"   Found {len(response)} users")
+            # Check if we have the expected users
+            emails = [user.get('email') for user in response]
+            expected_emails = ['admin@admin.com', 'doha@school.com', 'trainer@fitness.com']
+            found_emails = [email for email in expected_emails if email in emails]
+            print(f"   Expected users found: {found_emails}")
+            return len(found_emails) >= 3
+        return False
+
+    def test_school_user_cannot_list_users(self):
+        """Test school user cannot access admin endpoints"""
+        success, response = self.run_test(
+            "School User Cannot List Users",
+            "GET",
+            "api/admin/users",
+            403,
+            session=self.school_session
+        )
+        return success
+
+    def test_trainer_cannot_list_users(self):
+        """Test trainer cannot access admin endpoints"""
+        success, response = self.run_test(
+            "Trainer Cannot List Users",
+            "GET",
+            "api/admin/users",
+            403,
+            session=self.trainer_session
+        )
+        return success
+
+    def test_admin_create_user(self):
+        """Test admin can create new users"""
+        timestamp = datetime.now().strftime('%H%M%S')
+        success, response = self.run_test(
+            "Admin Create User",
+            "POST",
+            "api/admin/users",
             200,
             data={
-                "email": test_email,
+                "email": f"test_{timestamp}@test.com",
                 "password": "testpass123",
                 "name": f"Test User {timestamp}",
                 "role": "viewer"
-            }
+            },
+            session=self.admin_session
         )
-        return success
+        if success and 'role' in response:
+            return response.get('role') == 'viewer'
+        return False
 
-    def test_register_duplicate_email(self):
-        """Test registering with duplicate email"""
-        success, response = self.run_test(
-            "Register Duplicate Email",
-            "POST",
-            "api/auth/register",
-            400,
-            data={
-                "email": "admin@admin.com",
-                "password": "testpass123",
-                "name": "Duplicate Admin",
-                "role": "admin"
-            }
-        )
-        return success
-
-    def test_logout(self):
-        """Test logout endpoint"""
-        success, response = self.run_test(
-            "Logout",
+    def test_logout_all_sessions(self):
+        """Test logout for all sessions"""
+        results = []
+        
+        # Test admin logout
+        success, _ = self.run_test(
+            "Admin Logout",
             "POST",
             "api/auth/logout",
-            200
+            200,
+            session=self.admin_session
         )
-        if success:
-            # Check if cookies are cleared
-            cookies = self.session.cookies
-            print(f"   Cookies after logout: {dict(cookies)}")
-        return success
+        results.append(success)
+        
+        # Test school user logout
+        success, _ = self.run_test(
+            "School User Logout",
+            "POST",
+            "api/auth/logout",
+            200,
+            session=self.school_session
+        )
+        results.append(success)
+        
+        # Test trainer logout
+        success, _ = self.run_test(
+            "Trainer Logout",
+            "POST",
+            "api/auth/logout",
+            200,
+            session=self.trainer_session
+        )
+        results.append(success)
+        
+        return all(results)
 
 def main():
-    print("🚀 Starting Backend API Tests for Arabic RTL Student Registration System")
+    print("🚀 Starting Role-Based Authentication API Tests")
     print("=" * 70)
     
-    tester = BackendAPITester()
+    tester = RoleBasedAPITester()
     
-    # Test sequence
+    # Test sequence for role-based authentication
     tests = [
-        ("Root API Endpoint", tester.test_root_endpoint),
-        ("Login Invalid Credentials", tester.test_login_invalid),
-        ("Login Valid Admin", tester.test_login_valid),
-        ("Get Current User", tester.test_me_endpoint),
-        ("Register New User", tester.test_register_new_user),
-        ("Register Duplicate Email", tester.test_register_duplicate_email),
-        ("Logout", tester.test_logout),
+        ("Admin Login", tester.test_admin_login),
+        ("School User Login", tester.test_school_user_login),
+        ("Trainer Login", tester.test_trainer_login),
+        ("Admin /me Endpoint", tester.test_admin_me_endpoint),
+        ("School User /me Endpoint", tester.test_school_user_me_endpoint),
+        ("Trainer /me Endpoint", tester.test_trainer_me_endpoint),
+        ("Admin Can List Users", tester.test_admin_list_users),
+        ("School User Cannot List Users", tester.test_school_user_cannot_list_users),
+        ("Trainer Cannot List Users", tester.test_trainer_cannot_list_users),
+        ("Admin Can Create User", tester.test_admin_create_user),
+        ("Logout All Sessions", tester.test_logout_all_sessions),
     ]
     
     failed_tests = []

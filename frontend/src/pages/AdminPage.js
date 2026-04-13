@@ -13,7 +13,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
-import { Plus, Pencil, Trash2, School, Settings, Database } from "lucide-react";
+import { Plus, Pencil, Trash2, School, Settings, Database, UsersRound } from "lucide-react";
+import axios from "axios";
+
+const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+const ROLE_LABELS = { admin: "مدير", school_user: "مدرسة", trainer: "مدرب", viewer: "عارض" };
 
 const STAGES = ["ابتدائي", "إعدادي", "ثانوي"];
 const GRADES_MAP = {
@@ -39,6 +43,42 @@ export default function AdminPage() {
   const [editSchool, setEditSchool] = useState(null);
   const [schoolForm, setSchoolForm] = useState({ ...defaultSchool });
   const [birthYearInput, setBirthYearInput] = useState("");
+  const [showUserDialog, setShowUserDialog] = useState(false);
+  const [userForm, setUserForm] = useState({ email: "", password: "", name: "", role: "viewer", school_id: "", school_name: "" });
+  const [users, setUsers] = useState([]);
+  const [loadingUsers, setLoadingUsers] = useState(false);
+
+  const fetchUsers = async () => {
+    setLoadingUsers(true);
+    try {
+      const { data } = await axios.get(`${API}/admin/users`, { withCredentials: true });
+      setUsers(data);
+    } catch (e) { console.error(e); }
+    setLoadingUsers(false);
+  };
+
+  const createUser = async () => {
+    if (!userForm.email || !userForm.password || !userForm.name) { toast.error("أدخل جميع البيانات المطلوبة"); return; }
+    if (userForm.role === "school_user" && !userForm.school_id) { toast.error("اختر المدرسة للحساب"); return; }
+    try {
+      await axios.post(`${API}/admin/users`, {
+        ...userForm,
+        school_name: userForm.role === "school_user" ? schools.find(s => s._id === userForm.school_id)?.name : undefined,
+      }, { withCredentials: true });
+      toast.success("تم إنشاء الحساب بنجاح");
+      setShowUserDialog(false);
+      setUserForm({ email: "", password: "", name: "", role: "viewer", school_id: "", school_name: "" });
+      fetchUsers();
+    } catch (e) { toast.error(e.response?.data?.detail || "حدث خطأ"); }
+  };
+
+  const deleteUser = async (id) => {
+    try {
+      await axios.delete(`${API}/admin/users/${id}`, { withCredentials: true });
+      toast.success("تم حذف الحساب");
+      fetchUsers();
+    } catch (e) { toast.error(e.response?.data?.detail || "حدث خطأ"); }
+  };
 
   if (user?.role !== "admin") {
     return <div className="text-center py-20 text-[#9CA3AF]">ليس لديك صلاحية الوصول لهذه الصفحة</div>;
@@ -113,10 +153,13 @@ export default function AdminPage() {
         <p className="text-sm text-[#9CA3AF]">إدارة المدارس والإعدادات</p>
       </div>
 
-      <Tabs defaultValue="schools" dir="rtl">
+      <Tabs defaultValue="schools" dir="rtl" onValueChange={v => v === "users" && fetchUsers()}>
         <TabsList className="bg-[#F5F3EC]">
           <TabsTrigger value="schools" data-testid="tab-schools" className="data-[state=active]:bg-[#8A1538] data-[state=active]:text-white gap-2">
             <School className="w-4 h-4" />المدارس
+          </TabsTrigger>
+          <TabsTrigger value="users" data-testid="tab-users" className="data-[state=active]:bg-[#8A1538] data-[state=active]:text-white gap-2">
+            <UsersRound className="w-4 h-4" />المستخدمين
           </TabsTrigger>
           <TabsTrigger value="settings" data-testid="tab-settings" className="data-[state=active]:bg-[#8A1538] data-[state=active]:text-white gap-2">
             <Settings className="w-4 h-4" />الإعدادات
@@ -183,6 +226,51 @@ export default function AdminPage() {
               );
             })}
             {schools.length === 0 && <p className="text-center py-8 text-[#9CA3AF]">لا توجد مدارس</p>}
+          </div>
+        </TabsContent>
+
+        {/* Users Tab */}
+        <TabsContent value="users" className="mt-4 space-y-4">
+          <Button onClick={() => { setUserForm({ email: "", password: "", name: "", role: "viewer", school_id: "", school_name: "" }); setShowUserDialog(true); }} data-testid="add-user-btn" className="bg-[#8A1538] hover:bg-[#6D102A] text-white">
+            <Plus className="w-4 h-4 ml-2" />إنشاء حساب جديد
+          </Button>
+          <div className="grid gap-3">
+            {users.map(u => (
+              <Card key={u.id} className="border-[#E5E1D8]" data-testid={`user-${u.id}`}>
+                <CardContent className="p-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <h4 className="font-semibold text-[#1A1A1A]">{u.name}</h4>
+                        <span className={`text-xs px-2 py-0.5 rounded-full ${u.role === "admin" ? "bg-[#8A1538]/10 text-[#8A1538]" : u.role === "trainer" ? "bg-blue-50 text-blue-600" : u.role === "school_user" ? "bg-emerald-50 text-emerald-600" : "bg-gray-100 text-gray-600"}`}>
+                          {ROLE_LABELS[u.role] || u.role}
+                        </span>
+                      </div>
+                      <p className="text-xs text-[#9CA3AF]" dir="ltr">{u.email}</p>
+                      {u.school_name && <p className="text-xs text-[#D4AF37] mt-0.5">{u.school_name}</p>}
+                    </div>
+                    {u.role !== "admin" && (
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button variant="ghost" size="icon" className="h-8 w-8 text-[#4B5563] hover:text-red-500">
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent dir="rtl">
+                          <AlertDialogHeader><AlertDialogTitle>حذف الحساب</AlertDialogTitle><AlertDialogDescription>هل أنت متأكد من حذف حساب {u.name}؟</AlertDialogDescription></AlertDialogHeader>
+                          <AlertDialogFooter className="flex-row-reverse gap-2">
+                            <AlertDialogCancel>إلغاء</AlertDialogCancel>
+                            <AlertDialogAction onClick={() => deleteUser(u.id)} className="bg-red-500 hover:bg-red-600">حذف</AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+            {users.length === 0 && !loadingUsers && <p className="text-center py-8 text-[#9CA3AF]">اضغط على التبويب لتحميل المستخدمين</p>}
+            {loadingUsers && <p className="text-center py-8 text-[#9CA3AF]">جاري التحميل...</p>}
           </div>
         </TabsContent>
 
@@ -266,6 +354,56 @@ export default function AdminPage() {
           <DialogFooter className="flex-row-reverse gap-2 mt-4">
             <Button onClick={saveSchool} data-testid="save-school-btn" className="bg-[#8A1538] hover:bg-[#6D102A] text-white">حفظ</Button>
             <Button variant="outline" onClick={() => setShowSchoolDialog(false)}>إلغاء</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* User Dialog */}
+      <Dialog open={showUserDialog} onOpenChange={setShowUserDialog}>
+        <DialogContent dir="rtl" className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="font-['Alexandria']">إنشاء حساب جديد</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label>الاسم *</Label>
+              <Input value={userForm.name} onChange={e => setUserForm(p => ({ ...p, name: e.target.value }))} data-testid="user-name-input" className="mt-1" placeholder="اسم المستخدم" />
+            </div>
+            <div>
+              <Label>البريد الإلكتروني *</Label>
+              <Input value={userForm.email} onChange={e => setUserForm(p => ({ ...p, email: e.target.value }))} data-testid="user-email-input" className="mt-1" dir="ltr" placeholder="email@example.com" type="email" />
+            </div>
+            <div>
+              <Label>كلمة المرور *</Label>
+              <Input value={userForm.password} onChange={e => setUserForm(p => ({ ...p, password: e.target.value }))} data-testid="user-password-input" className="mt-1" dir="ltr" type="password" placeholder="********" />
+            </div>
+            <div>
+              <Label>الدور *</Label>
+              <Select value={userForm.role} onValueChange={v => setUserForm(p => ({ ...p, role: v }))} dir="rtl">
+                <SelectTrigger className="mt-1" data-testid="user-role-select"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="school_user">حساب مدرسة - تسجيل الطلاب فقط</SelectItem>
+                  <SelectItem value="trainer">مدرب - إدخال القياسات والاختبارات</SelectItem>
+                  <SelectItem value="viewer">عارض - عرض فقط</SelectItem>
+                  <SelectItem value="admin">مدير - صلاحيات كاملة</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            {userForm.role === "school_user" && (
+              <div>
+                <Label>المدرسة المرتبطة *</Label>
+                <Select value={userForm.school_id} onValueChange={v => setUserForm(p => ({ ...p, school_id: v }))} dir="rtl">
+                  <SelectTrigger className="mt-1" data-testid="user-school-select"><SelectValue placeholder="اختر المدرسة" /></SelectTrigger>
+                  <SelectContent>
+                    {schools.map(s => <SelectItem key={s._id} value={s._id}>{s.name}</SelectItem>)}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+          </div>
+          <DialogFooter className="flex-row-reverse gap-2 mt-4">
+            <Button onClick={createUser} data-testid="save-user-btn" className="bg-[#8A1538] hover:bg-[#6D102A] text-white">إنشاء الحساب</Button>
+            <Button variant="outline" onClick={() => setShowUserDialog(false)}>إلغاء</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

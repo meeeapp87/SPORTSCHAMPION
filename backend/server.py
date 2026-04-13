@@ -8,6 +8,7 @@ import bcrypt
 import jwt
 from pathlib import Path
 from pydantic import BaseModel
+from typing import Optional, List
 from datetime import datetime, timezone, timedelta
 from bson import ObjectId
 
@@ -22,6 +23,7 @@ app = FastAPI()
 api_router = APIRouter(prefix="/api")
 
 JWT_ALGORITHM = "HS256"
+VALID_ROLES = ["admin", "school_user", "trainer", "viewer"]
 
 def get_jwt_secret():
     return os.environ["JWT_SECRET"]
@@ -40,6 +42,11 @@ def create_refresh_token(user_id: str) -> str:
     payload = {"sub": user_id, "exp": datetime.now(timezone.utc) + timedelta(days=7), "type": "refresh"}
     return jwt.encode(payload, get_jwt_secret(), algorithm=JWT_ALGORITHM)
 
+def serialize_user(user: dict) -> dict:
+    u = {k: v for k, v in user.items() if k != "password_hash" and k != "_id"}
+    u["id"] = str(user["_id"])
+    return u
+
 async def get_current_user(request: Request):
     token = request.cookies.get("access_token")
     if not token:
@@ -55,8 +62,6 @@ async def get_current_user(request: Request):
         user = await db.users.find_one({"_id": ObjectId(payload["sub"])})
         if not user:
             raise HTTPException(status_code=401, detail="مستخدم غير موجود")
-        user["_id"] = str(user["_id"])
-        user.pop("password_hash", None)
         return user
     except jwt.ExpiredSignatureError:
         raise HTTPException(status_code=401, detail="انتهت صلاحية الرمز")
@@ -67,36 +72,17 @@ def set_auth_cookies(response: Response, access_token: str, refresh_token: str):
     response.set_cookie(key="access_token", value=access_token, httponly=True, secure=False, samesite="lax", max_age=86400, path="/")
     response.set_cookie(key="refresh_token", value=refresh_token, httponly=True, secure=False, samesite="lax", max_age=604800, path="/")
 
-class RegisterInput(BaseModel):
-    email: str
-    password: str
-    name: str
-    role: str = "viewer"
-
 class LoginInput(BaseModel):
     email: str
     password: str
 
-@api_router.post("/auth/register")
-async def register(input: RegisterInput, response: Response):
-    email = input.email.lower().strip()
-    existing = await db.users.find_one({"email": email})
-    if existing:
-        raise HTTPException(status_code=400, detail="البريد الإلكتروني مستخدم بالفعل")
-    hashed = hash_password(input.password)
-    user_doc = {
-        "email": email,
-        "password_hash": hashed,
-        "name": input.name,
-        "role": input.role if input.role in ["admin", "school_user", "viewer"] else "viewer",
-        "created_at": datetime.now(timezone.utc).isoformat(),
-    }
-    result = await db.users.insert_one(user_doc)
-    user_id = str(result.inserted_id)
-    access_token = create_access_token(user_id, email)
-    refresh_token = create_refresh_token(user_id)
-    set_auth_cookies(response, access_token, refresh_token)
-    return {"id": user_id, "email": email, "name": input.name, "role": user_doc["role"]}
+class CreateUserInput(BaseModel):
+    email: str
+    password: str
+    name: str
+    role: str = "viewer"
+    school_id: Optional[str] = None
+    school_name: Optional[str] = None
 
 @api_router.post("/auth/login")
 async def login(input: LoginInput, response: Response):
@@ -108,18 +94,68 @@ async def login(input: LoginInput, response: Response):
     access_token = create_access_token(user_id, email)
     refresh_token = create_refresh_token(user_id)
     set_auth_cookies(response, access_token, refresh_token)
-    return {"id": user_id, "email": email, "name": user["name"], "role": user["role"]}
+    return serialize_user(user)
 
 @api_router.get("/auth/me")
 async def get_me(request: Request):
     user = await get_current_user(request)
-    return user
+    return serialize_user(user)
 
 @api_router.post("/auth/logout")
 async def logout(response: Response):
     response.delete_cookie("access_token", path="/")
     response.delete_cookie("refresh_token", path="/")
     return {"message": "تم تسجيل الخروج"}
+
+# Admin: create users
+@api_router.post("/admin/users")
+async def create_user(input: CreateUserInput, request: Request):
+    admin = await get_current_user(request)
+    if admin["role"] != "admin":
+        raise HTTPException(status_code=403, detail="غير مصرح")
+    email = input.email.lower().strip()
+    existing = await db.users.find_one({"email": email})
+    if existing:
+        raise HTTPException(status_code=400, detail="البريد الإلكتروني مستخدم بالفعل")
+    role = input.role if input.role in VALID_ROLES else "viewer"
+    user_doc = {
+        "email": email,
+        "password_hash": hash_password(input.password),
+        "name": input.name,
+        "role": role,
+        "school_id": input.school_id if role == "school_user" else None,
+        "school_name": input.school_name if role == "school_user" else None,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    }
+    result = await db.users.insert_one(user_doc)
+    user_doc["_id"] = result.inserted_id
+    return serialize_user(user_doc)
+
+# Admin: list users
+@api_router.get("/admin/users")
+async def list_users(request: Request):
+    admin = await get_current_user(request)
+    if admin["role"] != "admin":
+        raise HTTPException(status_code=403, detail="غير مصرح")
+    users = await db.users.find({}, {"password_hash": 0}).to_list(1000)
+    result = []
+    for u in users:
+        u["id"] = str(u.pop("_id"))
+        result.append(u)
+    return result
+
+# Admin: delete user
+@api_router.delete("/admin/users/{user_id}")
+async def delete_user(user_id: str, request: Request):
+    admin = await get_current_user(request)
+    if admin["role"] != "admin":
+        raise HTTPException(status_code=403, detail="غير مصرح")
+    if str(admin["_id"]) == user_id:
+        raise HTTPException(status_code=400, detail="لا يمكنك حذف حسابك")
+    result = await db.users.delete_one({"_id": ObjectId(user_id)})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="المستخدم غير موجود")
+    return {"message": "تم حذف المستخدم"}
 
 @api_router.get("/")
 async def root():
@@ -154,7 +190,6 @@ async def seed_admin():
         logger.info(f"Admin seeded: {admin_email}")
     elif not verify_password(admin_password, existing["password_hash"]):
         await db.users.update_one({"email": admin_email}, {"$set": {"password_hash": hash_password(admin_password)}})
-        logger.info("Admin password updated")
 
 @app.on_event("startup")
 async def startup():

@@ -9,6 +9,8 @@ import StudentDetailPage from "@/pages/StudentDetailPage";
 import SchoolDetailPage from "@/pages/SchoolDetailPage";
 import AdminPage from "@/pages/AdminPage";
 import ComparisonPage from "@/pages/ComparisonPage";
+import SchoolPortalPage from "@/pages/SchoolPortalPage";
+import TrainerPortalPage from "@/pages/TrainerPortalPage";
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
@@ -21,6 +23,13 @@ function ProtectedRoute({ children }) {
   }
   if (!user) return <Navigate to="/login" replace />;
   return children;
+}
+
+function RoleRedirect() {
+  const { user } = useAuth();
+  if (user?.role === "school_user") return <Navigate to="/school-portal" replace />;
+  if (user?.role === "trainer") return <Navigate to="/trainer" replace />;
+  return <DashboardPage />;
 }
 
 function AppRoutes() {
@@ -38,7 +47,9 @@ function AppRoutes() {
     <Routes>
       <Route path="/login" element={user ? <Navigate to="/" replace /> : <LoginPage />} />
       <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
-        <Route index element={<DashboardPage />} />
+        <Route index element={<RoleRedirect />} />
+        <Route path="school-portal" element={<SchoolPortalPage />} />
+        <Route path="trainer" element={<TrainerPortalPage />} />
         <Route path="students/new" element={<StudentFormPage />} />
         <Route path="students/:id/edit" element={<StudentFormPage />} />
         <Route path="students/:id" element={<StudentDetailPage />} />

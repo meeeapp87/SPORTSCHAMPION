@@ -56,20 +56,7 @@ export default function LoginPage() {
         </div>
 
         <div className="bg-white rounded-xl border border-[#E5E1D8] shadow-sm p-6 sm:p-8">
-          <Tabs value={tab} onValueChange={setTab} dir="rtl">
-            <TabsList className="grid w-full grid-cols-2 mb-6 bg-[#F5F3EC]">
-              <TabsTrigger value="login" data-testid="login-tab" className="data-[state=active]:bg-[#8A1538] data-[state=active]:text-white">تسجيل الدخول</TabsTrigger>
-              <TabsTrigger value="register" data-testid="register-tab" className="data-[state=active]:bg-[#8A1538] data-[state=active]:text-white">حساب جديد</TabsTrigger>
-            </TabsList>
-
             <form onSubmit={handleSubmit}>
-              <TabsContent value="register" className="space-y-4 mt-0">
-                <div>
-                  <Label htmlFor="name" className="text-[#4B5563]">الاسم</Label>
-                  <Input id="name" data-testid="register-name-input" value={name} onChange={e => setName(e.target.value)} placeholder="أدخل اسمك" className="mt-1 focus:ring-[#D4AF37]" />
-                </div>
-              </TabsContent>
-
               <div className="space-y-4">
                 <div>
                   <Label htmlFor="email" className="text-[#4B5563]">البريد الإلكتروني</Label>
@@ -89,10 +76,9 @@ export default function LoginPage() {
               {error && <p className="text-red-500 text-sm mt-3 bg-red-50 p-2 rounded-lg" data-testid="auth-error">{error}</p>}
 
               <Button type="submit" data-testid="auth-submit-btn" disabled={loading} className="w-full mt-6 bg-[#8A1538] hover:bg-[#6D102A] text-white h-11">
-                {loading ? <span className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" /> : tab === "login" ? "تسجيل الدخول" : "إنشاء حساب"}
+                {loading ? <span className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" /> : "تسجيل الدخول"}
               </Button>
             </form>
-          </Tabs>
         </div>
       </div>
     </div>
