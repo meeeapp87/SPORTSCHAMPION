@@ -21,6 +21,7 @@ function getNavItems(role) {
   return [
     { path: "/", label: "لوحة التحكم", icon: LayoutDashboard },
     { path: "/students/new", label: "تسجيل طالب", icon: UserPlus },
+    { path: "/trainer", label: "القياسات والاختبارات", icon: Ruler },
     { path: "/students", label: "قائمة الطلاب", icon: Users },
     { path: "/comparison", label: "مقارنة المدارس", icon: BarChart3 },
     ...(role === "admin" ? [{ path: "/admin", label: "الإدارة", icon: Settings }] : []),
