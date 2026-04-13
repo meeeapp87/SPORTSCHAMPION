@@ -1,0 +1,85 @@
+{
+  "theme": "LIGHT",
+  "archetype": "Custom Premium Identity (Qatar Flag Colors: Maroon & Gold)",
+  "language_direction": "RTL",
+  "colors": {
+    "primary": "#8A1538",
+    "primary_hover": "#6D102A",
+    "secondary": "#D4AF37",
+    "secondary_hover": "#B5952F",
+    "background": "#FDFBF7",
+    "surface": "#FFFFFF",
+    "surface_hover": "#F5F3EC",
+    "text_primary": "#1A1A1A",
+    "text_secondary": "#4B5563",
+    "text_muted": "#9CA3AF",
+    "border": "#E5E1D8",
+    "border_focus": "#D4AF37",
+    "success": "#10B981",
+    "warning": "#F59E0B",
+    "danger": "#EF4444",
+    "info": "#3B82F6"
+  },
+  "typography": {
+    "font_family_primary": "Alexandria, Tajawal, sans-serif",
+    "font_family_body": "Cairo, sans-serif",
+    "h1": "text-3xl sm:text-4xl font-bold tracking-tight text-[#1A1A1A]",
+    "h2": "text-2xl sm:text-3xl font-bold tracking-tight text-[#1A1A1A]",
+    "h3": "text-xl sm:text-2xl font-semibold text-[#1A1A1A]",
+    "h4": "text-lg font-semibold text-[#1A1A1A]",
+    "body": "text-base font-normal leading-relaxed text-[#4B5563]",
+    "small": "text-sm font-medium text-[#9CA3AF]",
+    "overline": "text-xs font-bold uppercase tracking-[0.1em] text-[#8A1538]"
+  },
+  "layout_and_spacing": {
+    "container_padding": "p-4 sm:p-6 lg:p-8",
+    "gap_standard": "gap-4 sm:gap-6",
+    "dashboard_grid": "grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6",
+    "form_grid": "grid-cols-1 md:grid-cols-2 gap-6",
+    "border_radius": "rounded-lg",
+    "shadow_subtle": "shadow-sm shadow-[#8A1538]/5",
+    "shadow_hover": "shadow-md shadow-[#8A1538]/10"
+  },
+  "rtl_guidelines": {
+    "html_dir": "dir='rtl'",
+    "css_logical_properties": "CRITICAL: Use logical properties instead of directional ones. Use ms-* (margin-inline-start) instead of ml-*. Use pe-* (padding-inline-end) instead of pr-*. Use border-s-* instead of border-l-*.",
+    "alignment": "text-start instead of text-left. text-end instead of text-right.",
+    "icons": "Ensure directional icons (arrows, chevrons) are flipped for RTL using transform rotate-180 or appropriate Lucide-react/Phosphor icons.",
+    "sidebar": "Sidebar must be positioned on the RIGHT side. Main content on the LEFT."
+  },
+  "components": {
+    "button_primary": "bg-[#8A1538] hover:bg-[#6D102A] text-white font-medium rounded-lg px-6 py-2 transition-colors focus:ring-2 focus:ring-[#D4AF37] focus:ring-offset-2",
+    "button_secondary": "bg-[#D4AF37] hover:bg-[#B5952F] text-white font-medium rounded-lg px-6 py-2 transition-colors focus:ring-2 focus:ring-[#8A1538] focus:ring-offset-2",
+    "button_outline": "border border-[#E5E1D8] text-[#1A1A1A] hover:bg-[#F5F3EC] hover:text-[#8A1538] font-medium rounded-lg px-6 py-2 transition-colors",
+    "card": "bg-white rounded-lg border border-[#E5E1D8] shadow-sm overflow-hidden",
+    "input": "w-full border border-[#E5E1D8] rounded-lg px-4 py-2 bg-white text-[#1A1A1A] placeholder:text-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] focus:border-transparent transition-all",
+    "table_header": "bg-[#FDFBF7] text-[#4B5563] font-semibold text-start px-6 py-3 border-b border-[#E5E1D8]",
+    "table_row": "border-b border-[#E5E1D8] hover:bg-[#F5F3EC] transition-colors",
+    "table_cell": "px-6 py-4 text-[#1A1A1A]"
+  },
+  "bmi_logic_colors": {
+    "underweight": "text-[#F59E0B] bg-[#F59E0B]/10 border border-[#F59E0B]/20 rounded-full px-3 py-1 text-sm font-medium",
+    "normal": "text-[#10B981] bg-[#10B981]/10 border border-[#10B981]/20 rounded-full px-3 py-1 text-sm font-medium",
+    "overweight": "text-[#F59E0B] bg-[#F59E0B]/10 border border-[#F59E0B]/20 rounded-full px-3 py-1 text-sm font-medium",
+    "obese": "text-[#EF4444] bg-[#EF4444]/10 border border-[#EF4444]/20 rounded-full px-3 py-1 text-sm font-medium"
+  },
+  "media_urls": {
+    "login_background": {
+      "url": "https://static.prod-images.emergentagent.com/jobs/51b60283-7f67-4ee4-96a6-6733f82082d2/images/282fac7534470509b00e8b7ab7a2c24abd5084d2dac6d92a3f75d576a5e7b2ac.png",
+      "description": "Abstract elegant maroon and metallic gold background. Use on the authentication/login page."
+    },
+    "city_skyline": {
+      "url": "https://images.unsplash.com/photo-1761634731644-55df85335745?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NzN8MHwxfHNlYXJjaHwyfHxkb2hhJTIwcWF0YXIlMjBhcmNoaXRlY3R1cmUlMjBza3lsaW5lfGVufDB8fHx8MTc3NjA5Mzc2OHww&ixlib=rb-4.1.0&q=85",
+      "description": "Doha architecture skyline, use as a subtle header background or marketing hero element if needed."
+    }
+  },
+  "instructions_to_main_agent": {
+    "general": "Build a modern Arabic RTL Dashboard tailored for schools/fitness registration.",
+    "html_setup": "Set <html dir='rtl' lang='ar'> in index.html.",
+    "fonts": "Include the Google Font 'Alexandria' and 'Cairo'. Apply to Tailwind config.",
+    "shadcn": "When installing Shadcn UI components, ensure you customize them to respect RTL (Tailwind logical properties). Some components (like tabs or dropdowns) may require explicitly setting dir='rtl' on Radix primitives.",
+    "accessibility_and_testing": "MANDATORY: Add 'data-testid' to all interactive elements, buttons, form inputs, and key informational elements (e.g., data-testid='student-registration-submit').",
+    "bmi_calc": "In the Student Registration form, BMI should auto-calculate (Weight in kg / (Height in m)^2) and instantly display the result with corresponding color tags defined in bmi_logic_colors.",
+    "icons": "Use lucide-react. Flip icons like ArrowRight to point Left in RTL (e.g., className='rotate-180')."
+  }
+}
