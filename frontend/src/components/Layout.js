@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Outlet, NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { LayoutDashboard, UserPlus, Users, Settings, LogOut, Menu, X, GraduationCap } from "lucide-react";
+import { LayoutDashboard, UserPlus, Users, Settings, LogOut, Menu, X, GraduationCap, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import "@/App.css";
@@ -10,6 +10,7 @@ const navItems = [
   { path: "/", label: "لوحة التحكم", icon: LayoutDashboard },
   { path: "/students/new", label: "تسجيل طالب", icon: UserPlus },
   { path: "/students", label: "قائمة الطلاب", icon: Users },
+  { path: "/comparison", label: "مقارنة المدارس", icon: BarChart3 },
   { path: "/admin", label: "الإدارة", icon: Settings, adminOnly: true },
 ];
 

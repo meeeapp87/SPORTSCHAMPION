@@ -4,7 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { School, Users, CheckCircle, AlertTriangle, UserPlus, ArrowLeft } from "lucide-react";
+import { School, Users, CheckCircle, AlertTriangle, UserPlus, ArrowLeft, BarChart3 } from "lucide-react";
 import "@/App.css";
 
 export default function DashboardPage() {
@@ -55,6 +55,11 @@ export default function DashboardPage() {
           <Button onClick={() => navigate("/students/new")} data-testid="add-student-btn" className="bg-[#8A1538] hover:bg-[#6D102A] text-white">
             <UserPlus className="w-4 h-4 ml-2" />تسجيل طالب جديد
           </Button>
+          {students.length > 0 && (
+            <Button onClick={() => navigate("/comparison")} variant="outline" data-testid="comparison-btn" className="border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/5">
+              <BarChart3 className="w-4 h-4 ml-2" />مقارنة المدارس
+            </Button>
+          )}
         </div>
       </div>
 

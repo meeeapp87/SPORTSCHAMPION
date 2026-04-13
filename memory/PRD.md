@@ -51,3 +51,14 @@ Arabic RTL Student Registration Management System for a fitness and health proje
 - Workflow approvals
 - Multi-language support (Arabic/English)
 - PDF export
+
+## Update: April 13, 2026 - Comparison Feature
+- [x] School Comparison Page (/comparison) with interactive charts
+- [x] Bar chart comparing average test scores across schools
+- [x] Radar chart showing strength profiles per school
+- [x] Detailed comparison table with rankings and trophies
+- [x] Best school per test cards
+- [x] School ranking based on aggregate performance
+- [x] Navigation link added in sidebar
+- [x] Quick access button from dashboard
+- [x] 5 test students registered across 3 schools for demo data

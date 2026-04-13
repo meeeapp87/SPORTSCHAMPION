@@ -8,6 +8,7 @@ import StudentListPage from "@/pages/StudentListPage";
 import StudentDetailPage from "@/pages/StudentDetailPage";
 import SchoolDetailPage from "@/pages/SchoolDetailPage";
 import AdminPage from "@/pages/AdminPage";
+import ComparisonPage from "@/pages/ComparisonPage";
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
@@ -43,6 +44,7 @@ function AppRoutes() {
         <Route path="students/:id" element={<StudentDetailPage />} />
         <Route path="students" element={<StudentListPage />} />
         <Route path="schools/:id" element={<SchoolDetailPage />} />
+        <Route path="comparison" element={<ComparisonPage />} />
         <Route path="admin" element={<AdminPage />} />
       </Route>
     </Routes>
