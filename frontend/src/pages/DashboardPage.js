@@ -4,7 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { School, Users, CheckCircle, AlertTriangle, UserPlus, ArrowLeft, BarChart3 } from "lucide-react";
+import { School, Users, CheckCircle, TrendingUp, UserPlus, ArrowLeft, BarChart3 } from "lucide-react";
 import "@/App.css";
 
 export default function DashboardPage() {
@@ -24,6 +24,8 @@ export default function DashboardPage() {
     const count = students.filter(st => st.schoolId === s._id).length;
     return acc + Math.max(0, (s.maxStudents || 3) - count);
   }, 0);
+  const totalSeats = schools.reduce((acc, s) => acc + (s.maxStudents || 3), 0);
+  const participationRate = totalSeats > 0 ? Math.round((totalStudents / totalSeats) * 100) : 0;
 
   const handleSeed = async () => {
     try {
@@ -36,7 +38,7 @@ export default function DashboardPage() {
     { label: "المدارس", value: totalSchools, icon: School, color: "bg-[#8A1538]", lightColor: "bg-[#8A1538]/5" },
     { label: "الطلاب المسجلين", value: totalStudents, icon: Users, color: "bg-[#D4AF37]", lightColor: "bg-[#D4AF37]/5" },
     { label: "المدارس المكتملة", value: completedSchools, icon: CheckCircle, color: "bg-emerald-600", lightColor: "bg-emerald-50" },
-    { label: "المقاعد المتبقية", value: remainingSeats, icon: AlertTriangle, color: "bg-amber-500", lightColor: "bg-amber-50" },
+    { label: "نسبة المشاركة", value: `${participationRate}%`, icon: TrendingUp, color: "bg-amber-500", lightColor: "bg-amber-50" },
   ];
 
   return (
