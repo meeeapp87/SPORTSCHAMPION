@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as auth from "../auth.js";
 import type * as schools from "../schools.js";
 import type * as seed from "../seed.js";
 import type * as settings from "../settings.js";
@@ -20,6 +21,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  auth: typeof auth;
   schools: typeof schools;
   seed: typeof seed;
   settings: typeof settings;

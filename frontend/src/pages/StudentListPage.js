@@ -16,8 +16,10 @@ import * as XLSX from "xlsx";
 export default function StudentListPage() {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const schools = useQuery(api.schools.list) || [];
-  const students = useQuery(api.students.list) || [];
+  const schoolsQuery = useQuery(api.schools.list);
+  const studentsQuery = useQuery(api.students.list);
+  const schools = useMemo(() => schoolsQuery || [], [schoolsQuery]);
+  const students = useMemo(() => studentsQuery || [], [studentsQuery]);
   const removeStudent = useMutation(api.students.remove);
 
   const [search, setSearch] = useState("");

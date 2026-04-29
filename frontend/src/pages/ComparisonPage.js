@@ -61,8 +61,10 @@ function CustomTooltip({ active, payload, label }) {
 
 export default function ComparisonPage() {
   const navigate = useNavigate();
-  const schools = useQuery(api.schools.list) || [];
-  const students = useQuery(api.students.list) || [];
+  const schoolsQuery = useQuery(api.schools.list);
+  const studentsQuery = useQuery(api.students.list);
+  const schools = useMemo(() => schoolsQuery || [], [schoolsQuery]);
+  const students = useMemo(() => studentsQuery || [], [studentsQuery]);
 
   const rankedSchools = useMemo(() => calcSchoolStats(schools, students), [schools, students]);
   const schoolsWithStudents = rankedSchools.filter(s => s.studentCount > 0);

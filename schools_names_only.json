@@ -1,0 +1,1527 @@
+[
+  {
+    "english": "Aatikha Primary Girls",
+    "arabic": "مدرسة عاتكة الابتدائية للبنات",
+    "label": "Aatikha Primary Girls / مدرسة عاتكة الابتدائية للبنات"
+  },
+  {
+    "english": "Abdulla Bin Turky Model Boys",
+    "arabic": "عبد الله بن تركى النموذجية - بنين",
+    "label": "Abdulla Bin Turky Model Boys / عبد الله بن تركى النموذجية - بنين"
+  },
+  {
+    "english": "Abdullah Bin Ali Al Misnad Preparatory Boys",
+    "arabic": "عبد الله بن على المسند الاعدادية - بنين",
+    "label": "Abdullah Bin Ali Al Misnad Preparatory Boys / عبد الله بن على المسند الاعدادية - بنين"
+  },
+  {
+    "english": "Abdullah Bin Ali Al Misnad Secondary Boys",
+    "arabic": "عبد الله بن على المسند الثانوية - بنين",
+    "label": "Abdullah Bin Ali Al Misnad Secondary Boys / عبد الله بن على المسند الثانوية - بنين"
+  },
+  {
+    "english": "Abdullah Bin Jassim Al Thani Model Boys",
+    "arabic": "عبد الله بن جاسم آل ثاني النموذجية - بنين",
+    "label": "Abdullah Bin Jassim Al Thani Model Boys / عبد الله بن جاسم آل ثاني النموذجية - بنين"
+  },
+  {
+    "english": "Abdullah Bin Zaid Al Mahmod Model Boys",
+    "arabic": "عبد الله بن زيد آل محمود النموذجية - بنين",
+    "label": "Abdullah Bin Zaid Al Mahmod Model Boys / عبد الله بن زيد آل محمود النموذجية - بنين"
+  },
+  {
+    "english": "Abdulrahman Bin Jasim Preparatory Boys",
+    "arabic": "عبد الرحمن بن جاسم الاعدادية - للنين",
+    "label": "Abdulrahman Bin Jasim Preparatory Boys / عبد الرحمن بن جاسم الاعدادية - للنين"
+  },
+  {
+    "english": "Abi Ayyoob Al Ansari Model Boys",
+    "arabic": "أبي ايوب الأنصاري النموذجية - للبنين",
+    "label": "Abi Ayyoob Al Ansari Model Boys / أبي ايوب الأنصاري النموذجية - للبنين"
+  },
+  {
+    "english": "Abi Haneefa Model Boys",
+    "arabic": "Ø£Ø¨ÙŠ Ø­Ù†ÙŠÙØ© Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ÙŠØ© Ø§Ù„Ù…Ø³ØªÙ‚Ù„Ø© - Ù„Ù„Ø¨Ù†ÙŠÙ†",
+    "label": "Abi Haneefa Model Boys / Ø£Ø¨ÙŠ Ø­Ù†ÙŠÙØ© Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ÙŠØ© Ø§Ù„Ù…Ø³ØªÙ‚Ù„Ø© - Ù„Ù„Ø¨Ù†ÙŠÙ†"
+  },
+  {
+    "english": "Abi Obaida Preparatory Boys",
+    "arabic": "أبي عبيدة الاعدادية - بنين",
+    "label": "Abi Obaida Preparatory Boys / أبي عبيدة الاعدادية - بنين"
+  },
+  {
+    "english": "Abu Baker Al-Seddiq Preparatory Boys",
+    "arabic": "أبو بكر الصديق الاعدادية - بنين",
+    "label": "Abu Baker Al-Seddiq Preparatory Boys / أبو بكر الصديق الاعدادية - بنين"
+  },
+  {
+    "english": "ACS Doha International School",
+    "arabic": "أيه سي اس (ACS) العالمية الخاصة",
+    "label": "ACS Doha International School / أيه سي اس (ACS) العالمية الخاصة"
+  },
+  {
+    "english": "Ahmad Bin Hanbal Secondary Boys",
+    "arabic": "أحمد بن حنبل الثانوية - بنين",
+    "label": "Ahmad Bin Hanbal Secondary Boys / أحمد بن حنبل الثانوية - بنين"
+  },
+  {
+    "english": "Ahmed Bin Mohmmad Al-Thani Secondary Boys",
+    "arabic": "أحمد بن محمد آل ثاني الثانوية - بنين",
+    "label": "Ahmed Bin Mohmmad Al-Thani Secondary Boys / أحمد بن محمد آل ثاني الثانوية - بنين"
+  },
+  {
+    "english": "Al Ahnaf Bin Qais Preparatory Boys",
+    "arabic": "Ø§Ù„Ø£Ø­Ù†Ù Ø¨Ù† Ù‚ÙŠØ³ Ø§Ù„Ø§Ø¹Ø¯Ø§Ø¯ÙŠØ© Ø§Ù„Ù…Ø³ØªÙ‚Ù„Ø© - Ø¨Ù†ÙŠÙ†",
+    "label": "Al Ahnaf Bin Qais Preparatory Boys / Ø§Ù„Ø£Ø­Ù†Ù Ø¨Ù† Ù‚ÙŠØ³ Ø§Ù„Ø§Ø¹Ø¯Ø§Ø¯ÙŠØ© Ø§Ù„Ù…Ø³ØªÙ‚Ù„Ø© - Ø¨Ù†ÙŠÙ†"
+  },
+  {
+    "english": "Al Andalus Model Boys",
+    "arabic": "مدرسة الاندلس النموذجية للبنين",
+    "label": "Al Andalus Model Boys / مدرسة الاندلس النموذجية للبنين"
+  },
+  {
+    "english": "Al Andalus Preparatory Private Boys",
+    "arabic": "الأندلس الاعدادية الخاصة - بنين",
+    "label": "Al Andalus Preparatory Private Boys / الأندلس الاعدادية الخاصة - بنين"
+  },
+  {
+    "english": "Al Andalus Primary Private Boys",
+    "arabic": "الأندلس الابتدائية الخاصة - بنين",
+    "label": "Al Andalus Primary Private Boys / الأندلس الابتدائية الخاصة - بنين"
+  },
+  {
+    "english": "Al Andalus Private School for Girls",
+    "arabic": "الأندلس الخاصة - بنات",
+    "label": "Al Andalus Private School for Girls / الأندلس الخاصة - بنات"
+  },
+  {
+    "english": "Al Andalus Secondary Private Boys",
+    "arabic": "الأندلس الثانوية الخاصة - بنين",
+    "label": "Al Andalus Secondary Private Boys / الأندلس الثانوية الخاصة - بنين"
+  },
+  {
+    "english": "Al Aqsa Preparatory Girls",
+    "arabic": "الأقصى الاعدادية - بنات",
+    "label": "Al Aqsa Preparatory Girls / الأقصى الاعدادية - بنات"
+  },
+  {
+    "english": "Al Arqam Academy",
+    "arabic": "اكاديمية الارقم الخاصة",
+    "label": "Al Arqam Academy / اكاديمية الارقم الخاصة"
+  },
+  {
+    "english": "Al Aziziya Private Girls",
+    "arabic": "العزيزية الخاصة الابتدائية - بنات",
+    "label": "Al Aziziya Private Girls / العزيزية الخاصة الابتدائية - بنات"
+  },
+  {
+    "english": "Al Bayan First Primary Girls",
+    "arabic": "البيان الاولى الابتدائية - بنات",
+    "label": "Al Bayan First Primary Girls / البيان الاولى الابتدائية - بنات"
+  },
+  {
+    "english": "Al Bayan Preparatory Girls",
+    "arabic": "البيان الاعدادية - بنات",
+    "label": "Al Bayan Preparatory Girls / البيان الاعدادية - بنات"
+  },
+  {
+    "english": "Al Bayan Second Primary Girls",
+    "arabic": "البيان الابتدائية الثانية - بنات",
+    "label": "Al Bayan Second Primary Girls / البيان الابتدائية الثانية - بنات"
+  },
+  {
+    "english": "Al Bayan Secondary Girls",
+    "arabic": "البيان الثانوية - بنات",
+    "label": "Al Bayan Secondary Girls / البيان الثانوية - بنات"
+  },
+  {
+    "english": "Al Duhail Model Boys",
+    "arabic": "مدرسة الدحيل النموذجية للبنين",
+    "label": "Al Duhail Model Boys / مدرسة الدحيل النموذجية للبنين"
+  },
+  {
+    "english": "Al Eiman Secondary Girls",
+    "arabic": "الايمان الثانوية - بنات",
+    "label": "Al Eiman Secondary Girls / الايمان الثانوية - بنات"
+  },
+  {
+    "english": "Al Ekhlas Model Boys",
+    "arabic": "الإخلاص النموذجية - بنين",
+    "label": "Al Ekhlas Model Boys / الإخلاص النموذجية - بنين"
+  },
+  {
+    "english": "Al Emam Al-Shafaei Preparatory Boys",
+    "arabic": "Ø§Ù„Ø¥Ù…Ø§Ù… Ø§Ù„Ø´Ø§ÙØ¹ÙŠ Ø§Ù„Ø§Ø¹Ø¯Ø§Ø¯ÙŠØ© Ø§Ù„Ù…Ø³ØªÙ‚Ù„Ø© - Ø¨Ù†ÙŠÙ†",
+    "label": "Al Emam Al-Shafaei Preparatory Boys / Ø§Ù„Ø¥Ù…Ø§Ù… Ø§Ù„Ø´Ø§ÙØ¹ÙŠ Ø§Ù„Ø§Ø¹Ø¯Ø§Ø¯ÙŠØ© Ø§Ù„Ù…Ø³ØªÙ‚Ù„Ø© - Ø¨Ù†ÙŠÙ†"
+  },
+  {
+    "english": "Al Falah Primary Girls",
+    "arabic": "Ø§Ù„ÙÙ„Ø§Ø­ Ø§Ù„Ø§Ø¨ØªØ¯Ø§Ø¦ÙŠØ© Ø§Ù„Ù…Ø³ØªÙ‚Ù„Ø© - Ø¨Ù†Ø§Øª",
+    "label": "Al Falah Primary Girls / Ø§Ù„ÙÙ„Ø§Ø­ Ø§Ù„Ø§Ø¨ØªØ¯Ø§Ø¦ÙŠØ© Ø§Ù„Ù…Ø³ØªÙ‚Ù„Ø© - Ø¨Ù†Ø§Øª"
+  },
+  {
+    "english": "Al Falah Private Primary Boys",
+    "arabic": "Ø§Ù„ÙÙ„Ø§Ø­ Ø§Ù„Ø®Ø§ØµØ© Ø§Ù„Ø§Ø¨ØªØ¯Ø§Ø¦ÙŠØ© - Ø¨Ù†ÙŠÙ†",
+    "label": "Al Falah Private Primary Boys / Ø§Ù„ÙÙ„Ø§Ø­ Ø§Ù„Ø®Ø§ØµØ© Ø§Ù„Ø§Ø¨ØªØ¯Ø§Ø¦ÙŠØ© - Ø¨Ù†ÙŠÙ†"
+  },
+  {
+    "english": "Al Fatat Al Muslima Preparatory Girls",
+    "arabic": "Ø§Ù„ÙØªØ§Ø© Ø§Ù„Ù…Ø³Ù„Ù…Ø© Ø§Ù„Ø®Ø§ØµØ© Ø§Ù„Ø§Ø¹Ø¯Ø§Ø¯ÙŠØ© - Ø¨Ù†Ø§Øª",
+    "label": "Al Fatat Al Muslima Preparatory Girls / Ø§Ù„ÙØªØ§Ø© Ø§Ù„Ù…Ø³Ù„Ù…Ø© Ø§Ù„Ø®Ø§ØµØ© Ø§Ù„Ø§Ø¹Ø¯Ø§Ø¯ÙŠØ© - Ø¨Ù†Ø§Øª"
+  },
+  {
+    "english": "Al Fatat Al Muslima Primary Girls",
+    "arabic": "Ø§Ù„ÙØªØ§Ø© Ø§Ù„Ù…Ø³Ù„Ù…Ø© Ø§Ù„Ø®Ø§ØµØ© Ø§Ù„Ø§Ø¨ØªØ¯Ø§Ø¦ÙŠØ© - Ø¨Ù†Ø§Øª",
+    "label": "Al Fatat Al Muslima Primary Girls / Ø§Ù„ÙØªØ§Ø© Ø§Ù„Ù…Ø³Ù„Ù…Ø© Ø§Ù„Ø®Ø§ØµØ© Ø§Ù„Ø§Ø¨ØªØ¯Ø§Ø¦ÙŠØ© - Ø¨Ù†Ø§Øª"
+  },
+  {
+    "english": "Al Forqan Private Preparatory Boys",
+    "arabic": "Ø§Ù„ÙØ±Ù‚Ø§Ù† Ø§Ù„Ø®Ø§Øµ Ø§Ù„Ø§Ø¹Ø¯Ø§Ø¯ÙŠØ© - Ø¨Ù†ÙŠÙ†",
+    "label": "Al Forqan Private Preparatory Boys / Ø§Ù„ÙØ±Ù‚Ø§Ù† Ø§Ù„Ø®Ø§Øµ Ø§Ù„Ø§Ø¹Ø¯Ø§Ø¯ÙŠØ© - Ø¨Ù†ÙŠÙ†"
+  },
+  {
+    "english": "Al Forqan Private Primary Boys",
+    "arabic": "Ø§Ù„ÙØ±Ù‚Ø§Ù† Ø§Ù„Ø®Ø§ØµØ© Ø§Ù„Ø§Ø¨ØªØ¯Ø§Ø¦ÙŠØ© - Ø¨Ù†ÙŠÙ†",
+    "label": "Al Forqan Private Primary Boys / Ø§Ù„ÙØ±Ù‚Ø§Ù† Ø§Ù„Ø®Ø§ØµØ© Ø§Ù„Ø§Ø¨ØªØ¯Ø§Ø¦ÙŠØ© - Ø¨Ù†ÙŠÙ†"
+  },
+  {
+    "english": "Al Forqan Private Secondary Boys",
+    "arabic": "Ø§Ù„ÙØ±Ù‚Ø§Ù† Ø§Ù„Ø®Ø§ØµØ© Ø§Ù„Ø«Ø§Ù†ÙˆÙŠØ© - Ø¨Ù†ÙŠÙ†",
+    "label": "Al Forqan Private Secondary Boys / Ø§Ù„ÙØ±Ù‚Ø§Ù† Ø§Ù„Ø®Ø§ØµØ© Ø§Ù„Ø«Ø§Ù†ÙˆÙŠØ© - Ø¨Ù†ÙŠÙ†"
+  },
+  {
+    "english": "Al Gashamiya Primary Boys",
+    "arabic": "الغشامية الابتدائية - بنين",
+    "label": "Al Gashamiya Primary Boys / الغشامية الابتدائية - بنين"
+  },
+  {
+    "english": "Al Ghuwairia Primary Preparatory Secondary Girls",
+    "arabic": "الغويرية الابتدائية الاعدادية الثانوية للبنات",
+    "label": "Al Ghuwairia Primary Preparatory Secondary Girls / الغويرية الابتدائية الاعدادية الثانوية للبنات"
+  },
+  {
+    "english": "Al Hammad International Developped School",
+    "arabic": "الحماد العالمية المطورة الخاصة",
+    "label": "Al Hammad International Developped School / الحماد العالمية المطورة الخاصة"
+  },
+  {
+    "english": "Al Hayat Universal School",
+    "arabic": "الحياة العالمية الخاصة",
+    "label": "Al Hayat Universal School / الحياة العالمية الخاصة"
+  },
+  {
+    "english": "Al Hedaya Primary Girls",
+    "arabic": "الهداية الابتدائية - بنات",
+    "label": "Al Hedaya Primary Girls / الهداية الابتدائية - بنات"
+  },
+  {
+    "english": "Al Hekma International School Dafna",
+    "arabic": "Ø§Ù„Ø­ÙƒÙ…Ø© Ø§Ù„Ø¯ÙˆÙ„ÙŠØ© Ø§Ù„Ø®Ø§ØµØ© - Ø§Ù„Ø¯ÙÙ†Ø©",
+    "label": "Al Hekma International School Dafna / Ø§Ù„Ø­ÙƒÙ…Ø© Ø§Ù„Ø¯ÙˆÙ„ÙŠØ© Ø§Ù„Ø®Ø§ØµØ© - Ø§Ù„Ø¯ÙÙ†Ø©"
+  },
+  {
+    "english": "Al Hekma International School Mamoura",
+    "arabic": "الحكمة الدولية الخاصة - المعمورة",
+    "label": "Al Hekma International School Mamoura / الحكمة الدولية الخاصة - المعمورة"
+  },
+  {
+    "english": "Al Huda Primary Girls",
+    "arabic": "الهدى الابتدائية للبنات",
+    "label": "Al Huda Primary Girls / الهدى الابتدائية للبنات"
+  },
+  {
+    "english": "Al Israa Primary Girls",
+    "arabic": "الاسراء الابتدائية - بنات",
+    "label": "Al Israa Primary Girls / الاسراء الابتدائية - بنات"
+  },
+  {
+    "english": "Al Jazeera Academy",
+    "arabic": "اكاديمية الجزيرة",
+    "label": "Al Jazeera Academy / اكاديمية الجزيرة"
+  },
+  {
+    "english": "Al Jumailiaya Primary Preparatory Secondary Boys",
+    "arabic": "الجميلية الاعداية الثانوية - بنين",
+    "label": "Al Jumailiaya Primary Preparatory Secondary Boys / الجميلية الاعداية الثانوية - بنين"
+  },
+  {
+    "english": "Al Jumailiaya Primary Preparatory Secondary Girls",
+    "arabic": "الجميلية الابتدائية الاعداية الثانوية - بنات",
+    "label": "Al Jumailiaya Primary Preparatory Secondary Girls / الجميلية الابتدائية الاعداية الثانوية - بنات"
+  },
+  {
+    "english": "Al Kaaban Primary Girls",
+    "arabic": "الكعبان الابتدائية - بنات",
+    "label": "Al Kaaban Primary Girls / الكعبان الابتدائية - بنات"
+  },
+  {
+    "english": "Al Kaaban Primary Preparatory Boys",
+    "arabic": "الكعبان الابتدائية الاعداية - بنين",
+    "label": "Al Kaaban Primary Preparatory Boys / الكعبان الابتدائية الاعداية - بنين"
+  },
+  {
+    "english": "Al Karaana Primary Preparatory Secondary Boys",
+    "arabic": "الكرعانة الابتدائية الاعدادية الثانوية - بنين",
+    "label": "Al Karaana Primary Preparatory Secondary Boys / الكرعانة الابتدائية الاعدادية الثانوية - بنين"
+  },
+  {
+    "english": "Al Karaana Primary Preparatory Secondary Girls",
+    "arabic": "الكرعانة الابتدائية الاعدادية - بنات",
+    "label": "Al Karaana Primary Preparatory Secondary Girls / الكرعانة الابتدائية الاعدادية - بنات"
+  },
+  {
+    "english": "Al Kawthar Secondary Girls",
+    "arabic": "الكوثر الثانوية - بنات",
+    "label": "Al Kawthar Secondary Girls / الكوثر الثانوية - بنات"
+  },
+  {
+    "english": "Al Khaleej Al Arabi Model Boys",
+    "arabic": "الخليج العربي النموذجية للبنين",
+    "label": "Al Khaleej Al Arabi Model Boys / الخليج العربي النموذجية للبنين"
+  },
+  {
+    "english": "Al Khansaa Primary Girls",
+    "arabic": "مدرسة الخنساء الإبتدائية للبنات",
+    "label": "Al Khansaa Primary Girls / مدرسة الخنساء الإبتدائية للبنات"
+  },
+  {
+    "english": "Al Kharsa Primary Boys",
+    "arabic": "الخرسعة الابتدائية - بنين",
+    "label": "Al Kharsa Primary Boys / الخرسعة الابتدائية - بنين"
+  },
+  {
+    "english": "Al Kharsa Primary Girls",
+    "arabic": "الخرسعة الابتدائية - بنات",
+    "label": "Al Kharsa Primary Girls / الخرسعة الابتدائية - بنات"
+  },
+  {
+    "english": "Al Khor International School - British Curriculum",
+    "arabic": "الخور الدولية الخاصة - المنهج البريطاني",
+    "label": "Al Khor International School - British Curriculum / الخور الدولية الخاصة - المنهج البريطاني"
+  },
+  {
+    "english": "Al Khor International School - Indian Curriculum (CBSE)",
+    "arabic": "الخور الدولية الخاصة - المنهج الهندي CBSE",
+    "label": "Al Khor International School - Indian Curriculum (CBSE) / الخور الدولية الخاصة - المنهج الهندي CBSE"
+  },
+  {
+    "english": "Al Khor Model Boys",
+    "arabic": "الخور النموذجية - بنين",
+    "label": "Al Khor Model Boys / الخور النموذجية - بنين"
+  },
+  {
+    "english": "Al Khor Preparatory Secondary Girls",
+    "arabic": "الخور الاعدادية الثانوية - بنات",
+    "label": "Al Khor Preparatory Secondary Girls / الخور الاعدادية الثانوية - بنات"
+  },
+  {
+    "english": "Al Khor Primary Girls",
+    "arabic": "الخور الابتدائية للبنات",
+    "label": "Al Khor Primary Girls / الخور الابتدائية للبنات"
+  },
+  {
+    "english": "Al Khwarizmi Primary Girls",
+    "arabic": "الخوازمي الابتدائية - بنات",
+    "label": "Al Khwarizmi Primary Girls / الخوازمي الابتدائية - بنات"
+  },
+  {
+    "english": "Al Maahad Al-Deni Preparatory Secondary Boys",
+    "arabic": "المعهد الديني الاعدادي الثانوي المستقل - بنين",
+    "label": "Al Maahad Al-Deni Preparatory Secondary Boys / المعهد الديني الاعدادي الثانوي المستقل - بنين"
+  },
+  {
+    "english": "Al Maha Academy for Boys",
+    "arabic": "اكاديمية المها الابتدائية الاعدادية للبنين",
+    "label": "Al Maha Academy for Boys / اكاديمية المها الابتدائية الاعدادية للبنين"
+  },
+  {
+    "english": "Al Maha Academy for Girls",
+    "arabic": "أكاديمية المها الخاصة - بنات",
+    "label": "Al Maha Academy for Girls / أكاديمية المها الخاصة - بنات"
+  },
+  {
+    "english": "Al Mahd International School",
+    "arabic": "المهد العالمية الخاصة",
+    "label": "Al Mahd International School / المهد العالمية الخاصة"
+  },
+  {
+    "english": "Al Manar Model Boys",
+    "arabic": "المنار النموذجية - بنين",
+    "label": "Al Manar Model Boys / المنار النموذجية - بنين"
+  },
+  {
+    "english": "Al Markhiya Primary Girls",
+    "arabic": "المرخية الابتدائية - بنات",
+    "label": "Al Markhiya Primary Girls / المرخية الابتدائية - بنات"
+  },
+  {
+    "english": "Al Mothanna Bin Haritha Model Boys",
+    "arabic": "المثنى بن حارثة النموذجية - بنين",
+    "label": "Al Mothanna Bin Haritha Model Boys / المثنى بن حارثة النموذجية - بنين"
+  },
+  {
+    "english": "Al Mujtama Private Preparatory Secondary Girls",
+    "arabic": "المجتمع الخاصة الاعدادية الثانوية - بنات",
+    "label": "Al Mujtama Private Preparatory Secondary Girls / المجتمع الخاصة الاعدادية الثانوية - بنات"
+  },
+  {
+    "english": "Al Muntazah Model Boys",
+    "arabic": "المنتزة النموذجية - بنين",
+    "label": "Al Muntazah Model Boys / المنتزة النموذجية - بنين"
+  },
+  {
+    "english": "Al Noor Language Schools",
+    "arabic": "النور الخاصة للغات",
+    "label": "Al Noor Language Schools / النور الخاصة للغات"
+  },
+  {
+    "english": "Al Qadeseya Model Boys",
+    "arabic": "القادسية النموذجية - بنين",
+    "label": "Al Qadeseya Model Boys / القادسية النموذجية - بنين"
+  },
+  {
+    "english": "Al Qudus Model Boys",
+    "arabic": "القدس النموذجية - بنين",
+    "label": "Al Qudus Model Boys / القدس النموذجية - بنين"
+  },
+  {
+    "english": "Al Rashad Model Boys",
+    "arabic": "الرشاد النموذجية - بنين",
+    "label": "Al Rashad Model Boys / الرشاد النموذجية - بنين"
+  },
+  {
+    "english": "Al Rayyan Al Jadeed Secondary Girls",
+    "arabic": "الريان الجديد الثانوية - بنات",
+    "label": "Al Rayyan Al Jadeed Secondary Girls / الريان الجديد الثانوية - بنات"
+  },
+  {
+    "english": "Al Shahaniya Model Boys",
+    "arabic": "الشحانية النموذجية - بنين",
+    "label": "Al Shahaniya Model Boys / الشحانية النموذجية - بنين"
+  },
+  {
+    "english": "Al Shahaniya Preparatory Secondary Boys",
+    "arabic": "الشحانية الاعدادية الثانوية - بنين",
+    "label": "Al Shahaniya Preparatory Secondary Boys / الشحانية الاعدادية الثانوية - بنين"
+  },
+  {
+    "english": "Al Shahaniya Preparatory Secondary Girls",
+    "arabic": "الشحانية الاعدادية الثانوية - للبنات",
+    "label": "Al Shahaniya Preparatory Secondary Girls / الشحانية الاعدادية الثانوية - للبنات"
+  },
+  {
+    "english": "Al Shaima Secondary Girls",
+    "arabic": "الشيماء الثانوية - بنات",
+    "label": "Al Shaima Secondary Girls / الشيماء الثانوية - بنات"
+  },
+  {
+    "english": "Al Shamal Model Boys",
+    "arabic": "الشمال النموذجية",
+    "label": "Al Shamal Model Boys / الشمال النموذجية"
+  },
+  {
+    "english": "Al Shamal Preparatory Secondary Girls",
+    "arabic": "الشمال الاعدادية الثانوية - بنات",
+    "label": "Al Shamal Preparatory Secondary Girls / الشمال الاعدادية الثانوية - بنات"
+  },
+  {
+    "english": "Al Shamal Primary Girls",
+    "arabic": "الشمال الابتدائية - بنات",
+    "label": "Al Shamal Primary Girls / الشمال الابتدائية - بنات"
+  },
+  {
+    "english": "Al Shamal Primary Preparatory Boys",
+    "arabic": "الشمال الابتدائية الاعدادية للبنين",
+    "label": "Al Shamal Primary Preparatory Boys / الشمال الابتدائية الاعدادية للبنين"
+  },
+  {
+    "english": "Al Shamal Secondary Boys",
+    "arabic": "الشمال الثانوية - بنين",
+    "label": "Al Shamal Secondary Boys / الشمال الثانوية - بنين"
+  },
+  {
+    "english": "Al Shaqab Primary Girls",
+    "arabic": "الشقب الابتدائية - بنات",
+    "label": "Al Shaqab Primary Girls / الشقب الابتدائية - بنات"
+  },
+  {
+    "english": "Al Shorooq Model Boys",
+    "arabic": "الشروق النموذجية - بنين",
+    "label": "Al Shorooq Model Boys / الشروق النموذجية - بنين"
+  },
+  {
+    "english": "Al Taawon Primary Girls",
+    "arabic": "التعاون الابتدائية - بنات",
+    "label": "Al Taawon Primary Girls / التعاون الابتدائية - بنات"
+  },
+  {
+    "english": "Al Tamakkun Al Shamil Co-School",
+    "arabic": "التمكن الشاملة المختلطة",
+    "label": "Al Tamakkun Al Shamil Co-School / التمكن الشاملة المختلطة"
+  },
+  {
+    "english": "Al Thaayen Primary Preparatory Girls",
+    "arabic": "الضعاين الابتدائية الإعدادية - بنات",
+    "label": "Al Thaayen Primary Preparatory Girls / الضعاين الابتدائية الإعدادية - بنات"
+  },
+  {
+    "english": "Al Thukheera Model Boys",
+    "arabic": "مدرسة الذخيرة الابتدائية للبنين",
+    "label": "Al Thukheera Model Boys / مدرسة الذخيرة الابتدائية للبنين"
+  },
+  {
+    "english": "Al Thukheera Primary Girls",
+    "arabic": "الذخيرة الابتدائية - بنات",
+    "label": "Al Thukheera Primary Girls / الذخيرة الابتدائية - بنات"
+  },
+  {
+    "english": "Al Tijara Secondary Boys",
+    "arabic": "التجارة الثانوية - بنين",
+    "label": "Al Tijara Secondary Boys / التجارة الثانوية - بنين"
+  },
+  {
+    "english": "Al Wafa Model Boys",
+    "arabic": "Ø§Ù„ÙˆÙØ§Ø¡ Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ÙŠØ© Ø§Ù„Ù…Ø³ØªÙ‚Ù„Ø© - Ø¨Ù†ÙŠÙ†",
+    "label": "Al Wafa Model Boys / Ø§Ù„ÙˆÙØ§Ø¡ Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ÙŠØ© Ø§Ù„Ù…Ø³ØªÙ‚Ù„Ø© - Ø¨Ù†ÙŠÙ†"
+  },
+  {
+    "english": "Al Wajba Preparatory Girls",
+    "arabic": "الوجبة الاعدادية - بنات",
+    "label": "Al Wajba Preparatory Girls / الوجبة الاعدادية - بنات"
+  },
+  {
+    "english": "Al Wakrah Preparatory Girls",
+    "arabic": "الوكرة الاعدادية - بنات",
+    "label": "Al Wakrah Preparatory Girls / الوكرة الاعدادية - بنات"
+  },
+  {
+    "english": "Al Wakrah Primary Girls",
+    "arabic": "الوكرة الابتدائية - بنات",
+    "label": "Al Wakrah Primary Girls / الوكرة الابتدائية - بنات"
+  },
+  {
+    "english": "Al Wakrah Secondary Boys",
+    "arabic": "الوكرة الثانوية - بنين",
+    "label": "Al Wakrah Secondary Boys / الوكرة الثانوية - بنين"
+  },
+  {
+    "english": "Al Wakrah Secondary Girls",
+    "arabic": "الوكرة الثانوية - بنات",
+    "label": "Al Wakrah Secondary Girls / الوكرة الثانوية - بنات"
+  },
+  {
+    "english": "Al Wataniya International School",
+    "arabic": "المدرسة الوطنية العالمية",
+    "label": "Al Wataniya International School / المدرسة الوطنية العالمية"
+  },
+  {
+    "english": "Al Wukhair Model Boys",
+    "arabic": "الوكير النموذجية",
+    "label": "Al Wukhair Model Boys / الوكير النموذجية"
+  },
+  {
+    "english": "Al Wukhair Primary Girls",
+    "arabic": "الوكير الابتدائية بنات",
+    "label": "Al Wukhair Primary Girls / الوكير الابتدائية بنات"
+  },
+  {
+    "english": "Al Wusail Model Boys",
+    "arabic": "الوسيل النموذجية - بنين",
+    "label": "Al Wusail Model Boys / الوسيل النموذجية - بنين"
+  },
+  {
+    "english": "Al Yarmouk Preparatory Boys",
+    "arabic": "اليرموك الاعدادية - بنين",
+    "label": "Al Yarmouk Preparatory Boys / اليرموك الاعدادية - بنين"
+  },
+  {
+    "english": "Al Zubara Primary Preparatory Secondary Boys",
+    "arabic": "الزبارة الابتدائية الاعدادية الثانوية - بنين",
+    "label": "Al Zubara Primary Preparatory Secondary Boys / الزبارة الابتدائية الاعدادية الثانوية - بنين"
+  },
+  {
+    "english": "Ali Bin Abdullah Model Boys",
+    "arabic": "على بن عبد الله النموذجية - بنين",
+    "label": "Ali Bin Abdullah Model Boys / على بن عبد الله النموذجية - بنين"
+  },
+  {
+    "english": "Ali Bin Abi Talib Preparatory Boys",
+    "arabic": "على بن ابي طالب الاعدادية - بنين",
+    "label": "Ali Bin Abi Talib Preparatory Boys / على بن ابي طالب الاعدادية - بنين"
+  },
+  {
+    "english": "Ali Bin Jassim Bin Mohammed Al Thani Secondary Boys",
+    "arabic": "على بن جاسم بن محمد آل ثاني الثانوية - بنين",
+    "label": "Ali Bin Jassim Bin Mohammed Al Thani Secondary Boys / على بن جاسم بن محمد آل ثاني الثانوية - بنين"
+  },
+  {
+    "english": "Alobaib Primary Girls",
+    "arabic": "العبيب الابتدائية للبنات",
+    "label": "Alobaib Primary Girls / العبيب الابتدائية للبنات"
+  },
+  {
+    "english": "American Academy School",
+    "arabic": "الأكاديمية الأمريكية الخاصة -ابتدائي - اعدادي- ثانوي",
+    "label": "American Academy School / الأكاديمية الأمريكية الخاصة -ابتدائي - اعدادي- ثانوي"
+  },
+  {
+    "english": "Amina Mahmoud Al Jaida Primary Girls",
+    "arabic": "أمنة محمود الجيدة الابتدائية - بنات",
+    "label": "Amina Mahmoud Al Jaida Primary Girls / أمنة محمود الجيدة الابتدائية - بنات"
+  },
+  {
+    "english": "Amna Bint Wahab Preparatory Girls",
+    "arabic": "امنة بنت وهب الاعدادية - بنات",
+    "label": "Amna Bint Wahab Preparatory Girls / امنة بنت وهب الاعدادية - بنات"
+  },
+  {
+    "english": "Amna Bint Wahab Secondary Girls",
+    "arabic": "امنة بنت وهب الثانوية - بنات",
+    "label": "Amna Bint Wahab Secondary Girls / امنة بنت وهب الثانوية - بنات"
+  },
+  {
+    "english": "Annahdha Primary Girls",
+    "arabic": "النهضة الابتدائية الاولى - بنات",
+    "label": "Annahdha Primary Girls / النهضة الابتدائية الاولى - بنات"
+  },
+  {
+    "english": "Arrazi Preparatory Boys",
+    "arabic": "الرازي الاعدادية - بنين",
+    "label": "Arrazi Preparatory Boys / الرازي الاعدادية - بنين"
+  },
+  {
+    "english": "Arrefaa Primary Girls",
+    "arabic": "Ù…Ø¯Ø±Ø³Ø© Ø§Ù„Ø±ÙØ§Ø¹ Ø§Ù„Ø§Ø¨ØªØ¯Ø§Ø¦ÙŠØ© Ø§Ù„Ù…Ø³ØªÙ‚Ù„Ø© Ù„Ù„Ø¨Ù†Ø§Øª",
+    "label": "Arrefaa Primary Girls / Ù…Ø¯Ø±Ø³Ø© Ø§Ù„Ø±ÙØ§Ø¹ Ø§Ù„Ø§Ø¨ØªØ¯Ø§Ø¦ÙŠØ© Ø§Ù„Ù…Ø³ØªÙ‚Ù„Ø© Ù„Ù„Ø¨Ù†Ø§Øª"
+  },
+  {
+    "english": "Arresala Secondary Girls",
+    "arabic": "الرسالة الثانوية - بنات",
+    "label": "Arresala Secondary Girls / الرسالة الثانوية - بنات"
+  },
+  {
+    "english": "Arwa Bint Abdulmotaleb Secondary Girls",
+    "arabic": "اروى بنت عبد المطلب الثانوية بنات",
+    "label": "Arwa Bint Abdulmotaleb Secondary Girls / اروى بنت عبد المطلب الثانوية بنات"
+  },
+  {
+    "english": "Asian Integrated School",
+    "arabic": "المتكاملة الاسيوية الخاصة",
+    "label": "Asian Integrated School / المتكاملة الاسيوية الخاصة"
+  },
+  {
+    "english": "Asmaa Bint Abu Bakr Primary Girls",
+    "arabic": "اسماء بنت ابو بكر الابتدائية - بنات",
+    "label": "Asmaa Bint Abu Bakr Primary Girls / اسماء بنت ابو بكر الابتدائية - بنات"
+  },
+  {
+    "english": "Assalam Primary Girls",
+    "arabic": "السلام الابتدائية - بنات",
+    "label": "Assalam Primary Girls / السلام الابتدائية - بنات"
+  },
+  {
+    "english": "Asseliya Secondary Boys",
+    "arabic": "السيلية الثانوية - بنبن",
+    "label": "Asseliya Secondary Boys / السيلية الثانوية - بنبن"
+  },
+  {
+    "english": "Asseliya Secondary Girls",
+    "arabic": "السيلية الثانوية - بنات",
+    "label": "Asseliya Secondary Girls / السيلية الثانوية - بنات"
+  },
+  {
+    "english": "Awfaz Global",
+    "arabic": "Ø£ÙˆÙØ§Ø² Ø§Ù„Ø¹Ø§Ù„Ù…ÙŠØ© Ø§Ù„Ø®Ø§ØµØ©",
+    "label": "Awfaz Global / Ø£ÙˆÙØ§Ø² Ø§Ù„Ø¹Ø§Ù„Ù…ÙŠØ© Ø§Ù„Ø®Ø§ØµØ©"
+  },
+  {
+    "english": "Awsaj Academy",
+    "arabic": "اكاديمية العوسج ابتدائي اعدادي ثانوي",
+    "label": "Awsaj Academy / اكاديمية العوسج ابتدائي اعدادي ثانوي"
+  },
+  {
+    "english": "Aysha Bint Abu Baker Secondary Girls",
+    "arabic": "عائشة بنت ابو بكر الثانوية - بنات",
+    "label": "Aysha Bint Abu Baker Secondary Girls / عائشة بنت ابو بكر الثانوية - بنات"
+  },
+  {
+    "english": "Bangladesh MHM School and College",
+    "arabic": "مشهور الحق البنغالية - مدرسة / كلية",
+    "label": "Bangladesh MHM School and College / مشهور الحق البنغالية - مدرسة / كلية"
+  },
+  {
+    "english": "Barzan Preparatory Girls",
+    "arabic": "برزان الاعداية - بنات",
+    "label": "Barzan Preparatory Girls / برزان الاعداية - بنات"
+  },
+  {
+    "english": "Belal Bin Rabah Model Boys",
+    "arabic": "بلال بن رباح النموذجية - بنين",
+    "label": "Belal Bin Rabah Model Boys / بلال بن رباح النموذجية - بنين"
+  },
+  {
+    "english": "Bhavan's Public School Matar Qadeem",
+    "arabic": "Ù…Ø¯Ø±Ø³Ø© Ø¨Ù‡Ø§ÙØ§Ù† Ø§Ù„Ø¹Ø§Ù…Ø© â€“ Ø§Ù„Ù…Ø·Ø§Ø± Ø§Ù„Ù‚Ø¯ÙŠÙ…",
+    "label": "Bhavan's Public School Matar Qadeem / Ù…Ø¯Ø±Ø³Ø© Ø¨Ù‡Ø§ÙØ§Ù† Ø§Ù„Ø¹Ø§Ù…Ø© â€“ Ø§Ù„Ù…Ø·Ø§Ø± Ø§Ù„Ù‚Ø¯ÙŠÙ…"
+  },
+  {
+    "english": "Bhavan's Public School Wakra",
+    "arabic": "Ù…Ø¯Ø±Ø³Ø© Ø¨Ù‡Ø§ÙØ§Ù† Ø§Ù„Ø¹Ø§Ù…Ø© â€“ Ø§Ù„ÙˆÙƒØ±Ø©",
+    "label": "Bhavan's Public School Wakra / Ù…Ø¯Ø±Ø³Ø© Ø¨Ù‡Ø§ÙØ§Ù† Ø§Ù„Ø¹Ø§Ù…Ø© â€“ Ø§Ù„ÙˆÙƒØ±Ø©"
+  },
+  {
+    "english": "Birla Public School",
+    "arabic": "بيرلا الشعبية الخاصة - ابتدائي",
+    "label": "Birla Public School / بيرلا الشعبية الخاصة - ابتدائي"
+  },
+  {
+    "english": "Bright Future Pakistani School",
+    "arabic": "المستقبل المنير الباكستانية الخاصة",
+    "label": "Bright Future Pakistani School / المستقبل المنير الباكستانية الخاصة"
+  },
+  {
+    "english": "Brooq Primary Girls",
+    "arabic": "بروق الابتدائية - بنات",
+    "label": "Brooq Primary Girls / بروق الابتدائية - بنات"
+  },
+  {
+    "english": "Cairo Private School",
+    "arabic": "القاهرة الخاصة",
+    "label": "Cairo Private School / القاهرة الخاصة"
+  },
+  {
+    "english": "Cambridge International School for Girls",
+    "arabic": "كمبردج العالمية للبنات",
+    "label": "Cambridge International School for Girls / كمبردج العالمية للبنات"
+  },
+  {
+    "english": "Cambridge School of Doha",
+    "arabic": "كمبردج الدوحة",
+    "label": "Cambridge School of Doha / كمبردج الدوحة"
+  },
+  {
+    "english": "Compass International School Al Gharrafa",
+    "arabic": "ÙƒÙˆÙ…Ø¨Ø§Ø³ Ø§Ù„Ø¹Ø§Ù„Ù…ÙŠØ© Ø§Ù„Ø®Ø§ØµØ© - Ø§Ù„ØºØ±Ø§ÙØ©",
+    "label": "Compass International School Al Gharrafa / ÙƒÙˆÙ…Ø¨Ø§Ø³ Ø§Ù„Ø¹Ø§Ù„Ù…ÙŠØ© Ø§Ù„Ø®Ø§ØµØ© - Ø§Ù„ØºØ±Ø§ÙØ©"
+  },
+  {
+    "english": "Compass International School Al Khor",
+    "arabic": "كومباس العالمية الخاصة - الخور",
+    "label": "Compass International School Al Khor / كومباس العالمية الخاصة - الخور"
+  },
+  {
+    "english": "Compass International School Madinat Khalifa",
+    "arabic": "ÙƒÙˆÙ…Ø¨Ø§Ø³ Ø§Ù„Ø¹Ø§Ù„Ù…ÙŠØ© Ø§Ù„Ø®Ø§ØµØ© - Ù…Ø¯ÙŠÙ†Ø© Ø®Ù„ÙŠÙØ©",
+    "label": "Compass International School Madinat Khalifa / ÙƒÙˆÙ…Ø¨Ø§Ø³ Ø§Ù„Ø¹Ø§Ù„Ù…ÙŠØ© Ø§Ù„Ø®Ø§ØµØ© - Ù…Ø¯ÙŠÙ†Ø© Ø®Ù„ÙŠÙØ©"
+  },
+  {
+    "english": "Debakey High School for Health Professions",
+    "arabic": "ديبيكاي للمهن الطبية الخاصة",
+    "label": "Debakey High School for Health Professions / ديبيكاي للمهن الطبية الخاصة"
+  },
+  {
+    "english": "Doha Academy Al Mamoura",
+    "arabic": "Ø§ÙƒØ§Ø¯ÙŠÙ…ÙŠØ© Ø§Ù„Ø¯ÙˆØ­Ø© - ÙØ±Ø¹ Ø§Ù„Ù…Ø¹Ù…ÙˆØ±Ø©",
+    "label": "Doha Academy Al Mamoura / Ø§ÙƒØ§Ø¯ÙŠÙ…ÙŠØ© Ø§Ù„Ø¯ÙˆØ­Ø© - ÙØ±Ø¹ Ø§Ù„Ù…Ø¹Ù…ÙˆØ±Ø©"
+  },
+  {
+    "english": "Doha Academy Salwa",
+    "arabic": "اكاديمية الدوحة - سلوى",
+    "label": "Doha Academy Salwa / اكاديمية الدوحة - سلوى"
+  },
+  {
+    "english": "Doha British School Ain Khaled",
+    "arabic": "مدرسة الدوحة البريطانية - عين خالد",
+    "label": "Doha British School Ain Khaled / مدرسة الدوحة البريطانية - عين خالد"
+  },
+  {
+    "english": "Doha British School Al Wakra",
+    "arabic": "مدرسة الدوحة البريطانية - الوكرة",
+    "label": "Doha British School Al Wakra / مدرسة الدوحة البريطانية - الوكرة"
+  },
+  {
+    "english": "Doha College Al Waab",
+    "arabic": "اكاديمية الدوحة - الوعب",
+    "label": "Doha College Al Waab / اكاديمية الدوحة - الوعب"
+  },
+  {
+    "english": "Doha College West Bay",
+    "arabic": "اكاديمية الدوحة - الخليج الغربي",
+    "label": "Doha College West Bay / اكاديمية الدوحة - الخليج الغربي"
+  },
+  {
+    "english": "Doha English Speaking School (DESS)",
+    "arabic": "الدوحة للناطقين بالانجليزية",
+    "label": "Doha English Speaking School (DESS) / الدوحة للناطقين بالانجليزية"
+  },
+  {
+    "english": "Doha International School",
+    "arabic": "مدرسة الدوحة الدولية",
+    "label": "Doha International School / مدرسة الدوحة الدولية"
+  },
+  {
+    "english": "Doha Modern Indian School DMIS",
+    "arabic": "الدوحة الهندية الحديثة الخاصة DMIS",
+    "label": "Doha Modern Indian School DMIS / الدوحة الهندية الحديثة الخاصة DMIS"
+  },
+  {
+    "english": "Doha Preparatory Boys",
+    "arabic": "الدوحة الاعدادية - بنين",
+    "label": "Doha Preparatory Boys / الدوحة الاعدادية - بنين"
+  },
+  {
+    "english": "Doha Secondary Boys",
+    "arabic": "الدوحة الثانوية - بنين",
+    "label": "Doha Secondary Boys / الدوحة الثانوية - بنين"
+  },
+  {
+    "english": "DPS Modern Indian School",
+    "arabic": "الهندية الحديثة الخاصة DPS",
+    "label": "DPS Modern Indian School / الهندية الحديثة الخاصة DPS"
+  },
+  {
+    "english": "Dukhan English School",
+    "arabic": "مدرسة دخان الانجليزية",
+    "label": "Dukhan English School / مدرسة دخان الانجليزية"
+  },
+  {
+    "english": "Dukhan Primary Preparatory Secondary Boys",
+    "arabic": "دخان الابتدائية الاعداداية الثانوية - بنين",
+    "label": "Dukhan Primary Preparatory Secondary Boys / دخان الابتدائية الاعداداية الثانوية - بنين"
+  },
+  {
+    "english": "Dukhan Primary Preparatory Secondary Girls",
+    "arabic": "دخان الابتدائية الاعداداية الثانوية - بنات",
+    "label": "Dukhan Primary Preparatory Secondary Girls / دخان الابتدائية الاعداداية الثانوية - بنات"
+  },
+  {
+    "english": "Edison International Academy Dahel Al Hamam",
+    "arabic": "اكاديمية اديسون الدولية - دحل الحمام",
+    "label": "Edison International Academy Dahel Al Hamam / اكاديمية اديسون الدولية - دحل الحمام"
+  },
+  {
+    "english": "Edison International Academy Markhiya",
+    "arabic": "اكاديمية اديسون الدولية - المرخية",
+    "label": "Edison International Academy Markhiya / اكاديمية اديسون الدولية - المرخية"
+  },
+  {
+    "english": "Edison International Academy Muaither",
+    "arabic": "اكاديمية اديسون الدولية - معيذر",
+    "label": "Edison International Academy Muaither / اكاديمية اديسون الدولية - معيذر"
+  },
+  {
+    "english": "Educare International Academy",
+    "arabic": "أكاديمية ايديو كير العالمية",
+    "label": "Educare International Academy / أكاديمية ايديو كير العالمية"
+  },
+  {
+    "english": "Education Audio Complex Boys",
+    "arabic": "مجمع التربية السمعية للبنين",
+    "label": "Education Audio Complex Boys / مجمع التربية السمعية للبنين"
+  },
+  {
+    "english": "Education Audio Complex Girls",
+    "arabic": "مجمع التربية السمعية للبنات",
+    "label": "Education Audio Complex Girls / مجمع التربية السمعية للبنات"
+  },
+  {
+    "english": "Egyptian Languages School",
+    "arabic": "المصرية للغات",
+    "label": "Egyptian Languages School / المصرية للغات"
+  },
+  {
+    "english": "Elite International School",
+    "arabic": "النخبة العالمية الخاصة",
+    "label": "Elite International School / النخبة العالمية الخاصة"
+  },
+  {
+    "english": "Fatema Azzahraa Preparatory Girls",
+    "arabic": "ÙØ§Ø·Ù…Ø© Ø§Ù„Ø²Ù‡Ø±Ø§Ø¡ Ø§Ù„Ø§Ø¹Ø¯Ø§Ø¯ÙŠØ© Ø§Ù„Ù…Ø³ØªÙ‚Ù„Ø© - Ø¨Ù†Ø§Øª",
+    "label": "Fatema Azzahraa Preparatory Girls / ÙØ§Ø·Ù…Ø© Ø§Ù„Ø²Ù‡Ø±Ø§Ø¡ Ø§Ù„Ø§Ø¹Ø¯Ø§Ø¯ÙŠØ© Ø§Ù„Ù…Ø³ØªÙ‚Ù„Ø© - Ø¨Ù†Ø§Øª"
+  },
+  {
+    "english": "Fatima Bint Alwaleed Bin Almogira Preparatory Girls",
+    "arabic": "ÙØ§Ø·Ù…Ø© Ø¨Ù†Øª Ø§Ù„ÙˆÙ„ÙŠØ¯ Ø¨Ù† Ø§Ù„Ù…ØºÙŠØ±Ø© Ø§Ù„Ø§Ø¹Ø¯Ø§Ø¯ÙŠØ© Ø§Ù„Ù…Ø³ØªÙ‚Ù„Ø© - Ø¨Ù†Ø§Øª",
+    "label": "Fatima Bint Alwaleed Bin Almogira Preparatory Girls / ÙØ§Ø·Ù…Ø© Ø¨Ù†Øª Ø§Ù„ÙˆÙ„ÙŠØ¯ Ø¨Ù† Ø§Ù„Ù…ØºÙŠØ±Ø© Ø§Ù„Ø§Ø¹Ø¯Ø§Ø¯ÙŠØ© Ø§Ù„Ù…Ø³ØªÙ‚Ù„Ø© - Ø¨Ù†Ø§Øª"
+  },
+  {
+    "english": "French-Qatari School Voltaire",
+    "arabic": "Ø§Ù„Ù…Ø¯Ø±Ø³Ø© Ø§Ù„Ù‚Ø·Ø±ÙŠØ© Ø§Ù„ÙØ±Ù†Ø³ÙŠØ© - ÙÙˆÙ„ØªÙŠØ± - Ø§Ù„Ø®Ù„ÙŠØ¬ Ø§Ù„ØºØ±Ø¨ÙŠ",
+    "label": "French-Qatari School Voltaire / Ø§Ù„Ù…Ø¯Ø±Ø³Ø© Ø§Ù„Ù‚Ø·Ø±ÙŠØ© Ø§Ù„ÙØ±Ù†Ø³ÙŠØ© - ÙÙˆÙ„ØªÙŠØ± - Ø§Ù„Ø®Ù„ÙŠØ¬ Ø§Ù„ØºØ±Ø¨ÙŠ"
+  },
+  {
+    "english": "German School of Doha",
+    "arabic": "الالمانية الدولية",
+    "label": "German School of Doha / الالمانية الدولية"
+  },
+  {
+    "english": "Gharnatah Preparatory Girls",
+    "arabic": "غرناطة الاعدادية - بنات",
+    "label": "Gharnatah Preparatory Girls / غرناطة الاعدادية - بنات"
+  },
+  {
+    "english": "Global Academy International",
+    "arabic": "اكايدية الكون العالمية",
+    "label": "Global Academy International / اكايدية الكون العالمية"
+  },
+  {
+    "english": "Hafsa Preparatory Girls",
+    "arabic": "Ø­ÙØµØ© Ø§Ù„Ø§Ø¹Ø¯Ø§Ø¯ÙŠØ© Ø§Ù„Ù…Ø³ØªÙ‚Ù„Ø© - Ø¨Ù†Ø§Øª",
+    "label": "Hafsa Preparatory Girls / Ø­ÙØµØ© Ø§Ù„Ø§Ø¹Ø¯Ø§Ø¯ÙŠØ© Ø§Ù„Ù…Ø³ØªÙ‚Ù„Ø© - Ø¨Ù†Ø§Øª"
+  },
+  {
+    "english": "Hajar Primary Girls",
+    "arabic": "هاجر الابتدائية - بنات",
+    "label": "Hajar Primary Girls / هاجر الابتدائية - بنات"
+  },
+  {
+    "english": "Halima Alsaadia Primary Girls",
+    "arabic": "حليمة السعدية الابتدائية - بنات",
+    "label": "Halima Alsaadia Primary Girls / حليمة السعدية الابتدائية - بنات"
+  },
+  {
+    "english": "Hamad Bin Abdulla Secondary Boys",
+    "arabic": "حمد بن عبد الله بن جاسم الثانوية - بنين",
+    "label": "Hamad Bin Abdulla Secondary Boys / حمد بن عبد الله بن جاسم الثانوية - بنين"
+  },
+  {
+    "english": "Hamza Bin Abdulmouttalib Preparatory Boys",
+    "arabic": "حمزة بن عبد المطلب الاعدادية - بنين",
+    "label": "Hamza Bin Abdulmouttalib Preparatory Boys / حمزة بن عبد المطلب الاعدادية - بنين"
+  },
+  {
+    "english": "Hetteen Model Boys",
+    "arabic": "حطين النموذجية",
+    "label": "Hetteen Model Boys / حطين النموذجية"
+  },
+  {
+    "english": "Ibn Khaldoon Preparatory Boys",
+    "arabic": "ابن خلدون الاعدادية - بنين",
+    "label": "Ibn Khaldoon Preparatory Boys / ابن خلدون الاعدادية - بنين"
+  },
+  {
+    "english": "Ibn Seena Model Boys",
+    "arabic": "ابن سيناء النموذجية - بنين",
+    "label": "Ibn Seena Model Boys / ابن سيناء النموذجية - بنين"
+  },
+  {
+    "english": "Ibn Taymeya Secondary Boys",
+    "arabic": "ابن تيميه الثانوية - بنين",
+    "label": "Ibn Taymeya Secondary Boys / ابن تيميه الثانوية - بنين"
+  },
+  {
+    "english": "Ideal Indian School",
+    "arabic": "الهندية المثالية - مختلط",
+    "label": "Ideal Indian School / الهندية المثالية - مختلط"
+  },
+  {
+    "english": "International British School",
+    "arabic": "المدرسة البريطانية الدولية",
+    "label": "International British School / المدرسة البريطانية الدولية"
+  },
+  {
+    "english": "International School of London",
+    "arabic": "لندن الدولية",
+    "label": "International School of London / لندن الدولية"
+  },
+  {
+    "english": "Iqra English School",
+    "arabic": "أقراء الانجليزية الخاصة",
+    "label": "Iqra English School / أقراء الانجليزية الخاصة"
+  },
+  {
+    "english": "Iranian School Preparatory Secondary Boys",
+    "arabic": "الايرانية - اعدادي ثانوي - بنين",
+    "label": "Iranian School Preparatory Secondary Boys / الايرانية - اعدادي ثانوي - بنين"
+  },
+  {
+    "english": "Iranian School Primary Boys",
+    "arabic": "الايرانية - ابتدائي - بنين",
+    "label": "Iranian School Primary Boys / الايرانية - ابتدائي - بنين"
+  },
+  {
+    "english": "Iranian School Primary Preparatory Secondary Girls",
+    "arabic": "الايرانية - اعدادي - ثانوي - بنات",
+    "label": "Iranian School Primary Preparatory Secondary Girls / الايرانية - اعدادي - ثانوي - بنات"
+  },
+  {
+    "english": "Jasim Bin Hamad Al Thani Secondary Boys",
+    "arabic": "جاسم بن حمد آل ثاني الثانوية - بنين",
+    "label": "Jasim Bin Hamad Al Thani Secondary Boys / جاسم بن حمد آل ثاني الثانوية - بنين"
+  },
+  {
+    "english": "Jawaan Bin Jasim Model Boys",
+    "arabic": "جوعان بن جاسم النموذجية بنين",
+    "label": "Jawaan Bin Jasim Model Boys / جوعان بن جاسم النموذجية بنين"
+  },
+  {
+    "english": "Jordanian School for Boys",
+    "arabic": "الاردينة - تمهيدي - ابتدائي - اعدادي - ثانوي - بنين",
+    "label": "Jordanian School for Boys / الاردينة - تمهيدي - ابتدائي - اعدادي - ثانوي - بنين"
+  },
+  {
+    "english": "Jordanian School for Girls",
+    "arabic": "الاردينة - بنات",
+    "label": "Jordanian School for Girls / الاردينة - بنات"
+  },
+  {
+    "english": "Khadeeja Primary Girls",
+    "arabic": "خديجة الابتدائية بنات",
+    "label": "Khadeeja Primary Girls / خديجة الابتدائية بنات"
+  },
+  {
+    "english": "Khalid Bin Ahmad Al-Thani Preparatory Boys",
+    "arabic": "خالد بن احمد آل ثاني الاعدادية - بنين",
+    "label": "Khalid Bin Ahmad Al-Thani Preparatory Boys / خالد بن احمد آل ثاني الاعدادية - بنين"
+  },
+  {
+    "english": "Khalid Bin Al Waleed Preparatory Boys",
+    "arabic": "خالد بن الوليد الاعدادية - بنين",
+    "label": "Khalid Bin Al Waleed Preparatory Boys / خالد بن الوليد الاعدادية - بنين"
+  },
+  {
+    "english": "Khalifa Model Boys",
+    "arabic": "Ø®Ù„ÙŠÙØ© Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ÙŠØ©",
+    "label": "Khalifa Model Boys / Ø®Ù„ÙŠÙØ© Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ÙŠØ©"
+  },
+  {
+    "english": "Khalifa Secondary Boys",
+    "arabic": "Ø®Ù„ÙŠÙØ© Ø§Ù„Ø«Ø§Ù†ÙˆÙŠØ© Ø§Ù„Ù…Ø³ØªÙ‚Ù„Ø© - Ø¨Ù†ÙŠÙ†",
+    "label": "Khalifa Secondary Boys / Ø®Ù„ÙŠÙØ© Ø§Ù„Ø«Ø§Ù†ÙˆÙŠØ© Ø§Ù„Ù…Ø³ØªÙ‚Ù„Ø© - Ø¨Ù†ÙŠÙ†"
+  },
+  {
+    "english": "Khawla Bint Alazwar Primary Girls",
+    "arabic": "مدرسة خولة بنت الازور الابتدائية للبنات",
+    "label": "Khawla Bint Alazwar Primary Girls / مدرسة خولة بنت الازور الابتدائية للبنات"
+  },
+  {
+    "english": "Leaders International School",
+    "arabic": "القادة العالمية الخاصة",
+    "label": "Leaders International School / القادة العالمية الخاصة"
+  },
+  {
+    "english": "Loydence Academy",
+    "arabic": "اكاديمية لويدنس الخاصة - العزيزية",
+    "label": "Loydence Academy / اكاديمية لويدنس الخاصة - العزيزية"
+  },
+  {
+    "english": "Loyola International School",
+    "arabic": "مدرسة ليولا الدولية",
+    "label": "Loyola International School / مدرسة ليولا الدولية"
+  },
+  {
+    "english": "Lycee Bonaparte",
+    "arabic": "Ø¨ÙˆÙ†Ø§Ø¨Ø±Øª Ø§Ù„ÙØ±Ù†Ø³ÙŠØ© - Ù„ÙŠØ³Ù‡",
+    "label": "Lycee Bonaparte / Ø¨ÙˆÙ†Ø§Ø¨Ø±Øª Ø§Ù„ÙØ±Ù†Ø³ÙŠØ© - Ù„ÙŠØ³Ù‡"
+  },
+  {
+    "english": "Maimouna Primary Girls",
+    "arabic": "ميمونة الابتدائية - بنات",
+    "label": "Maimouna Primary Girls / ميمونة الابتدائية - بنات"
+  },
+  {
+    "english": "Malik Bin Anas Model Boys",
+    "arabic": "مالك بن انس النموذجية",
+    "label": "Malik Bin Anas Model Boys / مالك بن انس النموذجية"
+  },
+  {
+    "english": "Mariam Bint Omran Primary Girls",
+    "arabic": "مريم بنت عمران الابتدائية بنات",
+    "label": "Mariam Bint Omran Primary Girls / مريم بنت عمران الابتدائية بنات"
+  },
+  {
+    "english": "MES Indian School",
+    "arabic": "MES المدرسة الهندية",
+    "label": "MES Indian School / MES المدرسة الهندية"
+  },
+  {
+    "english": "Mesaieed International School",
+    "arabic": "مسيعيد الدولية",
+    "label": "Mesaieed International School / مسيعيد الدولية"
+  },
+  {
+    "english": "Mesaiyed Elementary Preparatory Boys",
+    "arabic": "ميسعيد الابتدائية الاعدادية - بنين",
+    "label": "Mesaiyed Elementary Preparatory Boys / ميسعيد الابتدائية الاعدادية - بنين"
+  },
+  {
+    "english": "Mesaiyed Primary Preparatory Secondary Girls",
+    "arabic": "ميسعيد الابتدائية الاعدادية - بنات",
+    "label": "Mesaiyed Primary Preparatory Secondary Girls / ميسعيد الابتدائية الاعدادية - بنات"
+  },
+  {
+    "english": "Middle East International School",
+    "arabic": "الشرق الاوسط الدولية الخاصة",
+    "label": "Middle East International School / الشرق الاوسط الدولية الخاصة"
+  },
+  {
+    "english": "Modern Education Secondary Private School",
+    "arabic": "التربية الحديثة الخاصة الثانوية - بنين",
+    "label": "Modern Education Secondary Private School / التربية الحديثة الخاصة الثانوية - بنين"
+  },
+  {
+    "english": "Mohammad Bin Abdulaziz Al-Mana Secondary Boys",
+    "arabic": "محمد المانع بن عبد العزيز الثانوية - بنين",
+    "label": "Mohammad Bin Abdulaziz Al-Mana Secondary Boys / محمد المانع بن عبد العزيز الثانوية - بنين"
+  },
+  {
+    "english": "Mohammad Bin Abdulwahhab Secondary Boys",
+    "arabic": "محمد بن عبد الوهاب الثانوية - بنين",
+    "label": "Mohammad Bin Abdulwahhab Secondary Boys / محمد بن عبد الوهاب الثانوية - بنين"
+  },
+  {
+    "english": "Mohammed Bin Jassim Al Thani Preparatory Boys",
+    "arabic": "محمد بن جاسم آل ثاني - بنين",
+    "label": "Mohammed Bin Jassim Al Thani Preparatory Boys / محمد بن جاسم آل ثاني - بنين"
+  },
+  {
+    "english": "Moza Bint Mohammad Preparatory Girls",
+    "arabic": "موزا بنت محمد الاعدادية - بنات",
+    "label": "Moza Bint Mohammad Preparatory Girls / موزا بنت محمد الاعدادية - بنات"
+  },
+  {
+    "english": "Moza Bint Mohammad Primary Girls",
+    "arabic": "موزا بنت محمد الابتدائية - بنات",
+    "label": "Moza Bint Mohammad Primary Girls / موزا بنت محمد الابتدائية - بنات"
+  },
+  {
+    "english": "Musab Bin Omair Secondary Boys",
+    "arabic": "مصعب بن عمير الثانوية - بنين",
+    "label": "Musab Bin Omair Secondary Boys / مصعب بن عمير الثانوية - بنين"
+  },
+  {
+    "english": "Nasser Bin Abdullah Al Atiya Secondary Boys",
+    "arabic": "ناصر بن عبد الله العطية الثانوية - بنين",
+    "label": "Nasser Bin Abdullah Al Atiya Secondary Boys / ناصر بن عبد الله العطية الثانوية - بنين"
+  },
+  {
+    "english": "Newton British Academy",
+    "arabic": "اكاديمية نيوتن البريطانية",
+    "label": "Newton British Academy / اكاديمية نيوتن البريطانية"
+  },
+  {
+    "english": "Newton British School",
+    "arabic": "مدرسة نيوتن البريطانية",
+    "label": "Newton British School / مدرسة نيوتن البريطانية"
+  },
+  {
+    "english": "Newton International Academy",
+    "arabic": "اكاديمية نيوتن الدولية",
+    "label": "Newton International Academy / اكاديمية نيوتن الدولية"
+  },
+  {
+    "english": "Newton International School D-Ring",
+    "arabic": "مدرسة نيوتن الدولية الدائري الرابع",
+    "label": "Newton International School D-Ring / مدرسة نيوتن الدولية الدائري الرابع"
+  },
+  {
+    "english": "Newton International School Lagoon",
+    "arabic": "مدرسة نيوتن الدولية لاجون",
+    "label": "Newton International School Lagoon / مدرسة نيوتن الدولية لاجون"
+  },
+  {
+    "english": "Newton International West Bay",
+    "arabic": "مدرسة نيوتن الدولية - الخليج الغربي",
+    "label": "Newton International West Bay / مدرسة نيوتن الدولية - الخليج الغربي"
+  },
+  {
+    "english": "Noble International School",
+    "arabic": "نوبل الدولية الخاصة",
+    "label": "Noble International School / نوبل الدولية الخاصة"
+  },
+  {
+    "english": "Noor Al Khaleej International School",
+    "arabic": "نور الخليج العالمية الخاصة",
+    "label": "Noor Al Khaleej International School / نور الخليج العالمية الخاصة"
+  },
+  {
+    "english": "Nosaiba Bint Kaab Primary Girls",
+    "arabic": "نسيبة بنت كعب الابتدائية - بنات",
+    "label": "Nosaiba Bint Kaab Primary Girls / نسيبة بنت كعب الابتدائية - بنات"
+  },
+  {
+    "english": "Omamah Bint Hamzah Primary Girls",
+    "arabic": "امامه بنت حمزه الابتدائية - بنات",
+    "label": "Omamah Bint Hamzah Primary Girls / امامه بنت حمزه الابتدائية - بنات"
+  },
+  {
+    "english": "Omar Bin Abdulaziz Secondary Boys",
+    "arabic": "عمر بن عبد العزيز الثانوية - بنين",
+    "label": "Omar Bin Abdulaziz Secondary Boys / عمر بن عبد العزيز الثانوية - بنين"
+  },
+  {
+    "english": "Omar Bin Al Khattab First Primary Boys",
+    "arabic": "عمر بن الخطاب الابتدائية الاولى - بنين",
+    "label": "Omar Bin Al Khattab First Primary Boys / عمر بن الخطاب الابتدائية الاولى - بنين"
+  },
+  {
+    "english": "Omar Bin Al Khattab Preparatory Boys",
+    "arabic": "عمر بن الخطاب الاعداداية - بنين",
+    "label": "Omar Bin Al Khattab Preparatory Boys / عمر بن الخطاب الاعداداية - بنين"
+  },
+  {
+    "english": "Omar Bin Al Khattab Second Primary Boys",
+    "arabic": "عمر بن الخطاب الابتدائية الثانوية للبنين",
+    "label": "Omar Bin Al Khattab Second Primary Boys / عمر بن الخطاب الابتدائية الثانوية للبنين"
+  },
+  {
+    "english": "Omar Bin Al Khattab Secondary Boys",
+    "arabic": "عمر بن الخطاب الثانوية - بنين",
+    "label": "Omar Bin Al Khattab Secondary Boys / عمر بن الخطاب الثانوية - بنين"
+  },
+  {
+    "english": "Osama Bin Zaid Preparatory Boys",
+    "arabic": "اسامة بن زيد الاعدادية - بنين",
+    "label": "Osama Bin Zaid Preparatory Boys / اسامة بن زيد الاعدادية - بنين"
+  },
+  {
+    "english": "Othman Bin Affan Model Boys",
+    "arabic": "Ø¹Ø«Ù…Ø§Ù† Ø¨Ù† Ø¹ÙØ§Ù† Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ÙŠØ© - Ø¨Ù†ÙŠÙ†",
+    "label": "Othman Bin Affan Model Boys / Ø¹Ø«Ù…Ø§Ù† Ø¨Ù† Ø¹ÙØ§Ù† Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ÙŠØ© - Ø¨Ù†ÙŠÙ†"
+  },
+  {
+    "english": "Oxford English School",
+    "arabic": "Ø§ÙƒØ³ÙÙˆØ±Ø¯ Ø§Ù„Ø§Ù†Ø¬Ù„ÙŠØ²ÙŠØ©",
+    "label": "Oxford English School / Ø§ÙƒØ³ÙÙˆØ±Ø¯ Ø§Ù„Ø§Ù†Ø¬Ù„ÙŠØ²ÙŠØ©"
+  },
+  {
+    "english": "Pak Shamaa School",
+    "arabic": "باك شمعة الباكستانية الخاصة",
+    "label": "Pak Shamaa School / باك شمعة الباكستانية الخاصة"
+  },
+  {
+    "english": "Pakistan Education Centre",
+    "arabic": "المركز التعليمي الباكستاني",
+    "label": "Pakistan Education Centre / المركز التعليمي الباكستاني"
+  },
+  {
+    "english": "Palestinian School Boys",
+    "arabic": "Ø§Ù„ÙÙ„Ø³Ø·ÙŠÙ†ÙŠØ© Ø§Ù„Ø®Ø§ØµØ© Ø§Ù„Ø¨Ù†ÙŠÙ†",
+    "label": "Palestinian School Boys / Ø§Ù„ÙÙ„Ø³Ø·ÙŠÙ†ÙŠØ© Ø§Ù„Ø®Ø§ØµØ© Ø§Ù„Ø¨Ù†ÙŠÙ†"
+  },
+  {
+    "english": "Palestinian School Mixed",
+    "arabic": "Ø§Ù„ÙÙ„Ø³Ø·ÙŠÙ†ÙŠØ© - Ø§Ø¨ØªØ¯Ø§Ø¦ÙŠ - Ø§Ø¹Ø¯Ø§Ø¯ÙŠ - Ø«Ø§Ù†ÙˆÙŠ- Ù…Ø®ØªÙ„Ø·",
+    "label": "Palestinian School Mixed / Ø§Ù„ÙÙ„Ø³Ø·ÙŠÙ†ÙŠØ© - Ø§Ø¨ØªØ¯Ø§Ø¦ÙŠ - Ø§Ø¹Ø¯Ø§Ø¯ÙŠ - Ø«Ø§Ù†ÙˆÙŠ- Ù…Ø®ØªÙ„Ø·"
+  },
+  {
+    "english": "Park House English School",
+    "arabic": "بارك هاوس الانجليزية",
+    "label": "Park House English School / بارك هاوس الانجليزية"
+  },
+  {
+    "english": "Pearl School Doha",
+    "arabic": "بيرلا الدوحة",
+    "label": "Pearl School Doha / بيرلا الدوحة"
+  },
+  {
+    "english": "Philippine School of Doha",
+    "arabic": "Ø§Ù„Ù…Ø¯Ø±Ø³Ø© Ø§Ù„ÙÙ„Ø¨ÙŠÙ†ÙŠØ©",
+    "label": "Philippine School of Doha / Ø§Ù„Ù…Ø¯Ø±Ø³Ø© Ø§Ù„ÙÙ„Ø¨ÙŠÙ†ÙŠØ©"
+  },
+  {
+    "english": "Qafco Private",
+    "arabic": "Ù‚Ø§ÙÙƒÙˆ Ù„Ù„Ø§Ø¬Ø§Ù†Ø¨ Ø§Ù„Ø®Ø§ØµØ©",
+    "label": "Qafco Private / Ù‚Ø§ÙÙƒÙˆ Ù„Ù„Ø§Ø¬Ø§Ù†Ø¨ Ø§Ù„Ø®Ø§ØµØ©"
+  },
+  {
+    "english": "Qatar Academy School Al Wakrah",
+    "arabic": "اكاديمية قطر- الوكرة",
+    "label": "Qatar Academy School Al Wakrah / اكاديمية قطر- الوكرة"
+  },
+  {
+    "english": "Qatar Academy",
+    "arabic": "اكاديمية قطر",
+    "label": "Qatar Academy / اكاديمية قطر"
+  },
+  {
+    "english": "Qatar Banking Studies and Business Administration Secondary Boys",
+    "arabic": "Ù‚Ø·Ø± Ù„Ù„Ø¹Ù„ÙˆÙ… Ø§Ù„Ù…ØµØ±ÙÙŠØ© ÙˆØ¥Ø¯Ø§Ø±Ø© Ø§Ù„Ø§Ø¹Ù…Ø§Ù„ Ø§Ù„Ø«Ø§Ù†ÙˆÙŠØ© Ø§Ù„Ù…Ø³ØªÙ‚Ù„Ø© Ù„Ù„Ø¨Ù†ÙŠÙ†",
+    "label": "Qatar Banking Studies and Business Administration Secondary Boys / Ù‚Ø·Ø± Ù„Ù„Ø¹Ù„ÙˆÙ… Ø§Ù„Ù…ØµØ±ÙÙŠØ© ÙˆØ¥Ø¯Ø§Ø±Ø© Ø§Ù„Ø§Ø¹Ù…Ø§Ù„ Ø§Ù„Ø«Ø§Ù†ÙˆÙŠØ© Ø§Ù„Ù…Ø³ØªÙ‚Ù„Ø© Ù„Ù„Ø¨Ù†ÙŠÙ†"
+  },
+  {
+    "english": "Qatar Canadian School",
+    "arabic": "Ø§Ù„Ù…Ø¯Ø±Ø³Ø© Ø§Ù„ÙƒÙ†Ø¯ÙŠØ© ÙÙŠ Ù‚Ø·Ø±",
+    "label": "Qatar Canadian School / Ø§Ù„Ù…Ø¯Ø±Ø³Ø© Ø§Ù„ÙƒÙ†Ø¯ÙŠØ© ÙÙŠ Ù‚Ø·Ø±"
+  },
+  {
+    "english": "Qatar Finland International School",
+    "arabic": "Ø§Ù„Ù…Ø¯Ø±Ø³Ø© Ø§Ù„ÙÙ†Ù„Ù†Ø¯ÙŠØ© Ø§Ù„Ù‚Ø·Ø±ÙŠØ©",
+    "label": "Qatar Finland International School / Ø§Ù„Ù…Ø¯Ø±Ø³Ø© Ø§Ù„ÙÙ†Ù„Ù†Ø¯ÙŠØ© Ø§Ù„Ù‚Ø·Ø±ÙŠØ©"
+  },
+  {
+    "english": "Qatar International School",
+    "arabic": "مدرسة قطر الدولية",
+    "label": "Qatar International School / مدرسة قطر الدولية"
+  },
+  {
+    "english": "Qatar Preparatory Girls",
+    "arabic": "قطر الاعدداية - بنات",
+    "label": "Qatar Preparatory Girls / قطر الاعدداية - بنات"
+  },
+  {
+    "english": "Qatar Primary Girls",
+    "arabic": "قطر الابتدائية - بنات",
+    "label": "Qatar Primary Girls / قطر الابتدائية - بنات"
+  },
+  {
+    "english": "Qatar Secondary Girls",
+    "arabic": "قطر الثانوية - بنات",
+    "label": "Qatar Secondary Girls / قطر الثانوية - بنات"
+  },
+  {
+    "english": "Qatar Technical Secondary Boys",
+    "arabic": "قطر التقنية الثانوية - بنين",
+    "label": "Qatar Technical Secondary Boys / قطر التقنية الثانوية - بنين"
+  },
+  {
+    "english": "Rabiaa Al Adawyea Secondary Girls",
+    "arabic": "Ù…Ø¯Ø±Ø³Ø© Ø±Ø§Ø¨Ø¹Ø© Ø§Ù„Ø¹Ø¯ÙˆÙŠØ© Â Ø§Ù„Ø«Ø§Ù†ÙˆÙŠØ© Ø§Ù„Ù…Ø³ØªÙ‚Ù„Ø© Ù„Ù„Ø¨Ù†Ø§Øª",
+    "label": "Rabiaa Al Adawyea Secondary Girls / Ù…Ø¯Ø±Ø³Ø© Ø±Ø§Ø¨Ø¹Ø© Ø§Ù„Ø¹Ø¯ÙˆÙŠØ© Â Ø§Ù„Ø«Ø§Ù†ÙˆÙŠØ© Ø§Ù„Ù…Ø³ØªÙ‚Ù„Ø© Ù„Ù„Ø¨Ù†Ø§Øª"
+  },
+  {
+    "english": "Rafidah Bint Kaab PreparatoryGirls",
+    "arabic": "Ø±ÙÙŠØ¯Ø© Ø¨Ù†Øª ÙƒØ¹Ø¨ Ø§Ù„Ø§Ø¹Ø¯Ø§Ø¯ÙŠØ© Ø§Ù„Ù…Ø³ØªÙ‚Ù„Ø© Ù„Ù„Ø¨Ù†Ø§Øª",
+    "label": "Rafidah Bint Kaab PreparatoryGirls / Ø±ÙÙŠØ¯Ø© Ø¨Ù†Øª ÙƒØ¹Ø¨ Ø§Ù„Ø§Ø¹Ø¯Ø§Ø¯ÙŠØ© Ø§Ù„Ù…Ø³ØªÙ‚Ù„Ø© Ù„Ù„Ø¨Ù†Ø§Øª"
+  },
+  {
+    "english": "Rajagiri Public School",
+    "arabic": "مدرسة راجا غيري الشاملة",
+    "label": "Rajagiri Public School / مدرسة راجا غيري الشاملة"
+  },
+  {
+    "english": "Rawdat Rashid Primary Preparatory Boys",
+    "arabic": "روضة راشد الابتدائية - بنين",
+    "label": "Rawdat Rashid Primary Preparatory Boys / روضة راشد الابتدائية - بنين"
+  },
+  {
+    "english": "Rawdat Rashid Primary Preparatory Girls",
+    "arabic": "روضة راشد الابتدائية - بنات",
+    "label": "Rawdat Rashid Primary Preparatory Girls / روضة راشد الابتدائية - بنات"
+  },
+  {
+    "english": "Rawdha Bint Jassim Secondary Girls",
+    "arabic": "روضة بنت جاسم الثانوية - بنات",
+    "label": "Rawdha Bint Jassim Secondary Girls / روضة بنت جاسم الثانوية - بنات"
+  },
+  {
+    "english": "Rawdha Bint Mohammad Secondary Girls",
+    "arabic": "روضة بنت محمد الثانوية - بنات",
+    "label": "Rawdha Bint Mohammad Secondary Girls / روضة بنت محمد الثانوية - بنات"
+  },
+  {
+    "english": "Roqayya Preparatory Girls",
+    "arabic": "رقية الاعداية - بنات",
+    "label": "Roqayya Preparatory Girls / رقية الاعداية - بنات"
+  },
+  {
+    "english": "Royal International School",
+    "arabic": "رويال الدولية",
+    "label": "Royal International School / رويال الدولية"
+  },
+  {
+    "english": "Saad Bin Abi Wagas Model Boys",
+    "arabic": "سعد بن ابي وقاص النموذجية",
+    "label": "Saad Bin Abi Wagas Model Boys / سعد بن ابي وقاص النموذجية"
+  },
+  {
+    "english": "Safyea Bint Abdulmottaleb Primary Girls",
+    "arabic": "ØµÙÙŠØ© Ø¨Ù†Øª Ø¹Ø¨Ø¯ Ø§Ù„Ù…Ø·Ù„Ø¨ Ø§Ù„Ø§Ø¨ØªØ¯Ø§Ø¦ÙŠØ© Ø§Ù„Ù…Ø³ØªÙ‚Ù„Ø©- Ø¨Ù†Ø§Øª",
+    "label": "Safyea Bint Abdulmottaleb Primary Girls / ØµÙÙŠØ© Ø¨Ù†Øª Ø¹Ø¨Ø¯ Ø§Ù„Ù…Ø·Ù„Ø¨ Ø§Ù„Ø§Ø¨ØªØ¯Ø§Ø¦ÙŠØ© Ø§Ù„Ù…Ø³ØªÙ‚Ù„Ø©- Ø¨Ù†Ø§Øª"
+  },
+  {
+    "english": "Salah Eddeen Preparatory Boys",
+    "arabic": "صلاح الدين الاعدادية - بنين",
+    "label": "Salah Eddeen Preparatory Boys / صلاح الدين الاعدادية - بنين"
+  },
+  {
+    "english": "Saud Bin Abdulrahman Model Boys",
+    "arabic": "سعود بن عبد الرحمن النموذجية - بنين",
+    "label": "Saud Bin Abdulrahman Model Boys / سعود بن عبد الرحمن النموذجية - بنين"
+  },
+  {
+    "english": "SEK International School Qatar",
+    "arabic": "المدرسة الدولية SEK",
+    "label": "SEK International School Qatar / المدرسة الدولية SEK"
+  },
+  {
+    "english": "Shantiniketan Indian School",
+    "arabic": "دار السلام الهندية",
+    "label": "Shantiniketan Indian School / دار السلام الهندية"
+  },
+  {
+    "english": "Sherborne School",
+    "arabic": "الشيربون",
+    "label": "Sherborne School / الشيربون"
+  },
+  {
+    "english": "Simaisma Primary Preparatory Boys",
+    "arabic": "سميسمة الابتدائية الإعدادية بنين",
+    "label": "Simaisma Primary Preparatory Boys / سميسمة الابتدائية الإعدادية بنين"
+  },
+  {
+    "english": "Sokayna Bint Alhusain Preparatory Girls",
+    "arabic": "سكينة الاعدادية - بنات",
+    "label": "Sokayna Bint Alhusain Preparatory Girls / سكينة الاعدادية - بنات"
+  },
+  {
+    "english": "Somaia Primary Girls",
+    "arabic": "سمية الابتدائية للبنات",
+    "label": "Somaia Primary Girls / سمية الابتدائية للبنات"
+  },
+  {
+    "english": "Stafford Sri Lankan School",
+    "arabic": "Ø³ØªØ§ÙÙˆØ±Ø¯ Ø§Ù„Ø³ÙŠØ±Ù„Ø§Ù†ÙƒÙŠØ©",
+    "label": "Stafford Sri Lankan School / Ø³ØªØ§ÙÙˆØ±Ø¯ Ø§Ù„Ø³ÙŠØ±Ù„Ø§Ù†ÙƒÙŠØ©"
+  },
+  {
+    "english": "Step One International School",
+    "arabic": "Step One الدولية",
+    "label": "Step One International School / Step One الدولية"
+  },
+  {
+    "english": "Sudanese Boys School",
+    "arabic": "السودانية- بنين",
+    "label": "Sudanese Boys School / السودانية- بنين"
+  },
+  {
+    "english": "Sudanese Girl School",
+    "arabic": "السودانية - بنات",
+    "label": "Sudanese Girl School / السودانية - بنات"
+  },
+  {
+    "english": "Summit Academy",
+    "arabic": "اكاديمية القمة الخاصة",
+    "label": "Summit Academy / اكاديمية القمة الخاصة"
+  },
+  {
+    "english": "Syrian School",
+    "arabic": "السورية",
+    "label": "Syrian School / السورية"
+  },
+  {
+    "english": "Tariq Bin Ziyad Secondary Boys",
+    "arabic": "طارق بن زياد الثانوية بنين",
+    "label": "Tariq Bin Ziyad Secondary Boys / طارق بن زياد الثانوية بنين"
+  },
+  {
+    "english": "The American School of Doha",
+    "arabic": "المدرسة الامريكية - الدوحة",
+    "label": "The American School of Doha / المدرسة الامريكية - الدوحة"
+  },
+  {
+    "english": "The English Modern School",
+    "arabic": "الانجليزية الحديثة",
+    "label": "The English Modern School / الانجليزية الحديثة"
+  },
+  {
+    "english": "The English Modern School Al Wakrah",
+    "arabic": "Ø§Ù„Ø§Ù†Ø¬Ù„ÙŠØ²ÙŠØ© Ø§Ù„Ø­Ø¯ÙŠØ«Ø© - ÙØ±Ø¹ Ø§Ù„ÙˆÙƒØ±Ø©",
+    "label": "The English Modern School Al Wakrah / Ø§Ù„Ø§Ù†Ø¬Ù„ÙŠØ²ÙŠØ© Ø§Ù„Ø­Ø¯ÙŠØ«Ø© - ÙØ±Ø¹ Ø§Ù„ÙˆÙƒØ±Ø©"
+  },
+  {
+    "english": "The Gulf English School",
+    "arabic": "مدرسة الخليج الانجليزية",
+    "label": "The Gulf English School / مدرسة الخليج الانجليزية"
+  },
+  {
+    "english": "The International School of Choueifat",
+    "arabic": "Ø§Ù„Ø´ÙˆÙŠÙØ§Øª Ø§Ù„Ø¹Ø§Ù„Ù…ÙŠØ© Ø§Ù„Ø®Ø§ØµØ©",
+    "label": "The International School of Choueifat / Ø§Ù„Ø´ÙˆÙŠÙØ§Øª Ø§Ù„Ø¹Ø§Ù„Ù…ÙŠØ© Ø§Ù„Ø®Ø§ØµØ©"
+  },
+  {
+    "english": "The Japan School of Doha",
+    "arabic": "المدرسة اليابانية",
+    "label": "The Japan School of Doha / المدرسة اليابانية"
+  },
+  {
+    "english": "The Lebanese School",
+    "arabic": "المدرسة اللبنانية",
+    "label": "The Lebanese School / المدرسة اللبنانية"
+  },
+  {
+    "english": "The Moroccan International School",
+    "arabic": "المدرسة المغربية الدولية",
+    "label": "The Moroccan International School / المدرسة المغربية الدولية"
+  },
+  {
+    "english": "The Next Generation Primary School",
+    "arabic": "الجيل القادم الخاصة - ابتدائي",
+    "label": "The Next Generation Primary School / الجيل القادم الخاصة - ابتدائي"
+  },
+  {
+    "english": "The Philippine International School",
+    "arabic": "Ø§Ù„Ù…Ø¯Ø±Ø³Ø© Ø§Ù„ÙÙ„ÙŠØ¨ÙŠÙ†ÙŠØ© Ø§Ù„Ø¯ÙˆÙ„ÙŠØ©",
+    "label": "The Philippine International School / Ø§Ù„Ù…Ø¯Ø±Ø³Ø© Ø§Ù„ÙÙ„ÙŠØ¨ÙŠÙ†ÙŠØ© Ø§Ù„Ø¯ÙˆÙ„ÙŠØ©"
+  },
+  {
+    "english": "Tunisian School",
+    "arabic": "التونسية",
+    "label": "Tunisian School / التونسية"
+  },
+  {
+    "english": "Um Hani Primary Girls",
+    "arabic": "ام هاني الابتدائية - بنات",
+    "label": "Um Hani Primary Girls / ام هاني الابتدائية - بنات"
+  },
+  {
+    "english": "Umm Al Amad Primary Girls",
+    "arabic": "ام العمد الابتدائية - بنات",
+    "label": "Umm Al Amad Primary Girls / ام العمد الابتدائية - بنات"
+  },
+  {
+    "english": "Umm Al Qora Model Boys",
+    "arabic": "ام القرى النموذجية للبنين",
+    "label": "Umm Al Qora Model Boys / ام القرى النموذجية للبنين"
+  },
+  {
+    "english": "Umm Ayman Secondary Girls",
+    "arabic": "ام ايمن الثانوية - بنات",
+    "label": "Umm Ayman Secondary Girls / ام ايمن الثانوية - بنات"
+  },
+  {
+    "english": "Umm Hakeem Secondary Girls",
+    "arabic": "ام حكيم الثانوية - بنات",
+    "label": "Umm Hakeem Secondary Girls / ام حكيم الثانوية - بنات"
+  },
+  {
+    "english": "Umm Maabad Preparatory Girls",
+    "arabic": "ام معبد الاعدادية - بنات",
+    "label": "Umm Maabad Preparatory Girls / ام معبد الاعدادية - بنات"
+  },
+  {
+    "english": "Umm Salal Ali Primary Model Boys",
+    "arabic": "ام صلال على الابتدائية - بنين",
+    "label": "Umm Salal Ali Primary Model Boys / ام صلال على الابتدائية - بنين"
+  },
+  {
+    "english": "Umm Salama Primary Girls",
+    "arabic": "ام سلمه الابتدائية - بنات",
+    "label": "Umm Salama Primary Girls / ام سلمه الابتدائية - بنات"
+  },
+  {
+    "english": "Umm Slal Model Boys",
+    "arabic": "ام صلال النموذجية - بنين",
+    "label": "Umm Slal Model Boys / ام صلال النموذجية - بنين"
+  },
+  {
+    "english": "Vision International School",
+    "arabic": "Ù…Ø¯Ø±Ø³Ø© ÙÙŠØ¬Ù† Ø§Ù„Ø¯ÙˆÙ„ÙŠØ©",
+    "label": "Vision International School / Ù…Ø¯Ø±Ø³Ø© ÙÙŠØ¬Ù† Ø§Ù„Ø¯ÙˆÙ„ÙŠØ©"
+  },
+  {
+    "english": "Zaynab Preparatory Girls",
+    "arabic": "زينب الاعدادية - بنات",
+    "label": "Zaynab Preparatory Girls / زينب الاعدادية - بنات"
+  },
+  {
+    "english": "Zekreet Primary Girls",
+    "arabic": "زكريت الابتدائية - بنات",
+    "label": "Zekreet Primary Girls / زكريت الابتدائية - بنات"
+  },
+  {
+    "english": "Zubaida Primary Girls",
+    "arabic": "زبيدة الابتدائية - بنات",
+    "label": "Zubaida Primary Girls / زبيدة الابتدائية - بنات"
+  }
+]

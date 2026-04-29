@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Outlet, NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { LayoutDashboard, UserPlus, Users, Settings, LogOut, Menu, GraduationCap, BarChart3, ClipboardList, Ruler } from "lucide-react";
+import { LayoutDashboard, UserPlus, Users, Settings, LogOut, Menu, BarChart3, ClipboardList, Ruler, School } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import "@/App.css";
@@ -23,6 +23,7 @@ function getNavItems(role) {
     { path: "/students/new", label: "تسجيل طالب", icon: UserPlus },
     { path: "/trainer", label: "القياسات والاختبارات", icon: Ruler },
     { path: "/students", label: "قائمة الطلاب", icon: Users },
+    { path: "/schools-list", label: "قائمة المدارس", icon: School },
     { path: "/comparison", label: "مقارنة المدارس", icon: BarChart3 },
     ...(role === "admin" ? [{ path: "/admin", label: "الإدارة", icon: Settings }] : []),
   ];
@@ -41,9 +42,7 @@ function SidebarContent({ user, onLogout, onNavClick }) {
     <div className="flex flex-col h-full">
       <div className="p-5 border-b border-[#E5E1D8]">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-[#8A1538] flex items-center justify-center">
-            <GraduationCap className="w-5 h-5 text-white" />
-          </div>
+          <img src="/logo.png" alt="شعار اللياقة البدنية" className="w-10 h-10 rounded-lg object-contain" />
           <div>
             <h2 className="text-sm font-bold text-[#1A1A1A] font-['Alexandria']">اللياقة البدنية</h2>
             <p className="text-xs text-[#9CA3AF]">نظام تسجيل الطلاب</p>
@@ -108,9 +107,7 @@ export default function Layout() {
       <header className="lg:hidden sticky top-0 z-50 bg-white border-b border-[#E5E1D8] px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-[#8A1538] flex items-center justify-center">
-              <GraduationCap className="w-4 h-4 text-white" />
-            </div>
+            <img src="/logo.png" alt="شعار اللياقة البدنية" className="w-8 h-8 rounded-lg object-contain" />
             <span className="text-sm font-bold text-[#1A1A1A] font-['Alexandria']">اللياقة البدنية</span>
           </div>
           <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>

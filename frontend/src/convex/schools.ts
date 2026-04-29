@@ -19,6 +19,7 @@ export const create = mutation({
   args: {
     name: v.string(),
     stage: v.string(),
+    gender: v.optional(v.string()),
     grades: v.array(v.string()),
     allowedBirthYears: v.array(v.number()),
     maxStudents: v.number(),
@@ -37,6 +38,7 @@ export const update = mutation({
     id: v.id("schools"),
     name: v.optional(v.string()),
     stage: v.optional(v.string()),
+    gender: v.optional(v.string()),
     grades: v.optional(v.array(v.string())),
     allowedBirthYears: v.optional(v.array(v.number())),
     maxStudents: v.optional(v.number()),

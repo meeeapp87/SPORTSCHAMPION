@@ -1,4 +1,36 @@
 import { useState, useMemo } from "react";
+import schoolNamesData from "@/data/schools_names.json";
+
+const CP1252_MAP = {
+  0x0160:0x8A,0x2020:0x86,0x201E:0x84,0x2026:0x85,0x02C6:0x88,0x201A:0x82,
+  0x0161:0x9A,0x017E:0x9E,0x017D:0x8E,0x0152:0x8C,0x0153:0x9C,0x0192:0x83,
+  0x02DC:0x98,0x2039:0x8B,0x203A:0x9B,0x2018:0x91,0x2019:0x92,0x201C:0x93,
+  0x201D:0x94,0x2013:0x96,0x2014:0x97,0x2022:0x95,0x20AC:0x80,
+};
+function fixMojibake(text) {
+  if (!text || (!text.includes('Ø') && !text.includes('Ù'))) return text;
+  try {
+    const bytes = [];
+    for (const c of text) {
+      const o = c.codePointAt(0);
+      if (o <= 0xFF) bytes.push(o);
+      else if (CP1252_MAP[o] !== undefined) bytes.push(CP1252_MAP[o]);
+      else return text;
+    }
+    const decoded = new TextDecoder('utf-8').decode(new Uint8Array(bytes));
+    return /[؀-ۿ]/.test(decoded) ? decoded.trim() : text;
+  } catch { return text; }
+}
+const ARABIC_MAP = Object.fromEntries(schoolNamesData.map(s => [s.english, s.arabic]));
+const getDisplayName = (name) => {
+  if (!name) return "";
+  const eng = name.split(' / ')[0]?.trim();
+  const fromMap = ARABIC_MAP[eng];
+  if (fromMap) return fromMap;
+  const afterSlash = name.split(' / ')[1]?.trim();
+  if (afterSlash) return fixMojibake(afterSlash);
+  return fixMojibake(name);
+};
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Card, CardContent } from "@/components/ui/card";
@@ -25,10 +57,13 @@ function getBMICategory(bmi) {
 }
 
 export default function TrainerPortalPage() {
-  const schools = useQuery(api.schools.list) || [];
-  const allStudents = useQuery(api.students.list) || [];
+  const schoolsQuery = useQuery(api.schools.list);
+  const allStudentsQuery = useQuery(api.students.list);
+  const schools = useMemo(() => schoolsQuery || [], [schoolsQuery]);
+  const allStudents = useMemo(() => allStudentsQuery || [], [allStudentsQuery]);
   const updateMeasurements = useMutation(api.students.updateMeasurements);
 
+  const [selectedGender, setSelectedGender] = useState("");
   const [selectedSchool, setSelectedSchool] = useState("");
   const [editStudent, setEditStudent] = useState(null);
   const [mForm, setMForm] = useState({ height: "", weight: "", pushUpScore: "", sitUpScore: "", flexibilityScore: "", agilityScore: "", enduranceScore: "" });
@@ -96,21 +131,62 @@ export default function TrainerPortalPage() {
         <p className="text-sm text-[#9CA3AF] mt-1">اختر المدرسة ثم أدخل القياسات ونتائج الاختبارات لكل طالب</p>
       </div>
 
-      {/* School Selector */}
+      {/* Gender + School Selector */}
       <Card className="border-[#E5E1D8]">
-        <CardContent className="p-5">
-          <Label className="text-[#4B5563] text-base font-semibold">اختر المدرسة</Label>
-          <Select value={selectedSchool} onValueChange={setSelectedSchool} dir="rtl">
-            <SelectTrigger className="mt-2 h-12 text-base" data-testid="trainer-school-select">
-              <SelectValue placeholder="اختر المدرسة لعرض طلابها" />
-            </SelectTrigger>
-            <SelectContent>
-              {schools.filter(s => s.isActive).map(s => {
-                const count = allStudents.filter(st => st.schoolId === s._id).length;
-                return <SelectItem key={s._id} value={s._id}>{s.name} ({count} طالب)</SelectItem>;
-              })}
-            </SelectContent>
-          </Select>
+        <CardContent className="p-5 space-y-4">
+
+          {/* الخطوة 1: اختيار الجنس */}
+          <div>
+            <Label className="text-[#4B5563] text-base font-semibold block mb-2">النوع</Label>
+            <div className="flex gap-3">
+              {[
+                { value: "بنين", label: "👦 بنين" },
+                { value: "بنات", label: "👧 بنات" },
+                ].map(g => (
+                <button
+                  key={g.value}
+                  type="button"
+                  onClick={() => { setSelectedGender(g.value); setSelectedSchool(""); }}
+                  className={`flex-1 py-2.5 rounded-lg border-2 font-semibold text-sm transition-all ${
+                    selectedGender === g.value
+                      ? "border-[#8A1538] bg-[#8A1538] text-white"
+                      : "border-[#E5E1D8] text-[#4B5563] hover:border-[#8A1538]/40"
+                  }`}
+                >
+                  {g.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* الخطوة 2: اختيار المدرسة */}
+          <div>
+            <Label className="text-[#4B5563] text-base font-semibold block mb-2">المدرسة</Label>
+            <Select
+              value={selectedSchool}
+              onValueChange={setSelectedSchool}
+              disabled={!selectedGender}
+              dir="rtl"
+            >
+              <SelectTrigger className="h-12 text-base" data-testid="trainer-school-select">
+                <SelectValue placeholder={!selectedGender ? "اختر النوع أولاً" : "اختر المدرسة لعرض طلابها"} />
+              </SelectTrigger>
+              <SelectContent>
+                {schools
+                  .filter(s => s.isActive && s.gender === selectedGender)
+                  .map(s => {
+                    const count = allStudents.filter(st => st.schoolId === s._id).length;
+                    if (count === 0) return null;
+                    return (
+                      <SelectItem key={s._id} value={s._id}>
+                        {getDisplayName(s.name)} ({count} طالب)
+                      </SelectItem>
+                    );
+                  })}
+              </SelectContent>
+            </Select>
+          </div>
+
         </CardContent>
       </Card>
 
@@ -119,7 +195,7 @@ export default function TrainerPortalPage() {
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold text-[#1A1A1A] font-['Alexandria']">
-              طلاب {school?.name} ({schoolStudents.length})
+              طلاب {getDisplayName(school?.name)} ({schoolStudents.length})
             </h3>
             <div className="flex items-center gap-2 text-xs">
               <span className="flex items-center gap-1 text-emerald-600"><CheckCircle className="w-3 h-3" />مكتمل</span>

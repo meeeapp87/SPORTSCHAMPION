@@ -4,6 +4,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Users, Calendar, BookOpen, Eye } from "lucide-react";
+import schoolNamesData from "@/data/schools_names.json";
+
+const SCHOOL_LABEL_MAP = Object.fromEntries(schoolNamesData.map(s => [s.english, s.arabic]));
+const getSchoolDisplayName = (name) => SCHOOL_LABEL_MAP[name?.split(' / ')[0]?.trim()] || name?.split(' / ')[1]?.trim() || name;
 
 export default function SchoolDetailPage() {
   const { id } = useParams();
@@ -30,7 +34,7 @@ export default function SchoolDetailPage() {
           <ArrowRight className="w-5 h-5" />
         </Button>
         <div>
-          <h1 className="text-2xl font-bold text-[#1A1A1A] font-['Alexandria']">{school.name}</h1>
+          <h1 className="text-2xl font-bold text-[#1A1A1A] font-['Alexandria']">{getSchoolDisplayName(school.name)}</h1>
           <p className="text-sm text-[#9CA3AF]">{school.stage}</p>
         </div>
       </div>

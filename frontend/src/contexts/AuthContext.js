@@ -1,41 +1,45 @@
-import { createContext, useContext, useState, useEffect, useCallback } from "react";
-import axios from "axios";
+import { createContext, useContext, useState, useEffect } from "react";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 const AuthContext = createContext(null);
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+const USER_STORAGE_KEY = "sports_app_user";
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const loginMutation = useMutation(api.auth.login);
+  const registerMutation = useMutation(api.auth.register);
 
-  const checkAuth = useCallback(async () => {
+  useEffect(() => {
     try {
-      const { data } = await axios.get(`${API}/auth/me`, { withCredentials: true });
-      setUser(data);
+      const stored = localStorage.getItem(USER_STORAGE_KEY);
+      if (stored) {
+        setUser(JSON.parse(stored));
+      }
     } catch {
-      setUser(null);
-    } finally {
-      setLoading(false);
+      localStorage.removeItem(USER_STORAGE_KEY);
     }
+    setLoading(false);
   }, []);
 
-  useEffect(() => { checkAuth(); }, [checkAuth]);
-
   const login = async (email, password) => {
-    const { data } = await axios.post(`${API}/auth/login`, { email, password }, { withCredentials: true });
+    const data = await loginMutation({ email, password });
     setUser(data);
+    localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(data));
     return data;
   };
 
   const register = async (email, password, name) => {
-    const { data } = await axios.post(`${API}/auth/register`, { email, password, name, role: "viewer" }, { withCredentials: true });
+    const data = await registerMutation({ email, password, name, role: "viewer" });
     setUser(data);
+    localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(data));
     return data;
   };
 
   const logout = async () => {
-    await axios.post(`${API}/auth/logout`, {}, { withCredentials: true });
     setUser(null);
+    localStorage.removeItem(USER_STORAGE_KEY);
   };
 
   return (

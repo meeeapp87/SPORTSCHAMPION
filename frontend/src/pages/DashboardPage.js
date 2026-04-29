@@ -1,18 +1,153 @@
+import { useState } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { School, Users, CheckCircle, TrendingUp, UserPlus, ArrowLeft, BarChart3 } from "lucide-react";
+import { School, Users, CheckCircle, TrendingUp, UserPlus, ArrowLeft, BarChart3, Trophy } from "lucide-react";
 import "@/App.css";
+import schoolNamesData from "@/data/schools_names.json";
+import primaryStandards  from "@/data/fitness_standards_primary.json";
+import middleStandards   from "@/data/fitness_standards_middle.json";
+import secondaryStandards from "@/data/fitness_standards_secondary.json";
+
+const CP1252_MAP = {
+  0x0160:0x8A,0x2020:0x86,0x201E:0x84,0x2026:0x85,0x02C6:0x88,0x201A:0x82,
+  0x0161:0x9A,0x017E:0x9E,0x017D:0x8E,0x0152:0x8C,0x0153:0x9C,0x0192:0x83,
+  0x02DC:0x98,0x2039:0x8B,0x203A:0x9B,0x2018:0x91,0x2019:0x92,0x201C:0x93,
+  0x201D:0x94,0x2013:0x96,0x2014:0x97,0x2022:0x95,0x20AC:0x80,
+};
+function fixMojibake(text) {
+  if (!text || (!text.includes('Ø') && !text.includes('Ù'))) return text;
+  try {
+    const bytes = [];
+    for (const c of text) {
+      const o = c.codePointAt(0);
+      if (o <= 0xFF) bytes.push(o);
+      else if (CP1252_MAP[o] !== undefined) bytes.push(CP1252_MAP[o]);
+      else return text;
+    }
+    const decoded = new TextDecoder('utf-8').decode(new Uint8Array(bytes));
+    return /[؀-ۿ]/.test(decoded) ? decoded.trim() : text;
+  } catch { return text; }
+}
+const SCHOOL_LABEL_MAP = Object.fromEntries(schoolNamesData.map(s => [s.english, s.arabic]));
+const getSchoolDisplayName = (name) => {
+  if (!name) return "";
+  const eng = name.split(' / ')[0]?.trim();
+  const fromMap = SCHOOL_LABEL_MAP[eng];
+  if (fromMap) return fromMap;
+  const afterSlash = name.split(' / ')[1]?.trim();
+  if (afterSlash) return fixMojibake(afterSlash);
+  return fixMojibake(name);
+};
+
+const STAGE_STANDARDS = {
+  "ابتدائي": primaryStandards,
+  "إعدادي":  middleStandards,
+  "ثانوي":   secondaryStandards,
+};
+
+function getStandardScore(value, stdKey, stage, gender) {
+  if (value == null || value === 0) return null;
+  const standards = STAGE_STANDARDS[stage];
+  if (!standards) return null;
+  const test = standards.tests.find(t => t.key === stdKey);
+  if (!test) return null;
+  const genderKey = gender === "بنات" ? "girls" : "boys";
+  const mappings = test.mappings[genderKey] || [];
+  if (!mappings.length) return null;
+  if (test.direction === "higher_is_better") {
+    const match = mappings.find(m => value >= m.value);
+    return match ? match.score : 0;
+  } else {
+    const match = [...mappings].reverse().find(m => value <= m.value);
+    return match ? match.score : 0;
+  }
+}
+
+function scoreColor(s) {
+  if (s == null) return { bar: "#E5E1D8", text: "text-[#9CA3AF]", bg: "bg-gray-100" };
+  if (s >= 90) return { bar: "#10B981", text: "text-emerald-700", bg: "bg-emerald-50" };
+  if (s >= 75) return { bar: "#3B82F6", text: "text-blue-700",    bg: "bg-blue-50"    };
+  if (s >= 60) return { bar: "#D4AF37", text: "text-amber-700",   bg: "bg-amber-50"   };
+  if (s >= 40) return { bar: "#F97316", text: "text-orange-700",  bg: "bg-orange-50"  };
+  return        { bar: "#EF4444", text: "text-red-700",     bg: "bg-red-50"     };
+}
+
+const TOP_TESTS = [
+  { field: "pushUpScore",      stdKey: "push_up",     label: "الضغط",   unit: "تكرار" },
+  { field: "sitUpScore",       stdKey: "sit_up",      label: "البطن",   unit: "تكرار" },
+  { field: "flexibilityScore", stdKey: "flexibility", label: "المرونة", unit: "سم"    },
+  { field: "agilityScore",     stdKey: "agility",     label: "الرشاقة", unit: "ث"     },
+  { field: "enduranceScore",   stdKey: "endurance",   label: "التحمل",  unit: "د"     },
+];
+
+const PAGE_SIZE = 5;
+
+function SchoolsOverview({ schools, students, navigate }) {
+  const [showAll, setShowAll] = useState(false);
+
+  // فقط المدارس اللي فيها طلاب، مرتبة تنازلياً حسب عدد الطلاب
+  const activeSchools = schools
+    .map(s => ({ ...s, count: students.filter(st => st.schoolId === s._id).length }))
+    .filter(s => s.count > 0)
+    .sort((a, b) => b.count - a.count);
+
+  const displayed = showAll ? activeSchools : activeSchools.slice(0, PAGE_SIZE);
+
+  if (activeSchools.length === 0) {
+    return <p className="text-[#9CA3AF] text-center py-8">لا توجد مدارس مسجّل فيها طلاب بعد</p>;
+  }
+
+  return (
+    <div className="space-y-3">
+      {displayed.map(school => {
+        const max = school.maxStudents || 3;
+        const isFull = school.count >= max;
+        const pct = Math.min((school.count / max) * 100, 100);
+        return (
+          <div key={school._id} className="flex items-center gap-4 p-3 rounded-lg hover:bg-[#F5F3EC] transition-colors cursor-pointer"
+            onClick={() => navigate(`/schools/${school._id}`)} data-testid={`school-row-${school._id}`}>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 mb-1">
+                <p className="font-medium text-[#1A1A1A] truncate">{getSchoolDisplayName(school.name)}</p>
+                <span className="text-xs px-2 py-0.5 rounded-full bg-[#8A1538]/5 text-[#8A1538]">{school.stage}</span>
+              </div>
+              <div className="w-full h-2 bg-[#E5E1D8] rounded-full overflow-hidden">
+                <div className={`h-full rounded-full transition-all ${isFull ? "bg-emerald-500" : pct > 50 ? "bg-[#D4AF37]" : "bg-[#8A1538]"}`}
+                  style={{ width: `${pct}%` }} />
+              </div>
+            </div>
+            <div className="text-left shrink-0">
+              <span className={`text-xs px-2 py-1 rounded-full font-medium ${isFull ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"}`}>
+                {isFull ? "مكتمل" : `متبقٍ ${max - school.count}`}
+              </span>
+            </div>
+            <ArrowLeft className="w-4 h-4 text-[#9CA3AF] shrink-0" />
+          </div>
+        );
+      })}
+      {activeSchools.length > PAGE_SIZE && (
+        <button onClick={() => setShowAll(v => !v)}
+          className="w-full text-center text-sm text-[#8A1538] hover:text-[#6D102A] py-2 font-medium transition-colors">
+          {showAll ? "عرض أقل ▲" : `عرض المزيد (${activeSchools.length - PAGE_SIZE} مدرسة) ▼`}
+        </button>
+      )}
+    </div>
+  );
+}
 
 export default function DashboardPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const schools = useQuery(api.schools.list) || [];
-  const students = useQuery(api.students.list) || [];
+  const schools  = useQuery(api.schools.list)   || [];
+  const students = useQuery(api.students.list)  || [];
+  const settings = useQuery(api.settings.getAll) || [];
   const seed = useMutation(api.seed.seedInitialData);
+
+  const [selectedBirthYear, setSelectedBirthYear] = useState(null);
 
   const totalSchools = schools.length;
   const totalStudents = students.length;
@@ -90,41 +225,137 @@ export default function DashboardPage() {
       <Card className="border-[#E5E1D8]">
         <CardContent className="p-5">
           <h3 className="text-lg font-semibold text-[#1A1A1A] mb-4 font-['Alexandria']">حالة المدارس</h3>
-          {schools.length === 0 ? (
-            <p className="text-[#9CA3AF] text-center py-8">لا توجد مدارس مسجلة بعد</p>
-          ) : (
-            <div className="space-y-3">
-              {schools.map(school => {
-                const count = students.filter(st => st.schoolId === school._id).length;
-                const max = school.maxStudents || 3;
-                const isFull = count >= max;
-                const pct = (count / max) * 100;
-                return (
-                  <div key={school._id} className="flex items-center gap-4 p-3 rounded-lg hover:bg-[#F5F3EC] transition-colors cursor-pointer" 
-                    onClick={() => navigate(`/schools/${school._id}`)} data-testid={`school-row-${school._id}`}>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <p className="font-medium text-[#1A1A1A] truncate">{school.name}</p>
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-[#8A1538]/5 text-[#8A1538]">{school.stage}</span>
-                      </div>
-                      <div className="w-full h-2 bg-[#E5E1D8] rounded-full overflow-hidden">
-                        <div className={`h-full rounded-full transition-all ${isFull ? "bg-emerald-500" : pct > 50 ? "bg-[#D4AF37]" : "bg-[#8A1538]"}`}
-                          style={{ width: `${pct}%` }} />
-                      </div>
-                    </div>
-                    <div className="text-left shrink-0">
-                      <span className={`text-xs px-2 py-1 rounded-full font-medium ${isFull ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"}`}>
-                        {isFull ? "مكتمل" : `متبقٍ ${max - count}`}
-                      </span>
-                    </div>
-                    <ArrowLeft className="w-4 h-4 text-[#9CA3AF] shrink-0" />
-                  </div>
-                );
-              })}
-            </div>
-          )}
+          <SchoolsOverview schools={schools} students={students} navigate={navigate} />
         </CardContent>
       </Card>
+
+      {/* Top 3 Students by Birth Year */}
+      {(() => {
+        const getTotal = (st) =>
+          (st.pushUpScore || 0) + (st.sitUpScore || 0) +
+          (st.flexibilityScore || 0) + (st.agilityScore || 0) + (st.enduranceScore || 0);
+
+        // كل الطلاب اللي عندهم قياسات
+        const scoredStudents = students.filter(st => getTotal(st) > 0);
+        if (scoredStudents.length === 0) return null;
+
+        // السنوات الموجودة فعلاً مرتبة تصاعدياً
+        const birthYears = [...new Set(scoredStudents.map(st => st.birthYear))]
+          .filter(Boolean).sort((a, b) => a - b);
+        if (birthYears.length === 0) return null;
+
+        // السنة المختارة (أول سنة بشكل افتراضي)
+        const activeYear = selectedBirthYear ?? birthYears[0];
+
+        // أفضل 3 في السنة المختارة
+        const topInYear = scoredStudents
+          .filter(st => st.birthYear === activeYear)
+          .sort((a, b) => getTotal(b) - getTotal(a))
+          .slice(0, 3);
+
+        const medalLabels  = ["🥇", "🥈", "🥉"];
+        const medalBorders = ["border-[#D4AF37]/50", "border-gray-300", "border-orange-300"];
+        const medalBg      = ["bg-[#D4AF37]/5", "bg-gray-50", "bg-orange-50/50"];
+
+        return (
+          <Card className="border-[#E5E1D8]">
+            <CardContent className="p-5">
+
+              {/* عنوان + تبويبات السنوات */}
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
+                <div className="flex items-center gap-2 shrink-0">
+                  <Trophy className="w-5 h-5 text-[#D4AF37]" />
+                  <h3 className="text-lg font-semibold text-[#1A1A1A] font-['Alexandria']">أفضل 3 طلاب</h3>
+                </div>
+                {/* أزرار السنوات */}
+                <div className="flex flex-wrap gap-2">
+                  {birthYears.map(yr => {
+                    const count = scoredStudents.filter(st => st.birthYear === yr).length;
+                    const isActive = activeYear === yr;
+                    return (
+                      <button
+                        key={yr}
+                        onClick={() => setSelectedBirthYear(yr)}
+                        className={`px-3 py-1 rounded-full text-xs font-semibold border transition-all ${
+                          isActive
+                            ? "bg-[#8A1538] text-white border-[#8A1538]"
+                            : "bg-white text-[#4B5563] border-[#E5E1D8] hover:border-[#8A1538]/40 hover:text-[#8A1538]"
+                        }`}
+                      >
+                        {yr}
+                        <span className={`mr-1 ${isActive ? "text-white/70" : "text-[#9CA3AF]"}`}>
+                          ({count})
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* بطاقات أفضل 3 */}
+              {topInYear.length === 0 ? (
+                <p className="text-center py-6 text-[#9CA3AF] text-sm">لا يوجد طلاب بقياسات مسجلة لسنة {activeYear}</p>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  {topInYear.map((st, i) => {
+                    const total = getTotal(st);
+                    return (
+                      <div key={st._id}
+                        className={`rounded-xl border-2 ${medalBorders[i]} ${medalBg[i]} cursor-pointer hover:shadow-md transition-all`}
+                        onClick={() => navigate(`/students/${st._id}`)}
+                        data-testid={`top-student-${i}`}>
+
+                        {/* Header */}
+                        <div className="flex items-center gap-2 p-3 border-b border-[#E5E1D8]/60">
+                          <span className="text-xl">{medalLabels[i]}</span>
+                          <div className="flex-1 min-w-0">
+                            <p className="font-bold text-[#1A1A1A] truncate text-sm">{st.fullName}</p>
+                            <p className="text-[11px] text-[#9CA3AF] truncate">
+                              {getSchoolDisplayName(st.schoolName)} · {st.stage}
+                            </p>
+                          </div>
+                          <div className="text-left shrink-0">
+                            <p className="text-[10px] text-[#9CA3AF]">المجموع</p>
+                            <p className="text-base font-bold text-[#8A1538]">{total}</p>
+                          </div>
+                        </div>
+
+                        {/* Tests rows */}
+                        <div className="p-3 space-y-2">
+                          {TOP_TESTS.map(t => {
+                            const val = st[t.field];
+                            const std = getStandardScore(val, t.stdKey, st.stage, st.gender);
+                            const clr = scoreColor(std);
+                            return (
+                              <div key={t.field} className="flex items-center gap-2">
+                                <span className="text-[11px] text-[#4B5563] w-12 shrink-0">{t.label}</span>
+                                <div className="flex-1 h-2 bg-[#E5E1D8] rounded-full overflow-hidden">
+                                  <div className="h-2 rounded-full transition-all"
+                                    style={{ width: std != null ? `${std}%` : "0%", backgroundColor: clr.bar }} />
+                                </div>
+                                <span className="text-[11px] font-semibold text-[#1A1A1A] w-8 text-left shrink-0" dir="ltr">
+                                  {val ?? "—"}
+                                </span>
+                                {std != null ? (
+                                  <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full shrink-0 ${clr.bg} ${clr.text}`}>
+                                    {std}%
+                                  </span>
+                                ) : (
+                                  <span className="text-[10px] text-[#9CA3AF] w-9 shrink-0">—</span>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        );
+      })()}
 
       {/* Recent Students */}
       {students.length > 0 && (
@@ -151,7 +382,7 @@ export default function DashboardPage() {
                     <tr key={st._id} className="border-b border-[#E5E1D8]/50 hover:bg-[#F5F3EC] cursor-pointer transition-colors"
                       onClick={() => navigate(`/students/${st._id}`)} data-testid={`recent-student-${st._id}`}>
                       <td className="p-3 font-medium text-[#1A1A1A]">{st.fullName}</td>
-                      <td className="p-3 text-[#4B5563]">{st.schoolName}</td>
+                      <td className="p-3 text-[#4B5563]">{getSchoolDisplayName(st.schoolName)}</td>
                       <td className="p-3 text-[#4B5563] hidden sm:table-cell">{st.stage}</td>
                       <td className="p-3 hidden md:table-cell">
                         <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
