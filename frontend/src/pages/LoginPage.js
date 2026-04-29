@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { GraduationCap, Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 
 function formatApiError(detail) {
   if (!detail) return "حدث خطأ، يرجى المحاولة مرة أخرى";
@@ -48,8 +48,8 @@ export default function LoginPage() {
       }} />
       <div className="w-full max-w-md relative animate-fade-in">
         <div className="text-center mb-8">
-          <div className="w-16 h-16 rounded-2xl bg-[#8A1538] mx-auto flex items-center justify-center mb-4 shadow-lg shadow-[#8A1538]/20">
-            <GraduationCap className="w-8 h-8 text-white" />
+          <div className="mx-auto flex items-center justify-center mb-4">
+            <img src="/logo.png" alt="شعار" className="w-28 h-28 object-contain" />
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold text-[#1A1A1A] font-['Alexandria']">مشروع اللياقة البدنية</h1>
           <p className="text-sm text-[#9CA3AF] mt-2">نظام إدارة تسجيل الطلاب</p>
@@ -65,7 +65,7 @@ export default function LoginPage() {
                 <div>
                   <Label htmlFor="password" className="text-[#4B5563]">كلمة المرور</Label>
                   <div className="relative mt-1">
-                    <Input id="password" data-testid="password-input" type={showPw ? "text" : "password"} required value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" dir="ltr" className="text-left pe-10 focus:ring-[#D4AF37]" />
+                    <Input id="password" data-testid="password-input" type={showPw ? "text" : "password"} required value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" dir="ltr" className="text-left pl-10 focus:ring-[#D4AF37]" />
                     <button type="button" onClick={() => setShowPw(!showPw)} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#9CA3AF] hover:text-[#4B5563]">
                       {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
