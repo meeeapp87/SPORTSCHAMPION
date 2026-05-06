@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { Dumbbell, Heart, Ruler, Zap, Timer, ChevronDown, ChevronUp, Target, Wrench, BookOpen, ClipboardCheck } from "lucide-react";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Dumbbell, Heart, Ruler, Zap, Timer, ChevronDown, ChevronUp, Target, Wrench, BookOpen, ClipboardCheck, ImageIcon } from "lucide-react";
 
 const TESTS = [
   {
@@ -81,6 +83,37 @@ const TESTS = [
   },
 ];
 
+function TestImage({ testId, color, name }) {
+  const allSettings = useQuery(api.settings.getAll) || [];
+  const storageId = allSettings.find(s => s.key === `testImage_${testId}`)?.value || null;
+  const convexUrl = useQuery(api.files.getStorageUrl, storageId ? { storageId } : "skip");
+  const publicUrl = `/tests/test-${testId}.jpg`;
+  const [useFallback, setUseFallback] = useState(false);
+  const [imgError, setImgError] = useState(false);
+
+  const src = convexUrl || (!imgError ? publicUrl : null);
+
+  if (!src || imgError) {
+    return (
+      <div className="w-full h-48 rounded-xl flex flex-col items-center justify-center" style={{ backgroundColor: color + "10", border: `2px dashed ${color}30` }}>
+        <ImageIcon className="w-8 h-8 mb-2" style={{ color: color + "60" }} />
+        <span className="text-xs text-[#9CA3AF]">لم تُرفع صورة بعد</span>
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={src}
+      alt={name}
+      className="w-full h-48 object-cover rounded-xl border border-[#E5E1D8]"
+      onError={() => {
+        if (src === publicUrl) setImgError(true);
+      }}
+    />
+  );
+}
+
 function TestCard({ test, index }) {
   const [expanded, setExpanded] = useState(false);
   const Icon = test.icon;
@@ -124,6 +157,11 @@ function TestCard({ test, index }) {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Test Image */}
+      <div className="px-5 pb-4">
+        <TestImage testId={test.id} color={test.color} name={test.name} />
       </div>
 
       {/* Toggle */}
