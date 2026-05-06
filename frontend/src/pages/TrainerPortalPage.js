@@ -40,6 +40,7 @@ export default function TrainerPortalPage() {
   const [editStudent, setEditStudent] = useState(null);
   const [mForm, setMForm] = useState({ height: "", weight: "", pushUpScore: "", sitUpScore: "", flexibilityScore: "", agilityScore: "", enduranceScore: "", testPhotoStorageId: "" });
   const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState("");
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const [photoPreview, setPhotoPreview] = useState(null);
 
@@ -82,6 +83,7 @@ export default function TrainerPortalPage() {
   const openMeasurements = (student) => {
     setEditStudent(student);
     setPhotoPreview(null);
+    setSaveError("");
     setMForm({
       height: student.height?.toString() || "",
       weight: student.weight?.toString() || "",
@@ -96,9 +98,10 @@ export default function TrainerPortalPage() {
 
   const handleSave = async () => {
     if (!mForm.height || !mForm.weight) {
-      toast.error("أدخل الطول والوزن على الأقل");
+      setSaveError("أدخل الطول والوزن على الأقل");
       return;
     }
+    setSaveError("");
     setSaving(true);
     try {
       const h = parseFloat(mForm.height);
@@ -119,7 +122,9 @@ export default function TrainerPortalPage() {
       toast.success("تم حفظ القياسات والنتائج بنجاح");
       setEditStudent(null);
     } catch (err) {
-      toast.error(err.message || "حدث خطأ");
+      const msg = err.message || "حدث خطأ غير متوقع";
+      setSaveError(msg);
+      toast.error(msg);
     } finally {
       setSaving(false);
     }
@@ -345,11 +350,16 @@ export default function TrainerPortalPage() {
               )}
             </div>
           </div>
-          <DialogFooter className="flex-row-reverse gap-2 mt-4">
+          {saveError && (
+            <div className="mx-1 p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">
+              ⚠️ {saveError}
+            </div>
+          )}
+          <DialogFooter className="flex-row-reverse gap-2 mt-2">
             <Button onClick={handleSave} disabled={saving} data-testid="save-measurements-btn" className="bg-[#8A1538] hover:bg-[#6D102A] text-white">
               <Save className="w-4 h-4 ml-2" />{saving ? "جاري الحفظ..." : "حفظ القياسات"}
             </Button>
-            <Button variant="outline" onClick={() => setEditStudent(null)}>إلغاء</Button>
+            <Button variant="outline" onClick={() => { setEditStudent(null); setSaveError(""); }}>إلغاء</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
