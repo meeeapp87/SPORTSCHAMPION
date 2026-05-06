@@ -14,6 +14,7 @@ import primaryStandards from "@/data/fitness_standards_primary.json";
 import middleStandards from "@/data/fitness_standards_middle.json";
 import secondaryStandards from "@/data/fitness_standards_secondary.json";
 import schoolNamesData from "@/data/schools_names.json";
+import { getSchoolDisplayName } from "@/lib/schoolUtils";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
@@ -31,36 +32,6 @@ const GRADES_MAP = {
 };
 
 const defaultSchool = { name: "", stage: "", gender: "", grades: [], allowedBirthYears: [], maxStudents: 3, isActive: true };
-const CP1252_MAP = {
-  0x0160:0x8A,0x2020:0x86,0x201E:0x84,0x2026:0x85,0x02C6:0x88,0x201A:0x82,
-  0x0161:0x9A,0x017E:0x9E,0x017D:0x8E,0x0152:0x8C,0x0153:0x9C,0x0192:0x83,
-  0x02DC:0x98,0x2039:0x8B,0x203A:0x9B,0x2018:0x91,0x2019:0x92,0x201C:0x93,
-  0x201D:0x94,0x2013:0x96,0x2014:0x97,0x2022:0x95,0x20AC:0x80,
-};
-function fixMojibake(text) {
-  if (!text || (!text.includes('Ø') && !text.includes('Ù'))) return text;
-  try {
-    const bytes = [];
-    for (const c of text) {
-      const o = c.codePointAt(0);
-      if (o <= 0xFF) bytes.push(o);
-      else if (CP1252_MAP[o] !== undefined) bytes.push(CP1252_MAP[o]);
-      else return text;
-    }
-    const decoded = new TextDecoder('utf-8').decode(new Uint8Array(bytes));
-    return /[؀-ۿ]/.test(decoded) ? decoded.trim() : text;
-  } catch { return text; }
-}
-const SCHOOL_LABEL_MAP = Object.fromEntries(schoolNamesData.map(s => [s.english, s.arabic]));
-const getSchoolDisplayName = (name) => {
-  if (!name) return "";
-  const eng = name.split(' / ')[0]?.trim();
-  const fromMap = SCHOOL_LABEL_MAP[eng];
-  if (fromMap) return fromMap;
-  const afterSlash = name.split(' / ')[1]?.trim();
-  if (afterSlash) return fixMojibake(afterSlash);
-  return fixMojibake(name);
-};
 
 const ALL_STANDARDS = [primaryStandards, middleStandards, secondaryStandards];
 
@@ -189,7 +160,7 @@ export default function AdminPage() {
   const [schoolNameOpen, setSchoolNameOpen] = useState(false);
   const [gradeYearInput, setGradeYearInput] = useState({});
   const gradeBirthYears = getSetting("gradeBirthYears") || {};
-  const users = useQuery(api.auth.listUsers) || [];
+  const users = useQuery(api.auth.listUsers, user?.id ? { callerId: user.id } : "skip") || [];
   const createUserMutation = useMutation(api.auth.createUser);
   const deleteUserMutation = useMutation(api.auth.deleteUser);
   const changePasswordMutation = useMutation(api.auth.changePassword);
@@ -210,6 +181,7 @@ export default function AdminPage() {
     if (userForm.role === "school_user" && !userForm.school_id) { toast.error("اختر المدرسة للحساب"); return; }
     try {
       await createUserMutation({
+        callerId: user.id,
         email: userForm.email,
         password: userForm.password,
         name: userForm.name,
@@ -225,7 +197,7 @@ export default function AdminPage() {
 
   const deleteUser = async (id) => {
     try {
-      await deleteUserMutation({ userId: id });
+      await deleteUserMutation({ callerId: user.id, userId: id });
       toast.success("تم حذف الحساب");
     } catch (e) { toast.error(e.message || "حدث خطأ"); }
   };
@@ -245,7 +217,7 @@ export default function AdminPage() {
     if (newPassword !== confirmPassword) { toast.error("كلمتا المرور غير متطابقتين"); return; }
     setChangingPass(true);
     try {
-      await changePasswordMutation({ userId: changePassTarget.id, newPassword });
+      await changePasswordMutation({ callerId: user.id, userId: changePassTarget.id, newPassword });
       toast.success(`تم تغيير كلمة مرور ${changePassTarget.name} بنجاح`);
       setShowChangePassDialog(false);
     } catch (e) { toast.error(e.message || "حدث خطأ"); }
@@ -319,10 +291,10 @@ export default function AdminPage() {
     if (!schoolForm.name || !schoolForm.stage) { toast.error("أدخل اسم المدرسة والمرحلة"); return; }
     try {
       if (editSchool) {
-        await updateSchool({ id: editSchool._id, ...schoolForm });
+        await updateSchool({ callerId: user.id, id: editSchool._id, ...schoolForm });
         toast.success("تم تحديث المدرسة");
       } else {
-        await createSchool(schoolForm);
+        await createSchool({ callerId: user.id, ...schoolForm });
         toast.success("تم إضافة المدرسة");
       }
       setShowSchoolDialog(false);
@@ -331,7 +303,7 @@ export default function AdminPage() {
 
   const deleteSchool = async (id) => {
     try {
-      await removeSchool({ id });
+      await removeSchool({ callerId: user.id, id });
       toast.success("تم حذف المدرسة");
     } catch (e) { toast.error(e.message); }
   };

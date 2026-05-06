@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
-import { Save, Plus, X, Users, GraduationCap, UserCheck } from "lucide-react";
+import { Save, Plus, X, Users, GraduationCap, UserCheck, IdCard, Upload, Loader2 } from "lucide-react";
 
 const NATIONALITIES = ["قطري", "سعودي", "إماراتي", "كويتي", "بحريني", "عماني", "مصري", "أردني", "سوري", "عراقي", "لبناني", "فلسطيني", "يمني", "سوداني", "تونسي", "جزائري", "مغربي", "أخرى"];
 
@@ -19,11 +19,36 @@ export default function SchoolPortalPage() {
   const school = useQuery(api.schools.get, schoolId ? { id: schoolId } : "skip");
   const schoolStudents = useQuery(api.students.getBySchool, schoolId ? { schoolId } : "skip") || [];
   const createStudent = useMutation(api.students.createBasic);
+  const generateUploadUrl = useMutation(api.files.generateUploadUrl);
 
   const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState({ fullName: "", grade: "", birthYear: "", personalId: "", nationality: "" });
+  const [form, setForm] = useState({ fullName: "", grade: "", birthYear: "", personalId: "", nationality: "", idCardStorageId: "" });
   const [errors, setErrors] = useState({});
   const [saving, setSaving] = useState(false);
+  const [uploadingIdCard, setUploadingIdCard] = useState(false);
+  const [idCardPreview, setIdCardPreview] = useState(null);
+
+  const handleIdCardUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setUploadingIdCard(true);
+    try {
+      const uploadUrl = await generateUploadUrl({ callerId: user.id });
+      const result = await fetch(uploadUrl, {
+        method: "POST",
+        headers: { "Content-Type": file.type },
+        body: file,
+      });
+      const { storageId } = await result.json();
+      updateField("idCardStorageId", storageId);
+      setIdCardPreview(URL.createObjectURL(file));
+      toast.success("تم رفع البطاقة بنجاح");
+    } catch {
+      toast.error("حدث خطأ أثناء رفع البطاقة");
+    } finally {
+      setUploadingIdCard(false);
+    }
+  };
 
   const maxStudents = school?.maxStudents || 3;
   const isFull = schoolStudents.length >= maxStudents;
@@ -51,6 +76,7 @@ export default function SchoolPortalPage() {
     setSaving(true);
     try {
       await createStudent({
+        callerId: user.id,
         schoolId,
         schoolName: school?.name || "",
         fullName: form.fullName.trim(),
@@ -59,13 +85,17 @@ export default function SchoolPortalPage() {
         birthYear: parseInt(form.birthYear),
         personalId: form.personalId.trim(),
         nationality: form.nationality,
+        ...(form.idCardStorageId ? { idCardStorageId: form.idCardStorageId } : {}),
       });
       toast.success("تم تسجيل الطالب بنجاح");
+      const emptyForm = { fullName: "", grade: "", birthYear: "", personalId: "", nationality: "", idCardStorageId: "" };
       if (addAnother) {
-        setForm({ fullName: "", grade: "", birthYear: "", personalId: "", nationality: "" });
+        setForm(emptyForm);
+        setIdCardPreview(null);
       } else {
         setShowForm(false);
-        setForm({ fullName: "", grade: "", birthYear: "", personalId: "", nationality: "" });
+        setForm(emptyForm);
+        setIdCardPreview(null);
       }
     } catch (err) {
       toast.error(err.message || "حدث خطأ");
@@ -182,6 +212,33 @@ export default function SchoolPortalPage() {
                 {errors.nationality && <p className="text-red-500 text-xs mt-1">{errors.nationality}</p>}
               </div>
             </div>
+            {/* ID Card Upload */}
+            <div className="sm:col-span-2">
+              <Label className="text-[#4B5563] flex items-center gap-1">
+                <IdCard className="w-3.5 h-3.5" />صورة البطاقة الشخصية
+                <span className="text-[10px] text-[#9CA3AF] mr-1">(اختياري)</span>
+              </Label>
+              {idCardPreview ? (
+                <div className="mt-1 flex items-center gap-3">
+                  <img src={idCardPreview} alt="بطاقة" className="h-16 rounded-lg border border-[#E5E1D8] object-cover" />
+                  <label className="text-xs text-[#8A1538] cursor-pointer hover:underline">
+                    استبدال
+                    <input type="file" accept="image/*" className="hidden" onChange={handleIdCardUpload} disabled={uploadingIdCard} />
+                  </label>
+                </div>
+              ) : (
+                <label className={`mt-1 flex items-center gap-2 w-full h-11 px-3 rounded-lg border border-dashed cursor-pointer transition-colors ${
+                  uploadingIdCard ? "border-[#D4AF37]/50 bg-[#D4AF37]/5" : "border-[#E5E1D8] hover:border-[#8A1538]/40 hover:bg-[#8A1538]/5"
+                }`}>
+                  {uploadingIdCard
+                    ? <><Loader2 className="w-4 h-4 text-[#D4AF37] animate-spin" /><span className="text-sm text-[#9CA3AF]">جاري الرفع...</span></>
+                    : <><Upload className="w-4 h-4 text-[#9CA3AF]" /><span className="text-sm text-[#9CA3AF]">رفع صورة البطاقة</span></>
+                  }
+                  <input type="file" accept="image/*" className="hidden" onChange={handleIdCardUpload} disabled={uploadingIdCard} />
+                </label>
+              )}
+            </div>
+
             {errors.general && <p className="text-red-500 text-sm bg-red-50 p-2 rounded">{errors.general}</p>}
             <div className="flex flex-col sm:flex-row gap-2 pt-2">
               <Button onClick={() => handleSave(false)} disabled={saving} data-testid="save-student-btn" className="bg-[#8A1538] hover:bg-[#6D102A] text-white h-11">

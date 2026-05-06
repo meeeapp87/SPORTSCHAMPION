@@ -38,6 +38,8 @@ export default defineSchema({
     flexibilityScore: v.optional(v.number()),
     agilityScore: v.optional(v.number()),
     enduranceScore: v.optional(v.number()),
+    idCardStorageId: v.optional(v.id("_storage")),
+    testPhotoStorageId: v.optional(v.id("_storage")),
     createdAt: v.string(),
     updatedAt: v.string(),
   }).index("by_school", ["schoolId"])

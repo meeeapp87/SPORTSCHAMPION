@@ -7,41 +7,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { School, Users, CheckCircle, TrendingUp, UserPlus, ArrowLeft, BarChart3, Trophy } from "lucide-react";
 import "@/App.css";
-import schoolNamesData from "@/data/schools_names.json";
 import primaryStandards  from "@/data/fitness_standards_primary.json";
 import middleStandards   from "@/data/fitness_standards_middle.json";
 import secondaryStandards from "@/data/fitness_standards_secondary.json";
-
-const CP1252_MAP = {
-  0x0160:0x8A,0x2020:0x86,0x201E:0x84,0x2026:0x85,0x02C6:0x88,0x201A:0x82,
-  0x0161:0x9A,0x017E:0x9E,0x017D:0x8E,0x0152:0x8C,0x0153:0x9C,0x0192:0x83,
-  0x02DC:0x98,0x2039:0x8B,0x203A:0x9B,0x2018:0x91,0x2019:0x92,0x201C:0x93,
-  0x201D:0x94,0x2013:0x96,0x2014:0x97,0x2022:0x95,0x20AC:0x80,
-};
-function fixMojibake(text) {
-  if (!text || (!text.includes('Ø') && !text.includes('Ù'))) return text;
-  try {
-    const bytes = [];
-    for (const c of text) {
-      const o = c.codePointAt(0);
-      if (o <= 0xFF) bytes.push(o);
-      else if (CP1252_MAP[o] !== undefined) bytes.push(CP1252_MAP[o]);
-      else return text;
-    }
-    const decoded = new TextDecoder('utf-8').decode(new Uint8Array(bytes));
-    return /[؀-ۿ]/.test(decoded) ? decoded.trim() : text;
-  } catch { return text; }
-}
-const SCHOOL_LABEL_MAP = Object.fromEntries(schoolNamesData.map(s => [s.english, s.arabic]));
-const getSchoolDisplayName = (name) => {
-  if (!name) return "";
-  const eng = name.split(' / ')[0]?.trim();
-  const fromMap = SCHOOL_LABEL_MAP[eng];
-  if (fromMap) return fromMap;
-  const afterSlash = name.split(' / ')[1]?.trim();
-  if (afterSlash) return fixMojibake(afterSlash);
-  return fixMojibake(name);
-};
+import { getSchoolDisplayName } from "@/lib/schoolUtils";
 
 const STAGE_STANDARDS = {
   "ابتدائي": primaryStandards,

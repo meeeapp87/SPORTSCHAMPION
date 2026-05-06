@@ -45,7 +45,7 @@ export default function StudentListPage() {
 
   const handleDelete = async (id) => {
     try {
-      await removeStudent({ id });
+      await removeStudent({ callerId: user.id, id });
       toast.success("تم حذف الطالب بنجاح");
     } catch (e) { toast.error(e.message); }
   };

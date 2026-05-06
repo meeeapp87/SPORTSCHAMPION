@@ -4,6 +4,7 @@ import { api } from "@/convex/_generated/api";
 
 const AuthContext = createContext(null);
 const USER_STORAGE_KEY = "sports_app_user";
+const SESSION_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -15,7 +16,13 @@ export function AuthProvider({ children }) {
     try {
       const stored = localStorage.getItem(USER_STORAGE_KEY);
       if (stored) {
-        setUser(JSON.parse(stored));
+        const parsed = JSON.parse(stored);
+        if (parsed._expiresAt && Date.now() < parsed._expiresAt) {
+          const { _expiresAt, ...userData } = parsed;
+          setUser(userData);
+        } else {
+          localStorage.removeItem(USER_STORAGE_KEY);
+        }
       }
     } catch {
       localStorage.removeItem(USER_STORAGE_KEY);
@@ -23,17 +30,21 @@ export function AuthProvider({ children }) {
     setLoading(false);
   }, []);
 
+  const saveSession = (userData) => {
+    const withExpiry = { ...userData, _expiresAt: Date.now() + SESSION_TTL_MS };
+    localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(withExpiry));
+    setUser(userData);
+  };
+
   const login = async (email, password) => {
     const data = await loginMutation({ email, password });
-    setUser(data);
-    localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(data));
+    saveSession(data);
     return data;
   };
 
   const register = async (email, password, name) => {
     const data = await registerMutation({ email, password, name, role: "viewer" });
-    setUser(data);
-    localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(data));
+    saveSession(data);
     return data;
   };
 

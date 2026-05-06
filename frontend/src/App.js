@@ -12,6 +12,7 @@ import ComparisonPage from "@/pages/ComparisonPage";
 import SchoolPortalPage from "@/pages/SchoolPortalPage";
 import TrainerPortalPage from "@/pages/TrainerPortalPage";
 import SchoolsListPage from "@/pages/SchoolsListPage";
+import RecordsPage from "@/pages/RecordsPage";
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
@@ -58,6 +59,7 @@ function AppRoutes() {
         <Route path="schools/:id" element={<SchoolDetailPage />} />
         <Route path="comparison" element={<ComparisonPage />} />
         <Route path="schools-list" element={<SchoolsListPage />} />
+        <Route path="records" element={<RecordsPage />} />
         <Route path="admin" element={<AdminPage />} />
       </Route>
     </Routes>
