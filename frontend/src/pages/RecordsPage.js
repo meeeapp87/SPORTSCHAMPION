@@ -18,11 +18,14 @@ const STAGES = ["ابتدائي", "إعدادي", "ثانوي"];
 
 export default function RecordsPage() {
   const navigate = useNavigate();
-  const students = useQuery(api.students.list) || [];
-  const schools  = useQuery(api.schools.list)  || [];
+  const studentsRaw = useQuery(api.students.list);
+  const schoolsRaw  = useQuery(api.schools.list);
 
   const [selectedGender, setSelectedGender] = useState(null);
   const [selectedStage,  setSelectedStage]  = useState(null);
+
+  const schools = useMemo(() => schoolsRaw || [], [schoolsRaw]);
+  const students = useMemo(() => studentsRaw || [], [studentsRaw]);
 
   const schoolGenderMap = useMemo(() => {
     const map = {};
