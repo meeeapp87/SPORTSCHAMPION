@@ -106,7 +106,8 @@ function TestImage({ testId, color, name }) {
     <img
       src={src}
       alt={name}
-      className="w-full h-48 object-cover rounded-xl border border-[#E5E1D8]"
+      className="w-full rounded-xl border border-[#E5E1D8] bg-white"
+      style={{ maxHeight: "220px", objectFit: "contain" }}
       onError={() => {
         if (src === publicUrl) setImgError(true);
       }}
