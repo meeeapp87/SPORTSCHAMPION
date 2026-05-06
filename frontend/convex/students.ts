@@ -1,6 +1,13 @@
 import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
 
+async function requireRole(ctx: any, callerId: string, roles: string[]) {
+  const caller = await ctx.db.get(callerId as any);
+  if (!caller) throw new Error("المستخدم غير موجود");
+  if (!roles.includes(caller.role)) throw new Error("غير مصرح لك بهذه العملية");
+  return caller;
+}
+
 export const list = query({
   args: {},
   handler: async (ctx) => {
@@ -25,9 +32,10 @@ export const getBySchool = query({
   },
 });
 
-// School user creates student with basic info only (no measurements)
+// School user or admin creates student with basic info (no measurements)
 export const createBasic = mutation({
   args: {
+    callerId: v.id("users"),
     schoolId: v.id("schools"),
     schoolName: v.string(),
     fullName: v.string(),
@@ -36,8 +44,11 @@ export const createBasic = mutation({
     birthYear: v.number(),
     personalId: v.string(),
     nationality: v.string(),
+    idCardStorageId: v.optional(v.id("_storage")),
   },
-  handler: async (ctx, args) => {
+  handler: async (ctx, { callerId, ...args }) => {
+    await requireRole(ctx, callerId, ["admin", "school_user"]);
+
     const school = await ctx.db.get(args.schoolId);
     if (!school) throw new Error("المدرسة غير موجودة");
 
@@ -45,7 +56,6 @@ export const createBasic = mutation({
       .query("students")
       .withIndex("by_school", (q) => q.eq("schoolId", args.schoolId))
       .collect();
-
     if (existing.length >= (school.maxStudents || 3)) {
       throw new Error("تم الوصول للحد الأقصى من الطلاب لهذه المدرسة");
     }
@@ -68,6 +78,7 @@ export const createBasic = mutation({
 // Admin creates student with full info
 export const create = mutation({
   args: {
+    callerId: v.id("users"),
     schoolId: v.id("schools"),
     schoolName: v.string(),
     fullName: v.string(),
@@ -85,7 +96,9 @@ export const create = mutation({
     agilityScore: v.optional(v.number()),
     enduranceScore: v.optional(v.number()),
   },
-  handler: async (ctx, args) => {
+  handler: async (ctx, { callerId, ...args }) => {
+    await requireRole(ctx, callerId, ["admin"]);
+
     const school = await ctx.db.get(args.schoolId);
     if (!school) throw new Error("المدرسة غير موجودة");
 
@@ -93,7 +106,6 @@ export const create = mutation({
       .query("students")
       .withIndex("by_school", (q) => q.eq("schoolId", args.schoolId))
       .collect();
-
     if (existing.length >= (school.maxStudents || 3)) {
       throw new Error("تم الوصول للحد الأقصى من الطلاب لهذه المدرسة");
     }
@@ -113,9 +125,10 @@ export const create = mutation({
   },
 });
 
-// Trainer updates measurements and test results
+// Trainer or admin updates measurements and test results
 export const updateMeasurements = mutation({
   args: {
+    callerId: v.id("users"),
     id: v.id("students"),
     height: v.number(),
     weight: v.number(),
@@ -125,8 +138,11 @@ export const updateMeasurements = mutation({
     flexibilityScore: v.optional(v.number()),
     agilityScore: v.optional(v.number()),
     enduranceScore: v.optional(v.number()),
+    testPhotoStorageId: v.optional(v.id("_storage")),
   },
-  handler: async (ctx, { id, ...fields }) => {
+  handler: async (ctx, { callerId, id, ...fields }) => {
+    await requireRole(ctx, callerId, ["admin", "trainer"]);
+
     const updates: Record<string, any> = {};
     for (const [key, val] of Object.entries(fields)) {
       if (val !== undefined) updates[key] = val;
@@ -136,8 +152,10 @@ export const updateMeasurements = mutation({
   },
 });
 
+// Admin updates student basic info
 export const update = mutation({
   args: {
+    callerId: v.id("users"),
     id: v.id("students"),
     schoolId: v.optional(v.id("schools")),
     schoolName: v.optional(v.string()),
@@ -155,8 +173,11 @@ export const update = mutation({
     flexibilityScore: v.optional(v.number()),
     agilityScore: v.optional(v.number()),
     enduranceScore: v.optional(v.number()),
+    idCardStorageId: v.optional(v.id("_storage")),
   },
-  handler: async (ctx, { id, ...fields }) => {
+  handler: async (ctx, { callerId, id, ...fields }) => {
+    await requireRole(ctx, callerId, ["admin", "school_user"]);
+
     const updates: Record<string, any> = {};
     for (const [key, val] of Object.entries(fields)) {
       if (val !== undefined) updates[key] = val;
@@ -167,8 +188,12 @@ export const update = mutation({
 });
 
 export const remove = mutation({
-  args: { id: v.id("students") },
-  handler: async (ctx, { id }) => {
+  args: {
+    callerId: v.id("users"),
+    id: v.id("students"),
+  },
+  handler: async (ctx, { callerId, id }) => {
+    await requireRole(ctx, callerId, ["admin"]);
     await ctx.db.delete(id);
   },
 });

@@ -1,37 +1,7 @@
 import { useState, useMemo } from "react";
-import schoolNamesData from "@/data/schools_names.json";
-
-const CP1252_MAP = {
-  0x0160:0x8A,0x2020:0x86,0x201E:0x84,0x2026:0x85,0x02C6:0x88,0x201A:0x82,
-  0x0161:0x9A,0x017E:0x9E,0x017D:0x8E,0x0152:0x8C,0x0153:0x9C,0x0192:0x83,
-  0x02DC:0x98,0x2039:0x8B,0x203A:0x9B,0x2018:0x91,0x2019:0x92,0x201C:0x93,
-  0x201D:0x94,0x2013:0x96,0x2014:0x97,0x2022:0x95,0x20AC:0x80,
-};
-function fixMojibake(text) {
-  if (!text || (!text.includes('Ø') && !text.includes('Ù'))) return text;
-  try {
-    const bytes = [];
-    for (const c of text) {
-      const o = c.codePointAt(0);
-      if (o <= 0xFF) bytes.push(o);
-      else if (CP1252_MAP[o] !== undefined) bytes.push(CP1252_MAP[o]);
-      else return text;
-    }
-    const decoded = new TextDecoder('utf-8').decode(new Uint8Array(bytes));
-    return /[؀-ۿ]/.test(decoded) ? decoded.trim() : text;
-  } catch { return text; }
-}
-const ARABIC_MAP = Object.fromEntries(schoolNamesData.map(s => [s.english, s.arabic]));
-const getDisplayName = (name) => {
-  if (!name) return "";
-  const eng = name.split(' / ')[0]?.trim();
-  const fromMap = ARABIC_MAP[eng];
-  if (fromMap) return fromMap;
-  const afterSlash = name.split(' / ')[1]?.trim();
-  if (afterSlash) return fixMojibake(afterSlash);
-  return fixMojibake(name);
-};
+import { getSchoolDisplayName as getDisplayName } from "@/lib/schoolUtils";
 import { useQuery, useMutation } from "convex/react";
+import { useAuth } from "@/contexts/AuthContext";
 import { api } from "@/convex/_generated/api";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -41,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
-import { Ruler, Weight, Dumbbell, Heart, Zap, Timer, Save, CheckCircle, AlertCircle, ClipboardList } from "lucide-react";
+import { Ruler, Weight, Dumbbell, Heart, Zap, Timer, Save, CheckCircle, AlertCircle, ClipboardList, Camera, Upload, Loader2 } from "lucide-react";
 
 function calcBMI(h, w) {
   if (!h || !w || h <= 0) return 0;
@@ -57,17 +27,48 @@ function getBMICategory(bmi) {
 }
 
 export default function TrainerPortalPage() {
+  const { user } = useAuth();
   const schoolsQuery = useQuery(api.schools.list);
   const allStudentsQuery = useQuery(api.students.list);
   const schools = useMemo(() => schoolsQuery || [], [schoolsQuery]);
   const allStudents = useMemo(() => allStudentsQuery || [], [allStudentsQuery]);
   const updateMeasurements = useMutation(api.students.updateMeasurements);
+  const generateUploadUrl = useMutation(api.files.generateUploadUrl);
 
   const [selectedGender, setSelectedGender] = useState("");
   const [selectedSchool, setSelectedSchool] = useState("");
   const [editStudent, setEditStudent] = useState(null);
-  const [mForm, setMForm] = useState({ height: "", weight: "", pushUpScore: "", sitUpScore: "", flexibilityScore: "", agilityScore: "", enduranceScore: "" });
+  const [mForm, setMForm] = useState({ height: "", weight: "", pushUpScore: "", sitUpScore: "", flexibilityScore: "", agilityScore: "", enduranceScore: "", testPhotoStorageId: "" });
   const [saving, setSaving] = useState(false);
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
+  const [photoPreview, setPhotoPreview] = useState(null);
+
+  const existingTestPhotoUrl = useQuery(
+    api.files.getStorageUrl,
+    mForm.testPhotoStorageId ? { storageId: mForm.testPhotoStorageId } : "skip"
+  );
+
+  const handlePhotoUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setUploadingPhoto(true);
+    try {
+      const uploadUrl = await generateUploadUrl({ callerId: user.id });
+      const result = await fetch(uploadUrl, {
+        method: "POST",
+        headers: { "Content-Type": file.type },
+        body: file,
+      });
+      const { storageId } = await result.json();
+      setMForm(p => ({ ...p, testPhotoStorageId: storageId }));
+      setPhotoPreview(URL.createObjectURL(file));
+      toast.success("تم رفع الصورة بنجاح");
+    } catch {
+      toast.error("حدث خطأ أثناء رفع الصورة");
+    } finally {
+      setUploadingPhoto(false);
+    }
+  };
 
   const schoolStudents = useMemo(() => {
     if (!selectedSchool) return [];
@@ -80,6 +81,7 @@ export default function TrainerPortalPage() {
 
   const openMeasurements = (student) => {
     setEditStudent(student);
+    setPhotoPreview(null);
     setMForm({
       height: student.height?.toString() || "",
       weight: student.weight?.toString() || "",
@@ -88,6 +90,7 @@ export default function TrainerPortalPage() {
       flexibilityScore: student.flexibilityScore?.toString() || "",
       agilityScore: student.agilityScore?.toString() || "",
       enduranceScore: student.enduranceScore?.toString() || "",
+      testPhotoStorageId: student.testPhotoStorageId || "",
     });
   };
 
@@ -101,6 +104,7 @@ export default function TrainerPortalPage() {
       const h = parseFloat(mForm.height);
       const w = parseFloat(mForm.weight);
       await updateMeasurements({
+        callerId: user.id,
         id: editStudent._id,
         height: h,
         weight: w,
@@ -110,6 +114,7 @@ export default function TrainerPortalPage() {
         flexibilityScore: mForm.flexibilityScore ? parseFloat(mForm.flexibilityScore) : undefined,
         agilityScore: mForm.agilityScore ? parseFloat(mForm.agilityScore) : undefined,
         enduranceScore: mForm.enduranceScore ? parseFloat(mForm.enduranceScore) : undefined,
+        testPhotoStorageId: mForm.testPhotoStorageId || undefined,
       });
       toast.success("تم حفظ القياسات والنتائج بنجاح");
       setEditStudent(null);
@@ -313,6 +318,31 @@ export default function TrainerPortalPage() {
                   );
                 })}
               </div>
+            </div>
+
+            {/* Test Photo Upload */}
+            <div>
+              <h4 className="text-sm font-semibold text-[#4B5563] mb-3 flex items-center gap-2">
+                <Camera className="w-4 h-4 text-[#8B5CF6]" />صورة الاختبار
+                <span className="text-xs font-normal text-[#9CA3AF]">(اختياري)</span>
+              </h4>
+              {(photoPreview || existingTestPhotoUrl) ? (
+                <div className="space-y-2">
+                  <img src={photoPreview || existingTestPhotoUrl} alt="صورة الاختبار" className="w-full h-40 object-cover rounded-lg border border-[#E5E1D8]" />
+                  <label className="text-xs text-[#8A1538] cursor-pointer hover:underline flex items-center gap-1">
+                    <Upload className="w-3 h-3" />استبدال الصورة
+                    <input type="file" accept="image/*" className="hidden" onChange={handlePhotoUpload} disabled={uploadingPhoto} />
+                  </label>
+                </div>
+              ) : (
+                <label className={`flex flex-col items-center justify-center w-full h-28 border-2 border-dashed rounded-xl cursor-pointer transition-all ${uploadingPhoto ? "border-[#8B5CF6]/50 bg-[#8B5CF6]/5" : "border-[#E5E1D8] hover:border-[#8B5CF6]/40 hover:bg-[#8B5CF6]/5"}`}>
+                  {uploadingPhoto
+                    ? <><Loader2 className="w-6 h-6 text-[#8B5CF6] animate-spin mb-1" /><span className="text-xs text-[#9CA3AF]">جاري الرفع...</span></>
+                    : <><Camera className="w-6 h-6 text-[#9CA3AF] mb-1" /><span className="text-sm text-[#4B5563]">رفع صورة الاختبار</span></>
+                  }
+                  <input type="file" accept="image/*" className="hidden" onChange={handlePhotoUpload} disabled={uploadingPhoto} />
+                </label>
+              )}
             </div>
           </div>
           <DialogFooter className="flex-row-reverse gap-2 mt-4">

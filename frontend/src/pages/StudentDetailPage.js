@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
-import { ArrowRight, Pencil, Trash2, Printer, Dumbbell, Ruler, Weight, Heart, Timer, Zap } from "lucide-react";
+import { ArrowRight, Pencil, Trash2, Printer, Dumbbell, Ruler, Weight, Heart, Timer, Zap, IdCard, Camera, X } from "lucide-react";
 
 function getBMIInfo(bmi) {
   if (bmi < 18.5) return { label: "نقص وزن", cls: "text-[#F59E0B] bg-[#F59E0B]/10 border border-[#F59E0B]/20" };
@@ -22,6 +22,9 @@ export default function StudentDetailPage() {
   const { user } = useAuth();
   const student = useQuery(api.students.get, { id });
   const removeStudent = useMutation(api.students.remove);
+  const idCardUrl = useQuery(api.files.getStorageUrl, student?.idCardStorageId ? { storageId: student.idCardStorageId } : "skip");
+  const testPhotoUrl = useQuery(api.files.getStorageUrl, student?.testPhotoStorageId ? { storageId: student.testPhotoStorageId } : "skip");
+  const clearIdCard = useMutation(api.students.clearIdCard);
 
   if (student === undefined) {
     return <div className="flex items-center justify-center py-20"><div className="animate-spin rounded-full h-8 w-8 border-4 border-[#8A1538] border-t-transparent"></div></div>;
@@ -41,7 +44,7 @@ export default function StudentDetailPage() {
 
   const handleDelete = async () => {
     try {
-      await removeStudent({ id });
+      await removeStudent({ callerId: user.id, id });
       toast.success("تم حذف الطالب");
       navigate("/students");
     } catch (e) { toast.error(e.message); }
@@ -161,6 +164,49 @@ export default function StudentDetailPage() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Photos */}
+      {(idCardUrl || testPhotoUrl) && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {idCardUrl && (
+            <Card className="border-[#E5E1D8]">
+              <CardContent className="p-5">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-base font-semibold text-[#8A1538] font-['Alexandria'] flex items-center gap-2">
+                    <IdCard className="w-4 h-4" />البطاقة الشخصية
+                  </h3>
+                  {(user?.role === "admin" || user?.role === "school_user") && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-7 w-7 text-red-400 hover:text-red-600 hover:bg-red-50"
+                      onClick={async () => {
+                        try {
+                          await clearIdCard({ callerId: user.id, id });
+                          toast.success("تم حذف البطاقة");
+                        } catch (e) { toast.error(e.message); }
+                      }}
+                    >
+                      <X className="w-4 h-4" />
+                    </Button>
+                  )}
+                </div>
+                <img src={idCardUrl} alt="البطاقة الشخصية" className="w-full rounded-lg border border-[#E5E1D8] object-contain max-h-48" data-testid="id-card-img" />
+              </CardContent>
+            </Card>
+          )}
+          {testPhotoUrl && (
+            <Card className="border-[#E5E1D8]">
+              <CardContent className="p-5">
+                <h3 className="text-base font-semibold text-[#8A1538] mb-3 font-['Alexandria'] flex items-center gap-2">
+                  <Camera className="w-4 h-4" />صورة الاختبار
+                </h3>
+                <img src={testPhotoUrl} alt="صورة الاختبار" className="w-full rounded-lg border border-[#E5E1D8] object-cover max-h-48" data-testid="test-photo-img" />
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      )}
     </div>
   );
 }

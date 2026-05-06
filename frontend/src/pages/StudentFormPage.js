@@ -2,6 +2,8 @@ import { useState, useEffect, useMemo } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { getSchoolDisplayName as getArabicName } from "@/lib/schoolUtils";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,42 +13,9 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from "@/components/ui/command";
 import schoolNamesData from "@/data/schools_names.json";
 import { toast } from "sonner";
-import { Save, Plus, X, ArrowRight } from "lucide-react";
+import { Save, Plus, X, ArrowRight, Upload, IdCard, Loader2 } from "lucide-react";
 import { Toaster } from "@/components/ui/sonner";
 
-// إصلاح الأسماء المكسورة (mojibake) — UTF-8 اتقرأت غلط كـ cp1252
-const CP1252 = {
-  0x0160:0x8A,0x2020:0x86,0x201E:0x84,0x2026:0x85,0x02C6:0x88,0x201A:0x82,
-  0x0161:0x9A,0x017E:0x9E,0x017D:0x8E,0x0152:0x8C,0x0153:0x9C,0x0192:0x83,
-  0x02DC:0x98,0x2039:0x8B,0x203A:0x9B,0x2018:0x91,0x2019:0x92,0x201C:0x93,
-  0x201D:0x94,0x2013:0x96,0x2014:0x97,0x2022:0x95,0x20AC:0x80,
-};
-function fixMojibake(text) {
-  if (!text || (!text.includes('Ø') && !text.includes('Ù'))) return text;
-  try {
-    const bytes = [];
-    for (const c of text) {
-      const o = c.codePointAt(0);
-      if (o <= 0xFF) bytes.push(o);
-      else if (CP1252[o] !== undefined) bytes.push(CP1252[o]);
-      else return text;
-    }
-    const decoded = new TextDecoder('utf-8').decode(new Uint8Array(bytes));
-    return /[؀-ۿ]/.test(decoded) ? decoded.trim() : text;
-  } catch { return text; }
-}
-
-// map: english prefix → arabic name (for display)
-const ARABIC_BY_ENGLISH = Object.fromEntries(schoolNamesData.map(s => [s.english, s.arabic]));
-const getArabicName = (convexName) => {
-  if (!convexName) return "";
-  const eng = convexName.split(' / ')[0]?.trim();
-  const fromMap = ARABIC_BY_ENGLISH[eng];
-  if (fromMap) return fromMap;
-  const afterSlash = convexName.split(' / ')[1]?.trim();
-  if (afterSlash) return fixMojibake(afterSlash);
-  return fixMojibake(convexName);
-};
 
 const GENDER_MATCH = {
   "بنين": ["بنين"],
@@ -63,6 +32,7 @@ const STAGE_KEYWORDS = {
 const MODEL_KW = { en: ["Model"], ar: ["النموذجية"] };
 
 export default function StudentFormPage() {
+  const { user } = useAuth();
   const navigate = useNavigate();
   const { id } = useParams();
   const isEdit = !!id;
@@ -75,14 +45,23 @@ export default function StudentFormPage() {
   const existingStudent = useQuery(api.students.get, id ? { id } : "skip");
   const createStudent = useMutation(api.students.createBasic);
   const updateStudent = useMutation(api.students.update);
+  const generateUploadUrl = useMutation(api.files.generateUploadUrl);
 
   const [form, setForm] = useState({
     schoolId: "", schoolName: "", gender: "", stage: "", grade: "",
     birthYear: "", fullName: "", personalId: "", nationality: "",
+    idCardStorageId: "",
   });
   const [errors, setErrors] = useState({});
   const [saving, setSaving] = useState(false);
   const [schoolOpen, setSchoolOpen] = useState(false);
+  const [uploadingIdCard, setUploadingIdCard] = useState(false);
+  const [idCardPreview, setIdCardPreview] = useState(null);
+
+  const existingIdCardUrl = useQuery(
+    api.files.getStorageUrl,
+    form.idCardStorageId ? { storageId: form.idCardStorageId } : "skip"
+  );
 
   useEffect(() => {
     if (isEdit && existingStudent) {
@@ -96,9 +75,32 @@ export default function StudentFormPage() {
         birthYear: existingStudent.birthYear?.toString() || "",
         personalId: existingStudent.personalId || "",
         nationality: existingStudent.nationality || "",
+        idCardStorageId: existingStudent.idCardStorageId || "",
       });
     }
   }, [isEdit, existingStudent]);
+
+  const handleIdCardUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setUploadingIdCard(true);
+    try {
+      const uploadUrl = await generateUploadUrl({ callerId: user.id });
+      const result = await fetch(uploadUrl, {
+        method: "POST",
+        headers: { "Content-Type": file.type },
+        body: file,
+      });
+      const { storageId } = await result.json();
+      updateField("idCardStorageId", storageId);
+      setIdCardPreview(URL.createObjectURL(file));
+      toast.success("تم رفع البطاقة الشخصية بنجاح");
+    } catch {
+      toast.error("حدث خطأ أثناء رفع البطاقة");
+    } finally {
+      setUploadingIdCard(false);
+    }
+  };
 
   const activeSchools = useMemo(() => schools.filter(s => s.isActive), [schools]);
 
@@ -226,13 +228,15 @@ export default function StudentFormPage() {
         birthYear: parseInt(form.birthYear),
         personalId: form.personalId.trim(),
         nationality: form.nationality,
+        ...(form.idCardStorageId ? { idCardStorageId: form.idCardStorageId } : {}),
       };
       if (isEdit) {
-        await updateStudent({ id, ...data });
+        await updateStudent({ callerId: user.id, id, ...data });
         toast.success("تم تحديث بيانات الطالب بنجاح");
         navigate(`/students/${id}`);
       } else {
         await createStudent({
+          callerId: user.id,
           ...data,
           schoolId: form.schoolId || "manual",
           schoolName: form.schoolName,
@@ -463,6 +467,53 @@ export default function StudentFormPage() {
               {errors.nationality && <p className="text-red-500 text-xs mt-1">{errors.nationality}</p>}
             </div>
           </div>
+        </CardContent>
+      </Card>
+
+      {/* ID Card Upload */}
+      <Card className="border-[#E5E1D8]">
+        <CardContent className="p-5">
+          <h3 className="text-base font-semibold text-[#8A1538] mb-4 font-['Alexandria'] flex items-center gap-2">
+            <IdCard className="w-5 h-5" />صورة البطاقة الشخصية
+            <span className="text-xs font-normal text-[#9CA3AF]">(اختياري)</span>
+          </h3>
+
+          {(idCardPreview || existingIdCardUrl) ? (
+            <div className="space-y-3">
+              <div className="relative inline-block">
+                <img
+                  src={idCardPreview || existingIdCardUrl}
+                  alt="البطاقة الشخصية"
+                  className="max-w-sm w-full h-48 object-cover rounded-lg border-2 border-[#D4AF37]/30"
+                />
+              </div>
+              <label className="flex items-center gap-2 cursor-pointer text-sm text-[#8A1538] hover:text-[#6D102A] w-fit">
+                <Upload className="w-4 h-4" />
+                <span>استبدال الصورة</span>
+                <input type="file" accept="image/*" className="hidden" onChange={handleIdCardUpload} disabled={uploadingIdCard} />
+              </label>
+            </div>
+          ) : (
+            <label className={`flex flex-col items-center justify-center w-full h-36 border-2 border-dashed rounded-xl cursor-pointer transition-all ${
+              uploadingIdCard
+                ? "border-[#D4AF37]/50 bg-[#D4AF37]/5"
+                : "border-[#E5E1D8] hover:border-[#8A1538]/40 hover:bg-[#8A1538]/5"
+            }`}>
+              {uploadingIdCard ? (
+                <>
+                  <Loader2 className="w-8 h-8 text-[#D4AF37] animate-spin mb-2" />
+                  <p className="text-sm text-[#9CA3AF]">جاري الرفع...</p>
+                </>
+              ) : (
+                <>
+                  <IdCard className="w-8 h-8 text-[#9CA3AF] mb-2" />
+                  <p className="text-sm text-[#4B5563] font-medium">اضغط لرفع صورة البطاقة</p>
+                  <p className="text-xs text-[#9CA3AF] mt-1">JPG, PNG — حتى 5MB</p>
+                </>
+              )}
+              <input type="file" accept="image/*" className="hidden" onChange={handleIdCardUpload} disabled={uploadingIdCard} />
+            </label>
+          )}
         </CardContent>
       </Card>
 

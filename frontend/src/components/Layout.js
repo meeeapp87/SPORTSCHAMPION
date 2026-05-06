@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Outlet, NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { LayoutDashboard, UserPlus, Users, Settings, LogOut, Menu, BarChart3, ClipboardList, Ruler, School } from "lucide-react";
+import { LayoutDashboard, UserPlus, Users, Settings, LogOut, Menu, BarChart3, ClipboardList, Ruler, School, Trophy, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import "@/App.css";
@@ -10,11 +10,15 @@ function getNavItems(role) {
   if (role === "school_user") {
     return [
       { path: "/school-portal", label: "تسجيل الطلاب", icon: ClipboardList },
+      { path: "/records", label: "الأرقام القياسية", icon: Trophy },
+      { path: "/tests-info", label: "دليل الاختبارات", icon: BookOpen },
     ];
   }
   if (role === "trainer") {
     return [
       { path: "/trainer", label: "القياسات والاختبارات", icon: Ruler },
+      { path: "/records", label: "الأرقام القياسية", icon: Trophy },
+      { path: "/tests-info", label: "دليل الاختبارات", icon: BookOpen },
     ];
   }
   // admin and viewer
@@ -25,6 +29,8 @@ function getNavItems(role) {
     { path: "/students", label: "قائمة الطلاب", icon: Users },
     { path: "/schools-list", label: "قائمة المدارس", icon: School },
     { path: "/comparison", label: "مقارنة المدارس", icon: BarChart3 },
+    { path: "/records", label: "الأرقام القياسية", icon: Trophy },
+    { path: "/tests-info", label: "دليل الاختبارات", icon: BookOpen },
     ...(role === "admin" ? [{ path: "/admin", label: "الإدارة", icon: Settings }] : []),
   ];
 }

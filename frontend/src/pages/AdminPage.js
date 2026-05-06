@@ -14,12 +14,13 @@ import primaryStandards from "@/data/fitness_standards_primary.json";
 import middleStandards from "@/data/fitness_standards_middle.json";
 import secondaryStandards from "@/data/fitness_standards_secondary.json";
 import schoolNamesData from "@/data/schools_names.json";
+import { getSchoolDisplayName } from "@/lib/schoolUtils";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
-import { Plus, Pencil, Trash2, School, Settings, Database, UsersRound, ClipboardList, X, KeyRound, Eye, EyeOff } from "lucide-react";
+import { Plus, Pencil, Trash2, School, Settings, Database, UsersRound, ClipboardList, X, KeyRound, Eye, EyeOff, ImageIcon, Upload, Loader2, CheckCircle } from "lucide-react";
 const ROLE_LABELS = { admin: "مدير", school_user: "مدرسة", trainer: "مدرب", viewer: "عارض" };
 
 const STAGES = ["ابتدائي", "إعدادي", "ثانوي"];
@@ -31,36 +32,6 @@ const GRADES_MAP = {
 };
 
 const defaultSchool = { name: "", stage: "", gender: "", grades: [], allowedBirthYears: [], maxStudents: 3, isActive: true };
-const CP1252_MAP = {
-  0x0160:0x8A,0x2020:0x86,0x201E:0x84,0x2026:0x85,0x02C6:0x88,0x201A:0x82,
-  0x0161:0x9A,0x017E:0x9E,0x017D:0x8E,0x0152:0x8C,0x0153:0x9C,0x0192:0x83,
-  0x02DC:0x98,0x2039:0x8B,0x203A:0x9B,0x2018:0x91,0x2019:0x92,0x201C:0x93,
-  0x201D:0x94,0x2013:0x96,0x2014:0x97,0x2022:0x95,0x20AC:0x80,
-};
-function fixMojibake(text) {
-  if (!text || (!text.includes('Ø') && !text.includes('Ù'))) return text;
-  try {
-    const bytes = [];
-    for (const c of text) {
-      const o = c.codePointAt(0);
-      if (o <= 0xFF) bytes.push(o);
-      else if (CP1252_MAP[o] !== undefined) bytes.push(CP1252_MAP[o]);
-      else return text;
-    }
-    const decoded = new TextDecoder('utf-8').decode(new Uint8Array(bytes));
-    return /[؀-ۿ]/.test(decoded) ? decoded.trim() : text;
-  } catch { return text; }
-}
-const SCHOOL_LABEL_MAP = Object.fromEntries(schoolNamesData.map(s => [s.english, s.arabic]));
-const getSchoolDisplayName = (name) => {
-  if (!name) return "";
-  const eng = name.split(' / ')[0]?.trim();
-  const fromMap = SCHOOL_LABEL_MAP[eng];
-  if (fromMap) return fromMap;
-  const afterSlash = name.split(' / ')[1]?.trim();
-  if (afterSlash) return fixMojibake(afterSlash);
-  return fixMojibake(name);
-};
 
 const ALL_STANDARDS = [primaryStandards, middleStandards, secondaryStandards];
 
@@ -166,6 +137,112 @@ function StandardsTestCard({ test }) {
   );
 }
 
+const TEST_NAMES = [
+  { id: 1, name: "انبطاح مائل", subtitle: "ثني الذراعين", color: "#8A1538" },
+  { id: 2, name: "رقود قرفصاء", subtitle: "ثني الجذع أماماً", color: "#D4AF37" },
+  { id: 3, name: "جلوس طويل", subtitle: "الذراعين أماماً", color: "#10B981" },
+  { id: 4, name: "الجري الارتدادي", subtitle: "10م × 4", color: "#3B82F6" },
+  { id: 5, name: "جري مسافات متوسطة", subtitle: "قياس التحمل", color: "#8B5CF6" },
+];
+
+function TestImagesManager({ userId }) {
+  const generateUploadUrl = useMutation(api.files.generateUploadUrl);
+  const setSetting = useMutation(api.settings.set);
+  const allSettings = useQuery(api.settings.getAll) || [];
+  const [uploading, setUploading] = useState(null);
+
+  const getStorageId = (testId) => {
+    const s = allSettings.find(s => s.key === `testImage_${testId}`);
+    return s?.value || null;
+  };
+
+  const handleUpload = async (testId, file) => {
+    if (!file) return;
+    setUploading(testId);
+    try {
+      const uploadUrl = await generateUploadUrl({ callerId: userId });
+      const res = await fetch(uploadUrl, { method: "POST", headers: { "Content-Type": file.type }, body: file });
+      const { storageId } = await res.json();
+      await setSetting({ key: `testImage_${testId}`, value: storageId });
+      toast.success(`تم رفع صورة الاختبار ${testId}`);
+    } catch {
+      toast.error("حدث خطأ أثناء رفع الصورة");
+    } finally {
+      setUploading(null);
+    }
+  };
+
+  const handleRemove = async (testId) => {
+    await setSetting({ key: `testImage_${testId}`, value: null });
+    toast.success("تم حذف الصورة");
+  };
+
+  return (
+    <Card className="border-[#E5E1D8]">
+      <CardContent className="p-5 space-y-4">
+        <div className="flex items-center gap-2 mb-2">
+          <ImageIcon className="w-5 h-5 text-[#8A1538]" />
+          <h3 className="text-base font-semibold text-[#1A1A1A] font-['Alexandria']">صور الاختبارات البدنية</h3>
+        </div>
+        <p className="text-xs text-[#9CA3AF]">ارفع صورة لكل اختبار لتظهر في صفحة دليل الاختبارات.</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {TEST_NAMES.map(test => {
+            const storageId = getStorageId(test.id);
+            const isUploading = uploading === test.id;
+            return (
+              <TestImageCard
+                key={test.id}
+                test={test}
+                storageId={storageId}
+                isUploading={isUploading}
+                onUpload={(file) => handleUpload(test.id, file)}
+                onRemove={() => handleRemove(test.id)}
+              />
+            );
+          })}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function TestImageCard({ test, storageId, isUploading, onUpload, onRemove }) {
+  const imageUrl = useQuery(api.files.getStorageUrl, storageId ? { storageId } : "skip");
+
+  return (
+    <div className="border border-[#E5E1D8] rounded-xl overflow-hidden">
+      <div className="h-2 w-full" style={{ backgroundColor: test.color }} />
+      <div className="p-3">
+        <p className="text-sm font-semibold text-[#1A1A1A] font-['Alexandria']">{test.name}</p>
+        <p className="text-xs text-[#9CA3AF] mb-3">{test.subtitle}</p>
+
+        {imageUrl ? (
+          <div className="space-y-2">
+            <img src={imageUrl} alt={test.name} className="w-full h-32 object-cover rounded-lg border border-[#E5E1D8]" />
+            <div className="flex gap-2">
+              <label className="flex-1 flex items-center justify-center gap-1 text-xs text-white py-1.5 rounded-lg cursor-pointer transition-opacity hover:opacity-90" style={{ backgroundColor: test.color }}>
+                <Upload className="w-3 h-3" />استبدال
+                <input type="file" accept="image/*" className="hidden" onChange={e => onUpload(e.target.files[0])} disabled={isUploading} />
+              </label>
+              <Button variant="outline" size="sm" className="flex-1 text-xs border-red-200 text-red-500 hover:bg-red-50 h-auto py-1.5" onClick={onRemove}>
+                <X className="w-3 h-3 ml-1" />حذف
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <label className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-xl cursor-pointer transition-all ${isUploading ? "opacity-60" : "hover:opacity-80"}`} style={{ borderColor: test.color + "60", backgroundColor: test.color + "08" }}>
+            {isUploading
+              ? <><Loader2 className="w-6 h-6 animate-spin mb-1" style={{ color: test.color }} /><span className="text-xs text-[#9CA3AF]">جاري الرفع...</span></>
+              : <><Upload className="w-6 h-6 mb-1" style={{ color: test.color }} /><span className="text-xs font-medium" style={{ color: test.color }}>رفع صورة</span><span className="text-[10px] text-[#9CA3AF]">JPG, PNG</span></>
+            }
+            <input type="file" accept="image/*" className="hidden" onChange={e => onUpload(e.target.files[0])} disabled={isUploading} />
+          </label>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function AdminPage() {
   const { user } = useAuth();
   const schools = useQuery(api.schools.list) || [];
@@ -189,7 +266,7 @@ export default function AdminPage() {
   const [schoolNameOpen, setSchoolNameOpen] = useState(false);
   const [gradeYearInput, setGradeYearInput] = useState({});
   const gradeBirthYears = getSetting("gradeBirthYears") || {};
-  const users = useQuery(api.auth.listUsers) || [];
+  const users = useQuery(api.auth.listUsers, user?.id ? { callerId: user.id } : "skip") || [];
   const createUserMutation = useMutation(api.auth.createUser);
   const deleteUserMutation = useMutation(api.auth.deleteUser);
   const changePasswordMutation = useMutation(api.auth.changePassword);
@@ -210,6 +287,7 @@ export default function AdminPage() {
     if (userForm.role === "school_user" && !userForm.school_id) { toast.error("اختر المدرسة للحساب"); return; }
     try {
       await createUserMutation({
+        callerId: user.id,
         email: userForm.email,
         password: userForm.password,
         name: userForm.name,
@@ -225,7 +303,7 @@ export default function AdminPage() {
 
   const deleteUser = async (id) => {
     try {
-      await deleteUserMutation({ userId: id });
+      await deleteUserMutation({ callerId: user.id, userId: id });
       toast.success("تم حذف الحساب");
     } catch (e) { toast.error(e.message || "حدث خطأ"); }
   };
@@ -245,7 +323,7 @@ export default function AdminPage() {
     if (newPassword !== confirmPassword) { toast.error("كلمتا المرور غير متطابقتين"); return; }
     setChangingPass(true);
     try {
-      await changePasswordMutation({ userId: changePassTarget.id, newPassword });
+      await changePasswordMutation({ callerId: user.id, userId: changePassTarget.id, newPassword });
       toast.success(`تم تغيير كلمة مرور ${changePassTarget.name} بنجاح`);
       setShowChangePassDialog(false);
     } catch (e) { toast.error(e.message || "حدث خطأ"); }
@@ -319,10 +397,10 @@ export default function AdminPage() {
     if (!schoolForm.name || !schoolForm.stage) { toast.error("أدخل اسم المدرسة والمرحلة"); return; }
     try {
       if (editSchool) {
-        await updateSchool({ id: editSchool._id, ...schoolForm });
+        await updateSchool({ callerId: user.id, id: editSchool._id, ...schoolForm });
         toast.success("تم تحديث المدرسة");
       } else {
-        await createSchool(schoolForm);
+        await createSchool({ callerId: user.id, ...schoolForm });
         toast.success("تم إضافة المدرسة");
       }
       setShowSchoolDialog(false);
@@ -331,7 +409,7 @@ export default function AdminPage() {
 
   const deleteSchool = async (id) => {
     try {
-      await removeSchool({ id });
+      await removeSchool({ callerId: user.id, id });
       toast.success("تم حذف المدرسة");
     } catch (e) { toast.error(e.message); }
   };
@@ -399,6 +477,9 @@ export default function AdminPage() {
           </TabsTrigger>
           <TabsTrigger value="standards" data-testid="tab-standards" className="data-[state=active]:bg-[#8A1538] data-[state=active]:text-white gap-2">
             <ClipboardList className="w-4 h-4" />معايير التقييم
+          </TabsTrigger>
+          <TabsTrigger value="test-images" data-testid="tab-test-images" className="data-[state=active]:bg-[#8A1538] data-[state=active]:text-white gap-2">
+            <ImageIcon className="w-4 h-4" />صور الاختبارات
           </TabsTrigger>
         </TabsList>
 
@@ -641,6 +722,11 @@ export default function AdminPage() {
         {/* Standards Tab */}
         <TabsContent value="standards" className="mt-4">
           <StandardsViewer />
+        </TabsContent>
+
+        {/* Test Images Tab */}
+        <TabsContent value="test-images" className="mt-4">
+          <TestImagesManager userId={user?.id} />
         </TabsContent>
 
       </Tabs>

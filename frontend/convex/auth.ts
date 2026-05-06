@@ -1,13 +1,57 @@
 import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
 
-async function hashPassword(password: string): Promise<string> {
+// --- Password Hashing ---
+
+const PBKDF2_PREFIX = "v2:";
+const PBKDF2_SALT = new TextEncoder().encode("sports_fitness_app_salt_v2_qatar_2024");
+
+async function hashPasswordLegacy(password: string): Promise<string> {
   const encoder = new TextEncoder();
   const data = encoder.encode(password + "__salt_sports_app_2024__");
   const hashBuffer = await crypto.subtle.digest("SHA-256", data);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
   return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
 }
+
+async function hashPassword(password: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const keyMaterial = await crypto.subtle.importKey(
+    "raw", encoder.encode(password), "PBKDF2", false, ["deriveBits"]
+  );
+  const bits = await crypto.subtle.deriveBits(
+    { name: "PBKDF2", salt: PBKDF2_SALT, iterations: 100000, hash: "SHA-256" },
+    keyMaterial, 256
+  );
+  const hashArray = Array.from(new Uint8Array(bits));
+  return PBKDF2_PREFIX + hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+async function verifyPassword(password: string, storedHash: string): Promise<boolean> {
+  if (storedHash.startsWith(PBKDF2_PREFIX)) {
+    return (await hashPassword(password)) === storedHash;
+  }
+  // Legacy SHA-256 — migrated automatically on next login
+  return (await hashPasswordLegacy(password)) === storedHash;
+}
+
+// --- Authorization Helper ---
+
+async function requireAdmin(ctx: any, callerId: string) {
+  const caller = await ctx.db.get(callerId as any);
+  if (!caller) throw new Error("المستخدم غير موجود");
+  if (caller.role !== "admin") throw new Error("غير مصرح لك بهذه العملية");
+  return caller;
+}
+
+async function requireAnyRole(ctx: any, callerId: string, roles: string[]) {
+  const caller = await ctx.db.get(callerId as any);
+  if (!caller) throw new Error("المستخدم غير موجود");
+  if (!roles.includes(caller.role)) throw new Error("غير مصرح لك بهذه العملية");
+  return caller;
+}
+
+// --- Auth Mutations ---
 
 export const login = mutation({
   args: {
@@ -20,20 +64,24 @@ export const login = mutation({
       .query("users")
       .withIndex("by_email", (q) => q.eq("email", normalizedEmail))
       .first();
-    if (!user) {
-      throw new Error("بيانات الدخول غير صحيحة");
+    if (!user) throw new Error("بيانات الدخول غير صحيحة");
+
+    const valid = await verifyPassword(password, user.passwordHash);
+    if (!valid) throw new Error("بيانات الدخول غير صحيحة");
+
+    // Upgrade legacy SHA-256 hash to PBKDF2 on successful login
+    if (!user.passwordHash.startsWith(PBKDF2_PREFIX)) {
+      const newHash = await hashPassword(password);
+      await ctx.db.patch(user._id, { passwordHash: newHash });
     }
-    const hashedPassword = await hashPassword(password);
-    if (user.passwordHash !== hashedPassword) {
-      throw new Error("بيانات الدخول غير صحيحة");
-    }
+
     return {
       id: user._id,
       email: user.email,
       name: user.name,
       role: user.role,
-      schoolId: user.schoolId,
-      schoolName: user.schoolName,
+      school_id: user.schoolId,
+      school_name: user.schoolName,
     };
   },
 });
@@ -51,9 +99,8 @@ export const register = mutation({
       .query("users")
       .withIndex("by_email", (q) => q.eq("email", normalizedEmail))
       .first();
-    if (existing) {
-      throw new Error("البريد الإلكتروني مستخدم بالفعل");
-    }
+    if (existing) throw new Error("البريد الإلكتروني مستخدم بالفعل");
+
     const hashedPassword = await hashPassword(password);
     const userId = await ctx.db.insert("users", {
       email: normalizedEmail,
@@ -68,8 +115,8 @@ export const register = mutation({
       email: user!.email,
       name: user!.name,
       role: user!.role,
-      schoolId: user!.schoolId,
-      schoolName: user!.schoolName,
+      school_id: user!.schoolId,
+      school_name: user!.schoolName,
     };
   },
 });
@@ -85,8 +132,8 @@ export const getUser = query({
         email: user.email,
         name: user.name,
         role: user.role,
-        schoolId: user.schoolId,
-        schoolName: user.schoolName,
+        school_id: user.schoolId,
+        school_name: user.schoolName,
       };
     } catch {
       return null;
@@ -94,18 +141,19 @@ export const getUser = query({
   },
 });
 
-// Admin: list all users
+// Admin: list all users (requires admin role)
 export const listUsers = query({
-  args: {},
-  handler: async (ctx) => {
+  args: { callerId: v.id("users") },
+  handler: async (ctx, { callerId }) => {
+    await requireAdmin(ctx, callerId);
     const users = await ctx.db.query("users").collect();
     return users.map((u) => ({
       id: u._id,
       email: u.email,
       name: u.name,
       role: u.role,
-      schoolId: u.schoolId,
-      schoolName: u.schoolName,
+      school_id: u.schoolId,
+      school_name: u.schoolName,
       createdAt: u.createdAt,
     }));
   },
@@ -114,6 +162,7 @@ export const listUsers = query({
 // Admin: create user
 export const createUser = mutation({
   args: {
+    callerId: v.id("users"),
     email: v.string(),
     password: v.string(),
     name: v.string(),
@@ -121,19 +170,20 @@ export const createUser = mutation({
     schoolId: v.optional(v.string()),
     schoolName: v.optional(v.string()),
   },
-  handler: async (ctx, { email, password, name, role, schoolId, schoolName }) => {
+  handler: async (ctx, { callerId, email, password, name, role, schoolId, schoolName }) => {
+    await requireAdmin(ctx, callerId);
+
     const normalizedEmail = email.toLowerCase().trim();
     const existing = await ctx.db
       .query("users")
       .withIndex("by_email", (q) => q.eq("email", normalizedEmail))
       .first();
-    if (existing) {
-      throw new Error("البريد الإلكتروني مستخدم بالفعل");
-    }
+    if (existing) throw new Error("البريد الإلكتروني مستخدم بالفعل");
+
     const validRoles = ["admin", "school_user", "trainer", "viewer"];
     const finalRole = validRoles.includes(role) ? role : "viewer";
     const hashedPassword = await hashPassword(password);
-    const userId = await ctx.db.insert("users", {
+    return await ctx.db.insert("users", {
       email: normalizedEmail,
       passwordHash: hashedPassword,
       name,
@@ -142,17 +192,18 @@ export const createUser = mutation({
       schoolName: finalRole === "school_user" ? schoolName : undefined,
       createdAt: new Date().toISOString(),
     });
-    return userId;
   },
 });
 
 // Admin: change user password
 export const changePassword = mutation({
   args: {
+    callerId: v.id("users"),
     userId: v.id("users"),
     newPassword: v.string(),
   },
-  handler: async (ctx, { userId, newPassword }) => {
+  handler: async (ctx, { callerId, userId, newPassword }) => {
+    await requireAdmin(ctx, callerId);
     const user = await ctx.db.get(userId);
     if (!user) throw new Error("المستخدم غير موجود");
     const hashedPassword = await hashPassword(newPassword);
@@ -162,13 +213,17 @@ export const changePassword = mutation({
 
 // Admin: delete user
 export const deleteUser = mutation({
-  args: { userId: v.id("users") },
-  handler: async (ctx, { userId }) => {
+  args: {
+    callerId: v.id("users"),
+    userId: v.id("users"),
+  },
+  handler: async (ctx, { callerId, userId }) => {
+    await requireAdmin(ctx, callerId);
     await ctx.db.delete(userId);
   },
 });
 
-// Seed admin user
+// Seed admin user (only if no admin exists yet)
 export const seedAdmin = mutation({
   args: {
     email: v.string(),
@@ -181,9 +236,8 @@ export const seedAdmin = mutation({
       .query("users")
       .withIndex("by_email", (q) => q.eq("email", normalizedEmail))
       .first();
-    if (existing) {
-      return { status: "exists", id: existing._id };
-    }
+    if (existing) return { status: "exists", id: existing._id };
+
     const hashedPassword = await hashPassword(password);
     const userId = await ctx.db.insert("users", {
       email: normalizedEmail,
@@ -195,3 +249,4 @@ export const seedAdmin = mutation({
     return { status: "created", id: userId };
   },
 });
+
