@@ -87,7 +87,7 @@ function TestImage({ testId, color, name }) {
   const allSettings = useQuery(api.settings.getAll) || [];
   const storageId = allSettings.find(s => s.key === `testImage_${testId}`)?.value || null;
   const convexUrl = useQuery(api.files.getStorageUrl, storageId ? { storageId } : "skip");
-  const publicUrl = `/tests/test-${testId}.jpg`;
+  const publicUrl = `/tests/test-${testId}.svg`;
   const [useFallback, setUseFallback] = useState(false);
   const [imgError, setImgError] = useState(false);
 
