@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>اللياقة البدنية — نظام تسجيل الطلاب</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --burg:     #8A1538;
+      --burg-dk:  #6B1029;
+      --burg-lt:  #A8294A;
+      --gold:     #C9933A;
+      --gold-lt:  #E2AC52;
+      --cream:    #FDFBF7;
+      --warm:     #F4F1EC;
+      --border:   #E8E2D8;
+      --ink:      #1A1A1A;
+      --muted:    #6B6B6B;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ── Util ── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    a { text-decoration: none; color: inherit; }
+
+    /* ─────────────── NAVBAR ─────────────── */
+    nav {
+      position: fixed; top: 0; inset-inline: 0;
+      z-index: 200;
+      height: 70px;
+      background: rgba(253,251,247,.75);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid transparent;
+      transition: background .3s, border-color .3s, box-shadow .3s;
+    }
+    nav.scrolled {
+      background: rgba(253,251,247,.97);
+      border-bottom-color: var(--border);
+      box-shadow: 0 2px 20px rgba(0,0,0,.06);
+    }
+    .nav-inner {
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo { display: flex; align-items: center; gap: .65rem; }
+    .logo-badge {
+      width: 44px; height: 44px;
+      background: var(--burg);
+      border-radius: 13px;
+      display: grid; place-items: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .logo-text strong {
+      display: block;
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--burg);
+      line-height: 1.2;
+    }
+    .logo-text span { font-size: .7rem; color: var(--muted); font-weight: 500; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .55rem 1.4rem;
+      background: var(--burg);
+      color: #fff;
+      font-family: 'Cairo', sans-serif;
+      font-size: .88rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background .2s, transform .15s, box-shadow .2s;
+    }
+    .btn:hover { background: var(--burg-lt); transform: translateY(-1px); }
+    .btn-lg {
+      padding: .85rem 2.4rem;
+      font-size: 1rem;
+      border-radius: 13px;
+      box-shadow: 0 6px 28px rgba(138,21,56,.28);
+    }
+    .btn-lg:hover { box-shadow: 0 10px 36px rgba(138,21,56,.38); }
+
+    /* ─────────────── HERO ─────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 100px;
+      padding-bottom: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Mesh background */
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 55% 55% at 75% 15%, rgba(138,21,56,.12) 0%, transparent 65%),
+        radial-gradient(ellipse 45% 40% at 15% 85%, rgba(201,147,58,.09) 0%, transparent 65%),
+        radial-gradient(ellipse 35% 50% at 90% 70%, rgba(138,21,56,.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(70px);
+      pointer-events: none;
+      animation: bob 9s ease-in-out infinite alternate;
+    }
+    .orb-1 { width: 360px; height: 360px; background: rgba(138,21,56,.18); top: -100px; left: -100px; animation-delay: 0s; }
+    .orb-2 { width: 240px; height: 240px; background: rgba(201,147,58,.15); bottom: 40px; right: -60px; animation-delay: -4s; }
+    @keyframes bob {
+      from { transform: translate(0,0); }
+      to   { transform: translate(18px,-25px); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .35rem 1rem;
+      background: rgba(138,21,56,.07);
+      border: 1px solid rgba(138,21,56,.16);
+      border-radius: 999px;
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--burg);
+      margin-bottom: 1.8rem;
+    }
+    .hero-title {
+      font-size: clamp(2.8rem, 8vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1.06;
+      letter-spacing: -.01em;
+      color: var(--ink);
+      margin-bottom: 1.2rem;
+    }
+    .hero-title .c-burg { color: var(--burg); }
+    .hero-title .c-gold { color: var(--gold); }
+    .hero-sub {
+      font-size: clamp(.9rem, 2vw, 1.05rem);
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 2.4rem;
+      max-width: 460px;
+      margin-left: auto; margin-right: auto;
+    }
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-top: 3.8rem;
+    }
+    .hstat { text-align: center; min-width: 90px; }
+    .hstat-n {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--burg);
+      line-height: 1;
+    }
+    .hstat-l { font-size: .76rem; color: var(--muted); font-weight: 500; margin-top: .2rem; }
+    .hsep { width: 1px; height: 38px; background: var(--border); }
+
+    /* ─────────────── FEATURES ─────────────── */
+    .features {
+      background: #fff;
+      padding: 100px 0;
+    }
+    .sec-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .75rem;
+      font-weight: 700;
+      color: var(--burg);
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      margin-bottom: .75rem;
+    }
+    .sec-eyebrow::before {
+      content: "";
+      width: 22px; height: 2px;
+      background: var(--gold);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .sec-title {
+      font-size: clamp(1.6rem, 3.5vw, 2.3rem);
+      font-weight: 900;
+      color: var(--ink);
+      line-height: 1.2;
+      margin-bottom: .5rem;
+    }
+    .sec-desc { font-size: .95rem; color: var(--muted); line-height: 1.7; max-width: 440px; }
+
+    .feat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      margin-top: 3rem;
+    }
+    @media (max-width: 900px) { .feat-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 540px) { .feat-grid { grid-template-columns: 1fr; } }
+
+    .feat-card {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 1.8rem 1.5rem;
+      transition: transform .25s, box-shadow .25s, border-color .25s;
+    }
+    .feat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 14px 40px rgba(138,21,56,.09);
+      border-color: rgba(138,21,56,.22);
+    }
+    .feat-ico {
+      width: 50px; height: 50px;
+      background: rgba(138,21,56,.07);
+      border-radius: 13px;
+      display: grid; place-items: center;
+      font-size: 1.45rem;
+      margin-bottom: 1rem;
+    }
+    .feat-card h3 { font-size: 1rem; font-weight: 800; margin-bottom: .35rem; }
+    .feat-card p  { font-size: .85rem; color: var(--muted); line-height: 1.6; }
+    .feat-tag {
+      display: inline-block;
+      margin-top: .85rem;
+      padding: .22rem .7rem;
+      background: rgba(138,21,56,.07);
+      border-radius: 999px;
+      font-size: .72rem;
+      font-weight: 700;
+      color: var(--burg);
+    }
+
+    /* ─────────────── HOW IT WORKS ─────────────── */
+    .how { background: var(--warm); padding: 100px 0; }
+
+    .steps-row {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+      position: relative;
+    }
+    .steps-row::before {
+      content: "";
+      position: absolute;
+      top: 35px;
+      right: calc(50% / 3 + 35px);
+      left:  calc(50% / 3 + 35px);
+      height: 2px;
+      background: linear-gradient(to left, var(--burg), var(--gold), var(--burg));
+      opacity: .25;
+    }
+    @media (max-width: 640px) { .steps-row { grid-template-columns: 1fr; } .steps-row::before { display:none; } }
+
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 0 .5rem;
+    }
+    .step-circle {
+      width: 70px; height: 70px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2.5px solid var(--burg);
+      display: grid; place-items: center;
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--burg);
+      margin-bottom: 1.2rem;
+      position: relative; z-index: 1;
+      box-shadow: 0 4px 18px rgba(138,21,56,.12);
+    }
+    .step h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: .4rem; }
+    .step p  { font-size: .86rem; color: var(--muted); line-height: 1.6; max-width: 200px; }
+
+    /* ─────────────── STATS BANNER ─────────────── */
+    .stats-banner {
+      background: var(--burg);
+      padding: 80px 0;
+    }
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 1rem;
+      text-align: center;
+    }
+    @media (max-width: 680px) { .stats-row { grid-template-columns: repeat(2,1fr); } }
+
+    .sstat { padding: 1.5rem .5rem; }
+    .sstat-n {
+      font-size: clamp(2.2rem,5vw,3.2rem);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1;
+    }
+    .sstat-n.gold { color: var(--gold-lt); }
+    .sstat-l { font-size: .85rem; color: rgba(255,255,255,.65); font-weight: 600; margin-top: .4rem; }
+    .stats-divider { width: 1px; background: rgba(255,255,255,.12); }
+    @media (max-width: 680px) { .stats-divider { display:none; } }
+
+    /* ─────────────── CTA ─────────────── */
+    .cta-sec { background: #fff; padding: 100px 0; }
+    .cta-card {
+      max-width: 620px;
+      margin: 0 auto;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(138,21,56,.04), rgba(201,147,58,.04));
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 4rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-card::before {
+      content: "";
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(138,21,56,.06) 0%, transparent 55%),
+        radial-gradient(circle at 90% 80%, rgba(201,147,58,.07) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .cta-card > * { position: relative; z-index: 1; }
+    .cta-emoji { font-size: 3rem; margin-bottom: 1rem; }
+    .cta-title { font-size: clamp(1.8rem,4vw,2.4rem); font-weight: 900; margin-bottom: .6rem; }
+    .cta-desc  { font-size: .95rem; color: var(--muted); line-height: 1.7; margin-bottom: 2rem; max-width: 380px; margin-left:auto; margin-right:auto; }
+
+    /* ─────────────── FOOTER ─────────────── */
+    footer {
+      background: var(--ink);
+      color: rgba(255,255,255,.45);
+      text-align: center;
+      padding: 2.2rem 2rem;
+      font-size: .82rem;
+      line-height: 1.8;
+    }
+    footer strong { color: rgba(255,255,255,.8); }
+
+    /* ─────────────── REVEAL ─────────────── */
+    .reveal { opacity: 1; transform: none; }
+
+    @media (max-width: 640px) {
+      nav { padding: 0 1rem; }
+      .container { padding: 0 1rem; }
+      .cta-card { padding: 2.5rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════ NAVBAR ═══════════════ -->
+<nav id="nav">
+  <div class="container nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-badge">🏆</div>
+      <div class="logo-text">
+        <strong>اللياقة البدنية</strong>
+        <span>نظام تسجيل الطلاب</span>
+      </div>
+    </a>
+    <a href="/login" class="btn">تسجيل الدخول ←</a>
+  </div>
+</nav>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-pill">🇶🇦 المنصة الوطنية لقياس اللياقة البدنية</div>
+      <h1 class="hero-title">
+        <span class="c-burg">قِس،</span> تتبّع،<br>
+        <span class="c-gold">ارتقِ.</span>
+      </h1>
+      <p class="hero-sub">
+        منصة قياس اللياقة البدنية للطلاب في المدارس القطرية —
+        أدوات دقيقة، تقارير فورية، نتائج حقيقية.
+      </p>
+      <a href="/login" class="btn btn-lg">ابدأ الآن ←</a>
+
+      <div class="hero-stats">
+        <div class="hstat">
+          <div class="hstat-n" data-target="305">0</div>
+          <div class="hstat-l">مدرسة مسجّلة</div>
+        </div>
+        <div class="hsep"></div>
+        <div class="hstat">
+          <div class="hstat-n" data-target="3">0</div>
+          <div class="hstat-l">طلاب مسجّلون</div>
+        </div>
+        <div class="hsep"></div>
+        <div class="hstat">
+          <div class="hstat-n" data-target="5">0</div>
+          <div class="hstat-l">اختبارات معتمدة</div>
+        </div>
+        <div class="hsep"></div>
+        <div class="hstat">
+          <div class="hstat-n" data-target="4">0</div>
+          <div class="hstat-l">قياسات لكل طالب</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FEATURES ═══════════════ -->
+<section class="features">
+  <div class="container">
+    <div class="reveal">
+      <div class="sec-eyebrow">المميزات</div>
+      <h2 class="sec-title">لماذا اللياقة البدنية؟</h2>
+      <p class="sec-desc">منصة متكاملة تجمع سهولة الاستخدام مع دقة القياس لخدمة المدارس والطلاب.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card reveal">
+        <div class="feat-ico">🏫</div>
+        <h3>تغطية شاملة</h3>
+        <p>305 مدرسة متصلة بالمنصة من مختلف مراحل التعليم في دولة قطر.</p>
+        <span class="feat-tag">305 مدرسة</span>
+      </div>
+      <div class="feat-card reveal" style="transition-delay:.07s">
+        <div class="feat-ico">📊</div>
+        <h3>تقارير فورية</h3>
+        <p>قياس الأداء البدني ومقارنة المدارس والطلاب في لحظة واحدة.</p>
+        <span class="feat-tag">لحظي</span>
+      </div>
+      <div class="feat-card reveal" style="transition-delay:.14s">
+        <div class="feat-ico">🏆</div>
+        <h3>أفضل الطلاب</h3>
+        <p>تصنيف وتكريم الطلاب المتميزين في اختبارات اللياقة البدنية.</p>
+        <span class="feat-tag">تميّز</span>
+      </div>
+      <div class="feat-card reveal" style="transition-delay:.21s">
+        <div class="feat-ico">⚡</div>
+        <h3>سهولة الاستخدام</h3>
+        <p>واجهة عربية سلسة وسريعة مصممة خصيصاً للمدارس والمدربين.</p>
+        <span class="feat-tag">عربي 100%</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ HOW IT WORKS ═══════════════ -->
+<section class="how">
+  <div class="container">
+    <div class="reveal">
+      <div class="sec-eyebrow">الآلية</div>
+      <h2 class="sec-title">كيف يعمل النظام؟</h2>
+      <p class="sec-desc">ثلاث خطوات بسيطة تكفيك للبدء في قياس وتتبّع لياقة طلابك.</p>
+    </div>
+    <div class="steps-row">
+      <div class="step reveal">
+        <div class="step-circle">١</div>
+        <h3>سجّل مدرستك</h3>
+        <p>أدخل بيانات المدرسة وأضف حسابات المدربين والمشرفين.</p>
+      </div>
+      <div class="step reveal" style="transition-delay:.1s">
+        <div class="step-circle">٢</div>
+        <h3>قِس اللياقة</h3>
+        <p>أدخل نتائج الضغط والبطن والمرونة والتحمل لكل طالب.</p>
+      </div>
+      <div class="step reveal" style="transition-delay:.2s">
+        <div class="step-circle">٣</div>
+        <h3>تابع النتائج</h3>
+        <p>راجع التقارير وقارن بين المدارس وكرّم المتميزين.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ STATS BANNER ═══════════════ -->
+<section class="stats-banner">
+  <div class="container">
+    <div class="stats-row">
+      <div class="sstat reveal">
+        <div class="sstat-n gold" data-target="305">0</div>
+        <div class="sstat-l">مدرسة مسجّلة</div>
+      </div>
+      <div class="stats-divider"></div>
+      <div class="sstat reveal" style="transition-delay:.08s">
+        <div class="sstat-n" data-target="5">0</div>
+        <div class="sstat-l">اختبارات معتمدة</div>
+      </div>
+      <div class="stats-divider"></div>
+      <div class="sstat reveal" style="transition-delay:.16s">
+        <div class="sstat-n gold" data-target="4">0</div>
+        <div class="sstat-l">قياسات لكل طالب</div>
+      </div>
+      <div class="stats-divider"></div>
+      <div class="sstat reveal" style="transition-delay:.24s">
+        <div class="sstat-n" data-target="3">0</div>
+        <div class="sstat-l">طلاب مسجّلون</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ CTA ═══════════════ -->
+<section class="cta-sec">
+  <div class="container">
+    <div class="cta-card reveal">
+      <div class="cta-emoji">🚀</div>
+      <h2 class="cta-title">مستعد للانضمام؟</h2>
+      <p class="cta-desc">سجّل الدخول الآن وابدأ في قياس وتتبّع لياقة طلابك بدقة واحترافية.</p>
+      <a href="/login" class="btn btn-lg">تسجيل الدخول ←</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer>
+  <strong>اللياقة البدنية</strong> — نظام تسجيل الطلاب الوطني<br>
+  © 2025 وزارة التربية والتعليم — دولة قطر
+</footer>
+
+<script>
+  // Navbar scroll effect
+  const navEl = document.getElementById('nav');
+  window.addEventListener('scroll', () => navEl.classList.toggle('scrolled', scrollY > 20), { passive: true });
+
+  // Scroll reveal
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Counter animation
+  function countUp(el) {
+    const target = +el.dataset.target;
+    const dur = 1500;
+    const t0 = performance.now();
+    const tick = now => {
+      const p = Math.min((now - t0) / dur, 1);
+      el.textContent = Math.round((1 - Math.pow(1-p, 3)) * target);
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+  const cio = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { countUp(e.target); cio.unobserve(e.target); } });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('[data-target]').forEach(el => cio.observe(el));
+</script>
+</body>
+</html>

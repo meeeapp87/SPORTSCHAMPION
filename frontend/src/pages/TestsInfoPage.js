@@ -95,8 +95,8 @@ function TestImage({ testId, color, name }) {
 
   if (!src || imgError) {
     return (
-      <div className="w-full h-48 rounded-xl flex flex-col items-center justify-center" style={{ backgroundColor: color + "10", border: `2px dashed ${color}30` }}>
-        <ImageIcon className="w-8 h-8 mb-2" style={{ color: color + "60" }} />
+      <div className="w-full flex flex-col items-center justify-center py-12">
+        <ImageIcon className="w-10 h-10 mb-2" style={{ color: color + "50" }} />
         <span className="text-xs text-[#9CA3AF]">لم تُرفع صورة بعد</span>
       </div>
     );
@@ -106,8 +106,8 @@ function TestImage({ testId, color, name }) {
     <img
       src={src}
       alt={name}
-      className="w-full rounded-xl border border-[#E5E1D8] bg-white"
-      style={{ maxHeight: "220px", objectFit: "contain" }}
+      className="w-full"
+      style={{ maxHeight: "210px", objectFit: "contain", display: "block" }}
       onError={() => {
         if (src === publicUrl) setImgError(true);
       }}
@@ -121,36 +121,44 @@ function TestCard({ test, index }) {
 
   return (
     <div className="bg-white rounded-2xl border border-[#E5E1D8] overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-      {/* Header */}
-      <div className="p-5" style={{ background: `linear-gradient(135deg, ${test.color}15, ${test.color}05)` }}>
-        <div className="flex items-start gap-4">
-          <div className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-sm" style={{ backgroundColor: test.color }}>
-            <Icon className="w-7 h-7 text-white" />
+
+      {/* Image Banner — full width at top */}
+      <div className="relative w-full overflow-hidden" style={{ background: `linear-gradient(135deg, ${test.color}18, ${test.color}08)`, minHeight: "200px" }}>
+        {/* number badge */}
+        <div className="absolute top-3 left-3 w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-base z-10 shadow" style={{ backgroundColor: test.color }}>
+          {index + 1}
+        </div>
+        {/* category badge */}
+        <div className="absolute top-3 right-3 z-10">
+          <span className="text-xs font-medium px-2.5 py-1 rounded-full text-white shadow" style={{ backgroundColor: test.color }}>
+            {test.category}
+          </span>
+        </div>
+        <TestImage testId={test.id} color={test.color} name={test.name} />
+      </div>
+
+      {/* Header info — below image */}
+      <div className="p-5">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-sm" style={{ backgroundColor: test.color }}>
+            <Icon className="w-6 h-6 text-white" />
           </div>
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-xs font-medium px-2 py-0.5 rounded-full text-white" style={{ backgroundColor: test.color }}>
-                {test.category}
-              </span>
-            </div>
+          <div>
             <h3 className="text-xl font-bold text-[#1A1A1A] font-['Alexandria']">{test.name}</h3>
-            <p className="text-sm font-medium mt-0.5" style={{ color: test.color }}>{test.subtitle}</p>
-          </div>
-          <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-lg shrink-0" style={{ backgroundColor: test.color }}>
-            {index + 1}
+            <p className="text-sm font-medium" style={{ color: test.color }}>{test.subtitle}</p>
           </div>
         </div>
 
         {/* Quick info */}
-        <div className="grid grid-cols-2 gap-3 mt-4">
-          <div className="bg-white/70 rounded-xl p-3 flex items-start gap-2">
+        <div className="grid grid-cols-2 gap-3">
+          <div className="rounded-xl p-3 flex items-start gap-2" style={{ backgroundColor: test.color + "10" }}>
             <Target className="w-4 h-4 mt-0.5 shrink-0" style={{ color: test.color }} />
             <div>
               <p className="text-[10px] text-[#9CA3AF] font-medium">الغرض</p>
               <p className="text-xs text-[#1A1A1A] leading-relaxed">{test.purpose}</p>
             </div>
           </div>
-          <div className="bg-white/70 rounded-xl p-3 flex items-start gap-2">
+          <div className="rounded-xl p-3 flex items-start gap-2" style={{ backgroundColor: test.color + "10" }}>
             <Wrench className="w-4 h-4 mt-0.5 shrink-0" style={{ color: test.color }} />
             <div>
               <p className="text-[10px] text-[#9CA3AF] font-medium">الأدوات</p>
@@ -158,11 +166,6 @@ function TestCard({ test, index }) {
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Test Image */}
-      <div className="px-5 pb-4">
-        <TestImage testId={test.id} color={test.color} name={test.name} />
       </div>
 
       {/* Toggle */}
