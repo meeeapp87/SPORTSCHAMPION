@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import Layout from "@/components/Layout";
 import LoginPage from "@/pages/LoginPage";
-import LandingPage from "@/pages/LandingPage";
 import DashboardPage from "@/pages/DashboardPage";
 import StudentFormPage from "@/pages/StudentFormPage";
 import StudentListPage from "@/pages/StudentListPage";
@@ -25,7 +24,7 @@ function ProtectedRoute({ children }) {
       </div>
     );
   }
-  if (!user) return <Navigate to="/landing" replace />;
+  if (!user) return <Navigate to="/login" replace />;
   return children;
 }
 
@@ -49,8 +48,7 @@ function AppRoutes() {
 
   return (
     <Routes>
-      <Route path="/landing" element={user ? <Navigate to="/" replace /> : <LandingPage />} />
-      <Route path="/login"   element={user ? <Navigate to="/" replace /> : <LoginPage />} />
+<Route path="/login"   element={user ? <Navigate to="/" replace /> : <LoginPage />} />
       <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
         <Route index element={<RoleRedirect />} />
         <Route path="school-portal" element={<SchoolPortalPage />} />
