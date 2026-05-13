@@ -35,115 +35,445 @@ const HISTORICAL_WINNERS = {
   ],
 };
 
+/* ══════════════════════════════════════════════
+   نتائج 2023-2024 — مشروع اللياقة البدنية والصحة
+   المصدر: النتائج النهائية المعتمدة - النسخة الثانية
+   ══════════════════════════════════════════════ */
+const WINNERS_2024 = {
+  بنين: {
+    "الضغط": {
+      label: "اختبار الضغط", unit: "تكرار", lowerBetter: false, icon: "💪",
+      stages: {
+        "النموذجية": {
+          gold:   { name: "بشير محمد سعيد",            school: "القادسية النموذجية للبنين",            score: "30" },
+          silver: { name: "عبدالعزيز محمد السويدي",     school: "عبدالحميد الدايم النموذجية للبنين",    score: "29" },
+          bronze: { name: "محمد حزام حمد المري",         school: "مدرسة الإخلاص النموذجية للبنين",      score: "28" },
+        },
+        "الابتدائية": {
+          gold:   { name: "عبدالرحمن عمر الحسني",       school: "الخور النموذجية - ابتدائي",           score: "40" },
+          silver: { name: "فهيم عبدالحكيم عبدالله",     school: "جابر بن حيان الابتدائية للبنين",      score: "37" },
+          bronze: { name: "محمد محمود أحمد كرت",         school: "معاذ بن جبل الابتدائية للبنين",       score: "35" },
+        },
+        "الإعدادية": {
+          gold:   { name: "برزان خالد المرفوع",          school: "أبي عبيدة الإعدادية للبنين",          score: "56" },
+          silver: { name: "محمد رمضان أبو العزم",        school: "حمزة بن عبدالمطلب",                  score: "55" },
+          bronze: { name: "ابراهيم محمد سعيد",           school: "عبدالرحمن بن جاسم الإعدادية",        score: "50" },
+        },
+        "الثانوية": {
+          gold:   { name: "علي رضى روشن",               school: "الوكرة الثانوية للبنين",              score: "71" },
+          silver: { name: "انس عمر يوسف",               school: "ابن تيمية الثانوية",                  score: "69" },
+          bronze: { name: "إبراهيم علي رجب أبو كربل",   school: "خليفة الثانوية للبنين",               score: "68" },
+        },
+      },
+    },
+    "البطن": {
+      label: "اختبار البطن", unit: "تكرار", lowerBetter: false, icon: "🏋️",
+      stages: {
+        "النموذجية": {
+          gold:   { name: "عبدالعزيز ناصر المري",        school: "مدرسة الأخلاص النموذجية للبنين",      score: "45" },
+          silver: { name: "محمد وجدي المغزوي",           school: "عبدالحميد الدايل النموذجية للبنين",   score: "44" },
+          bronze: { name: "خالد أشرف شعبان",             school: "مدرسة القادسية النموذجية للبنين",     score: "39" },
+        },
+        "الابتدائية": {
+          gold:   { name: "عبدالله سعيد عبدربه حيدره",   school: "مدرسة القدس النموذجية - بنين",       score: "62" },
+          silver: { name: "عبدالهادي أحمد خليفة",        school: "مدرسة معيذر الابتدائية للبنين",       score: "53" },
+          bronze: { name: "أنس طه السهو",                school: "مدرسة عبدالله بن رواحة الابتدائية",   score: "47" },
+        },
+        "الإعدادية": {
+          gold:   { name: "حميد عمر حميد",               school: "مدرسة ابن خلدون الإعدادية للبنين",    score: "66" },
+          silver: { name: "محمد عبدالتواب صدقي",          school: "مدرسة عبدالرحمن بن جاسم",            score: "59" },
+          bronze: { name: "عبدالعزيز شفيع المري",         school: "مدرسة قطر للعلوم والتكنولوجيا",       score: "58" },
+        },
+        "الثانوية": {
+          gold:   { name: "عبدالرحمن عبدالله جلال",       school: "مدرسة الوكرة الثانوية للبنين",        score: "68" },
+          silver: { name: "أحمد هيثم كامل",              school: "مدرسة عمر بن الخطاب الثانوية",        score: "64" },
+          bronze: { name: "الحسين علي الماحي",            school: "مدرسة خليفة الثانوية للبنين",         score: "63" },
+        },
+      },
+    },
+    "التحمل": {
+      label: "اختبار التحمل", unit: "دقيقة:ثانية", lowerBetter: true, icon: "🏃",
+      stages: {
+        "النموذجية": {
+          gold:   { name: "معاذ اسماعيل",                school: "القادسية النموذجية للبنين",            score: "3:11.59" },
+          silver: { name: "عبد الله حسين",               school: "عبد الله بن زيد النموذجية للبنين",    score: "3:12.17" },
+          bronze: { name: "علي سعود علي",                school: "سميسمة الابتدائية للبنين",            score: "3:12.72" },
+        },
+        "الابتدائية": {
+          gold:   { name: "عمر أحمد فوزي",               school: "عبد الله بن تركي الابتدائية للبنين",  score: "2:51.63" },
+          silver: { name: "عبادة علي فالح",              school: "مدرسة الخور الابتدائية للبنين",        score: "2:52.93" },
+          bronze: { name: "جارالله صالح النابت",           school: "عبد الله بن رواحة الابتدائية",        score: "2:56.80" },
+        },
+        "الإعدادية": {
+          gold:   { name: "زكريا شريف علوي",              school: "الرازي الاعدادية للبنين",             score: "3:56.50" },
+          silver: { name: "عبد الله عماد",               school: "أبي عبيدة الاعدادية للبنين",           score: "4:17.43" },
+          bronze: { name: "عادل رحمان",                  school: "الإمام الشافعي الاعدادية للبنين",      score: "4:52.63" },
+        },
+        "الثانوية": {
+          gold:   { name: "عبد الله محمد عبد الله",       school: "عمر بن الخطاب الثانوية للبنين",       score: "4:01.29" },
+          silver: { name: "علي الهادي علي جماع",          school: "خليفة الثانوية للبنين",               score: "4:03.50" },
+          bronze: { name: "عبد العزيز الكعبي",            school: "جاسم بن حمد الثانوية",               score: "4:08.13" },
+        },
+      },
+    },
+    "المرونة": {
+      label: "اختبار المرونة", unit: "سم", lowerBetter: false, icon: "📏",
+      stages: {
+        "النموذجية": {
+          gold:   { name: "محمد عبد العزيز عثمان",        school: "عبد الحميد الديال النموذجية للبنين",  score: "40" },
+          silver: { name: "عبد العزيز محمد عبد الحميد",   school: "عبد الله بن زيد ال محمود النموذجية", score: "37" },
+          bronze: { name: "محمد عبد الرحمن وزاع",         school: "سميسمة الابتدائية للبنين",            score: "34" },
+        },
+        "الابتدائية": {
+          gold:   { name: "حازم محمد الشرقاوي",           school: "جابر بن حيان الابتدائية للبنين",      score: "42.5" },
+          silver: { name: "كريم حسيني أحمد",              school: "مدرسة معيذر الابتدائية للبنين",       score: "42" },
+          bronze: { name: "مؤيد خميس محمد",               school: "القدس النموذجية للبنين",              score: "41" },
+        },
+        "الإعدادية": {
+          gold:   { name: "محمد أمين طباني",              school: "الاحنف بن قيس الاعدادية للبنين",      score: "52" },
+          silver: { name: "فيصل نضال سليم",               school: "ابن خلدون الاعدادية للبنين",          score: "51.5" },
+          bronze: { name: "حمد محمد اليافعي",             school: "طلحة بن عبيد الله الاعدادية للبنين",  score: "49.5" },
+        },
+        "الثانوية": {
+          gold:   { name: "مشعل جمال الدوسري",            school: "عمر بن الخطاب الثانوية للبنين",       score: "53" },
+          silver: { name: "سلمان علي جبريل",              school: "الدوحة الثانوية للبنين",              score: "52" },
+          bronze: { name: "سفيان عيد أبو بكر",            school: "عبد الله بن علي المسند الثانوية",     score: "49.5" },
+        },
+      },
+    },
+    "الرشاقة": {
+      label: "اختبار الرشاقة", unit: "ثانية", lowerBetter: true, icon: "⚡",
+      stages: {
+        "النموذجية": {
+          gold:   { name: "سلمان جار الله",               school: "الاخلاص النموذجية للبنين",            score: "9.34" },
+          silver: { name: "يوسف سلمان",                   school: "القادسية النموذجية للبنين",           score: "9.72" },
+          bronze: { name: "عبد العزيز محمد رحم الدين",    school: "عبد الله بن زيد ال محمود النموذجية", score: "9.87" },
+        },
+        "الابتدائية": {
+          gold:   { name: "محمد سامح فتحي",               school: "القدس النموذجية للبنين",              score: "9.06" },
+          silver: { name: "متعب سعيد المري",              school: "عبد الله بن تركي الابتدائية للبنين",  score: "9.41" },
+          bronze: { name: "تميم سلطان الزعابي",           school: "معيذر الابتدائية للبنين",             score: "9.47" },
+        },
+        "الإعدادية": {
+          gold:   { name: "محمد رائد محمد",               school: "طلحة بن عبيد الله الاعدادية للبنين",  score: "8.59" },
+          silver: { name: "عمر اسامة",                    school: "حمزة بن عبد المطلب",                  score: "8.79" },
+          bronze: { name: "سعيد مانع الشهواني",           school: "الاحنف الاعدادية للبنين",             score: "8.85" },
+        },
+        "الثانوية": {
+          gold:   { name: "عبد الرحمة طلعة حسن",          school: "أحمد بن حنبل الثانوية للبنين",        score: "8.72" },
+          silver: { name: "اياد عدنان احمد",              school: "احمد بن محمد ال ثاني الثانوية",       score: "8.82" },
+          bronze: { name: "عبد الله علي الدوسري",          school: "ابن تيمية الثانوية للبنين",           score: "8.88" },
+        },
+      },
+    },
+  },
+  بنات: {
+    "الضغط": {
+      label: "اختبار الضغط", unit: "تكرار", lowerBetter: false, icon: "💪",
+      stages: {
+        "الابتدائية": {
+          gold:   { name: "روضة محسن المري",              school: "مدرسة بروق الابتدائية للبنات",        score: "55" },
+          silver: { name: "المها جارالله المري",           school: "مدرسة العبيب الابتدائية للبنات",      score: "53" },
+          bronze: { name: "بيلسان حيدر",                  school: "مدرسة سمية الابتدائية",              score: "50" },
+        },
+        "الإعدادية": {
+          gold:   { name: "جمانة أحمد نبيل",              school: "الوكرة الإعدادية للبنات",             score: "55" },
+          silver: { name: "شهد عرفات",                    school: "مدرسة حفصة الإعدادية للبنات",         score: "52" },
+          bronze: { name: "الدانة فرحان القحطاني",         school: "مدرسة معيذر الإعدادية للبنات",        score: "51" },
+        },
+        "الثانوية": {
+          gold:   { name: "هيا خميس الكبيسي",             school: "مدرسة الكعبان الثانوية للبنات",       score: "53" },
+          silver: { name: "رزان غسان مرسي",               school: "مدرسة الإيمان الثانوية للبنات",       score: "39" },
+          bronze: { name: "جميعة عثمان",                  school: "مدرسة رملة بنت أبي سفيان الثانوية",   score: "30" },
+        },
+      },
+    },
+    "البطن": {
+      label: "اختبار البطن", unit: "تكرار", lowerBetter: false, icon: "🏋️",
+      stages: {
+        "الابتدائية": {
+          gold:   { name: "رهف أحمد عمر",                 school: "مدرسة العبيب الابتدائية للبنات",      score: "42" },
+          silver: { name: "ريم عمر اليزيدي",              school: "مدرسة بروق الابتدائية للبنات",        score: "40" },
+          bronze: { name: "فريدة مصطفى محمد",             school: "مدرسة خديجة بنت خويلد",              score: "39" },
+        },
+        "الإعدادية": {
+          gold:   { name: "شهد فرج المسلماني",            school: "البيان الإعدادية للبنات",             score: "53" },
+          silver: { name: "فاطمة الأمير محمد",             school: "الوكرة الإعدادية للبنات",             score: "46" },
+          bronze: { name: "منى محمد الخطبة",              school: "مدرسة حفصة الإعدادية للبنات",         score: "40" },
+        },
+        "الثانوية": {
+          gold:   { name: "فاطمة محمد الجابرية",           school: "قطر التقنية الثانوية للبنات",         score: "43" },
+          silver: { name: "وجد سمير الحمري",              school: "مدرسة الإيمان الثانوية للبنات",       score: "39" },
+          bronze: { name: "سديل موسى العوض",              school: "مدرسة الكعبان الثانوية للبنات",       score: "31" },
+        },
+      },
+    },
+    "التحمل": {
+      label: "اختبار التحمل", unit: "دقيقة:ثانية", lowerBetter: true, icon: "🏃",
+      stages: {
+        "الابتدائية": {
+          gold:   { name: "سارة ناصر علي الكواري",         school: "خديجة الابتدائية للبنات",             score: "2:54.86" },
+          silver: { name: "نوف عبد الرحمن أمانت",          school: "الشقب الابتدائية للبنات",             score: "2:57.96" },
+          bronze: { name: "فرح عبد الله صلاح",             school: "نسيبة بنت كعب الابتدائية للبنات",    score: "2:59.36" },
+        },
+        "الإعدادية": {
+          gold:   { name: "مايا مؤمن محمد",               school: "رقية الاعدادية للبنات",               score: "4:25.35" },
+          silver: { name: "ايناس الجابري",                 school: "الوكرة الاعدادية للبنات",             score: "4:28.30" },
+          bronze: { name: "هاجر داوود ناصر",               school: "الخور الاعدادية للبنات",              score: "4:34.09" },
+        },
+        "الثانوية": {
+          gold:   { name: "سلمى ناصر حامد",               school: "امنة بنت وهب الثانوية للبنات",        score: "4:03.31" },
+          silver: { name: "مريم جمعة البدر",               school: "الايمان الثانوية للبنات",             score: "5:22.59" },
+          bronze: { name: "امنة غازي اليافعي",             school: "قطر التقنية الثانوية للبنات",         score: "5:39.37" },
+        },
+      },
+    },
+    "المرونة": {
+      label: "اختبار المرونة", unit: "سم", lowerBetter: false, icon: "📏",
+      stages: {
+        "الابتدائية": {
+          gold:   { name: "هناء دسوقي محمد",              school: "خديجة بنت خويلد",                     score: "47" },
+          silver: { name: "نورة مبارك",                   school: "بروق الابتدائية للبنات",              score: "44" },
+          bronze: { name: "رهف كريم محمود",               school: "نسيبة بنت كعب الابتدائية للبنات",    score: "43" },
+        },
+        "الإعدادية": {
+          gold:   { name: "نور الهدى ياسر",               school: "رقية الاعدادية للبنات",               score: "50" },
+          silver: { name: "اعياد صخر دفع الله",           school: "معيذر الاعدادية للبنات",              score: "49.5" },
+          bronze: { name: "مهرة فهد مبارك",               school: "رفيدة بنت كعب الاعدادية للبنات",     score: "49" },
+        },
+        "الثانوية": {
+          gold:   { name: "إيناس الجدوع",                 school: "الايمان الثانوية للبنات",             score: "50" },
+          silver: { name: "روضة احمد محمد",               school: "رملة بنت ابي سفيان الثانوية للبنات",  score: "49" },
+          bronze: { name: "فاطمة عبد الله الشحي",          school: "قطر التقنية الثانوية للبنات",         score: "47" },
+        },
+      },
+    },
+    "الرشاقة": {
+      label: "اختبار الرشاقة", unit: "ثانية", lowerBetter: true, icon: "⚡",
+      stages: {
+        "الابتدائية": {
+          gold:   { name: "ريفان حسين كلوب",              school: "سمية الابتدائية للبنات",              score: "11.01" },
+          silver: { name: "شقحة علي المالكي",             school: "الشقب الابتدائية للبنات",             score: "11.05" },
+          bronze: { name: "الجوري صالح العقيدي",           school: "بروق الابتدائية للبنات",              score: "11.22" },
+        },
+        "الإعدادية": {
+          gold:   { name: "نادين حسين شعبان",             school: "حفصة الاعدادية للبنات",               score: "10.08" },
+          silver: { name: "صفية محمد عبدو",               school: "الوكرة الاعدادية للبنات",             score: "10.47" },
+          bronze: { name: "مريم ابراهيم العريمي",          school: "الخور الاعدادية للبنات",              score: "10.54" },
+        },
+        "الثانوية": {
+          gold:   { name: "أسماء سليم علبي",              school: "الكعبان الثانوية للبنات",             score: "10.02" },
+          silver: { name: "زينب حسين جاكري",              school: "قطر التقنية الثانوية للبنات",         score: "10.67" },
+          bronze: { name: "سمية عارف صالح",               school: "رملة بنت ابي سفيان الثانوية للبنات",  score: "10.94" },
+        },
+      },
+    },
+  },
+};
+
 const MEDALS = [
   { key: "gold",   label: "المركز الأول",  emoji: "🥇", bg: "bg-amber-50",   border: "border-amber-300",  text: "text-amber-700",   num: "text-amber-600",  badge: "bg-amber-100 text-amber-700" },
   { key: "silver", label: "المركز الثاني", emoji: "🥈", bg: "bg-slate-50",   border: "border-slate-300",  text: "text-slate-700",   num: "text-slate-500",  badge: "bg-slate-100 text-slate-600" },
   { key: "bronze", label: "المركز الثالث", emoji: "🥉", bg: "bg-orange-50",  border: "border-orange-200", text: "text-orange-700",  num: "text-orange-500", badge: "bg-orange-100 text-orange-700" },
 ];
 
-function HistoricalSection() {
-  const years = HISTORICAL_WINNERS["بنين"].map(r => r.year);
-  const [gender, setGender] = useState("بنين");
-  const [year, setYear]     = useState(years[0]);
+/* ── helper: card for one winner ── */
+function MedalCard({ medal, winner, unit, lowerBetter }) {
+  return (
+    <div className={`rounded-2xl border-2 p-4 ${medal.bg} ${medal.border} flex flex-col gap-2.5`}>
+      <div className="flex items-center justify-between">
+        <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${medal.badge}`}>{medal.label}</span>
+        <span className="text-2xl">{medal.emoji}</span>
+      </div>
+      <p className={`text-base font-black leading-tight ${medal.text} font-['Alexandria']`}>{winner.name}</p>
+      {winner.score && (
+        <div className={`inline-flex items-center gap-1 text-sm font-black ${medal.num}`}>
+          <span dir="ltr">{winner.score}</span>
+          <span className="text-[10px] font-normal opacity-70">{unit}</span>
+          {lowerBetter && <span className="text-[9px] opacity-50">(أقل أفضل)</span>}
+        </div>
+      )}
+      <div className="flex items-start gap-1 pt-2 border-t border-black/5">
+        <School className={`w-3 h-3 mt-0.5 shrink-0 opacity-50`} />
+        <p className={`text-[11px] leading-relaxed opacity-60 font-medium`}>{winner.school}</p>
+      </div>
+    </div>
+  );
+}
 
-  const row = HISTORICAL_WINNERS[gender].find(r => r.year === year);
+function HistoricalSection() {
+  const histYears = HISTORICAL_WINNERS["بنين"].map(r => r.year);
+  const [mode, setMode]     = useState("2024");        // "2024" | "hist"
+  const [gender, setGender] = useState("بنين");
+  const [year, setYear]     = useState(histYears[0]);
+  const [test, setTest]     = useState("الضغط");
+
+  const TESTS_2024 = Object.keys(WINNERS_2024["بنين"]);
+  const stages2024 = Object.keys(WINNERS_2024[gender]?.[test]?.stages ?? {});
+  const testData   = WINNERS_2024[gender]?.[test];
+  const histRow    = HISTORICAL_WINNERS[gender]?.find(r => r.year === year);
 
   return (
     <div className="space-y-5">
-      {/* Section header */}
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl bg-[#8A1538]/10 flex items-center justify-center">
+
+      {/* ── Header ── */}
+      <div className="flex items-center gap-3 flex-wrap">
+        <div className="w-10 h-10 rounded-xl bg-[#8A1538]/10 flex items-center justify-center shrink-0">
           <Calendar className="w-5 h-5 text-[#8A1538]" />
         </div>
         <div>
           <h2 className="text-xl font-bold text-[#1A1A1A] font-['Alexandria']">نتائج الأعوام السابقة</h2>
-          <p className="text-xs text-[#9CA3AF]">الفائزون بمسابقة اللياقة البدنية والصحة · 2008 – 2016</p>
+          <p className="text-xs text-[#9CA3AF]">الفائزون بمسابقة اللياقة البدنية والصحة · قطر</p>
         </div>
-        <span className="mr-auto text-xs px-2.5 py-1 rounded-full bg-[#8A1538]/8 text-[#8A1538] font-semibold border border-[#8A1538]/15">
+        <span className="mr-auto text-xs px-2.5 py-1 rounded-full bg-[#8A1538]/8 text-[#8A1538] font-semibold border border-[#8A1538]/15 shrink-0">
           🇶🇦 وزارة التربية والتعليم
         </span>
       </div>
 
-      {/* Gender toggle */}
+      {/* ── Mode toggle: 2023-2024 vs historical ── */}
       <div className="inline-flex rounded-xl border border-[#E5E1D8] bg-[#FDFBF7] p-1 gap-1">
+        {[{ k: "2024", label: "2023 – 2024 ✨" }, { k: "hist", label: "2008 – 2016" }].map(m => (
+          <button key={m.k} onClick={() => setMode(m.k)}
+            className={`px-4 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap ${
+              mode === m.k ? "bg-[#8A1538] text-white shadow-sm" : "text-[#6B7280] hover:text-[#8A1538]"
+            }`}>
+            {m.label}
+          </button>
+        ))}
+      </div>
+
+      {/* ── Gender toggle (shared) ── */}
+      <div className="flex items-center gap-2">
         {["بنين", "بنات"].map(g => (
-          <button
-            key={g}
-            onClick={() => setGender(g)}
-            className={`px-5 py-2 rounded-lg text-sm font-bold transition-all ${
+          <button key={g} onClick={() => setGender(g)}
+            className={`px-4 py-1.5 rounded-lg text-sm font-bold border transition-all ${
               gender === g
-                ? "bg-[#8A1538] text-white shadow-sm"
-                : "text-[#6B7280] hover:text-[#8A1538]"
-            }`}
-          >
+                ? "bg-[#8A1538] text-white border-[#8A1538]"
+                : "bg-white text-[#6B7280] border-[#E5E1D8] hover:border-[#8A1538] hover:text-[#8A1538]"
+            }`}>
             {g === "بنين" ? "👦" : "👧"} {g}
           </button>
         ))}
       </div>
 
-      {/* Year tabs */}
-      <div className="flex flex-wrap gap-2" dir="rtl">
-        {years.map(y => (
-          <button
-            key={y}
-            onClick={() => setYear(y)}
-            className={`px-3.5 py-1.5 rounded-lg text-sm font-semibold border transition-all ${
-              year === y
-                ? "bg-[#8A1538] text-white border-[#8A1538] shadow-sm"
-                : "bg-white text-[#6B7280] border-[#E5E1D8] hover:border-[#8A1538] hover:text-[#8A1538]"
-            }`}
-          >
-            {y}
-          </button>
-        ))}
-      </div>
+      {/* ════════════════════
+          MODE: 2023-2024
+      ════════════════════ */}
+      {mode === "2024" && (
+        <div className="space-y-5">
 
-      {/* Medal cards */}
-      {row && (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {MEDALS.map(medal => {
-            const winner = row[medal.key];
-            return (
-              <div
-                key={medal.key}
-                className={`rounded-2xl border-2 p-5 ${medal.bg} ${medal.border} flex flex-col gap-3`}
-              >
-                {/* Medal badge */}
-                <div className="flex items-center justify-between">
-                  <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${medal.badge}`}>
-                    {medal.label}
-                  </span>
-                  <span className="text-3xl">{medal.emoji}</span>
-                </div>
+          {/* Test selector */}
+          <div className="flex flex-wrap gap-2" dir="rtl">
+            {TESTS_2024.map(t => {
+              const td = WINNERS_2024[gender]?.[t];
+              return (
+                <button key={t} onClick={() => setTest(t)}
+                  className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-bold border transition-all ${
+                    test === t
+                      ? "bg-[#8A1538] text-white border-[#8A1538] shadow-sm"
+                      : "bg-white text-[#6B7280] border-[#E5E1D8] hover:border-[#8A1538] hover:text-[#8A1538]"
+                  }`}>
+                  <span>{td?.icon}</span>
+                  <span>{td?.label}</span>
+                </button>
+              );
+            })}
+          </div>
 
-                {/* Winner name */}
-                <div>
-                  <p className={`text-lg font-black leading-tight ${medal.text} font-['Alexandria']`}>
-                    {winner.name}
-                  </p>
-                </div>
-
-                {/* School */}
-                <div className="flex items-start gap-1.5 mt-auto pt-3 border-t border-black/5">
-                  <School className={`w-3.5 h-3.5 mt-0.5 shrink-0 ${medal.num}`} />
-                  <p className={`text-xs leading-relaxed ${medal.num} font-medium`}>
-                    {winner.school}
-                  </p>
-                </div>
+          {/* Results: one block per stage */}
+          {testData && stages2024.map(stage => (
+            <div key={stage} className="space-y-3">
+              {/* Stage label */}
+              <div className="flex items-center gap-2">
+                <div className="h-px flex-1 bg-[#E5E1D8]" />
+                <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#8A1538]/8 text-[#8A1538] border border-[#8A1538]/15 whitespace-nowrap">
+                  المرحلة {stage}
+                </span>
+                <div className="h-px flex-1 bg-[#E5E1D8]" />
               </div>
-            );
-          })}
+              {/* 3 medal cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {MEDALS.map(medal => (
+                  <MedalCard
+                    key={medal.key}
+                    medal={medal}
+                    winner={testData.stages[stage][medal.key]}
+                    unit={testData.unit}
+                    lowerBetter={testData.lowerBetter}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
+
+          {/* Stats strip */}
+          <div className="grid grid-cols-3 gap-3 pt-1">
+            {[
+              { n: "5", label: "اختبارات" },
+              { n: gender === "بنين" ? "4" : "3", label: "مراحل دراسية" },
+              { n: gender === "بنين" ? "60" : "45", label: "طالب فائز" },
+            ].map(s => (
+              <div key={s.label} className="rounded-xl bg-[#FDFBF7] border border-[#E5E1D8] p-3 text-center">
+                <p className="text-xl font-black text-[#8A1538]">{s.n}</p>
+                <p className="text-[11px] text-[#9CA3AF] font-medium">{s.label}</p>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
-      {/* Summary strip */}
-      <div className="rounded-xl bg-[#FDFBF7] border border-[#E5E1D8] p-4">
-        <p className="text-xs text-[#9CA3AF] text-center">
-          إجمالي السنوات المسجلة: <strong className="text-[#8A1538]">{years.length} أعوام</strong> ·
-          الفترة: <strong className="text-[#1A1A1A]">2008 – 2016</strong> ·
-          المصدر: <strong className="text-[#1A1A1A]">النتائج النهائية المعتمدة — برنامج اللياقة البدنية والصحة</strong>
-        </p>
-      </div>
+      {/* ════════════════════
+          MODE: 2008-2016
+      ════════════════════ */}
+      {mode === "hist" && (
+        <div className="space-y-5">
+
+          {/* Year tabs */}
+          <div className="flex flex-wrap gap-2" dir="rtl">
+            {histYears.map(y => (
+              <button key={y} onClick={() => setYear(y)}
+                className={`px-3.5 py-1.5 rounded-lg text-sm font-semibold border transition-all ${
+                  year === y
+                    ? "bg-[#8A1538] text-white border-[#8A1538] shadow-sm"
+                    : "bg-white text-[#6B7280] border-[#E5E1D8] hover:border-[#8A1538] hover:text-[#8A1538]"
+                }`}>
+                {y}
+              </button>
+            ))}
+          </div>
+
+          {/* 3 overall medal cards */}
+          {histRow && (
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {MEDALS.map(medal => {
+                const winner = histRow[medal.key];
+                return (
+                  <div key={medal.key}
+                    className={`rounded-2xl border-2 p-5 ${medal.bg} ${medal.border} flex flex-col gap-3`}>
+                    <div className="flex items-center justify-between">
+                      <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${medal.badge}`}>{medal.label}</span>
+                      <span className="text-3xl">{medal.emoji}</span>
+                    </div>
+                    <p className={`text-lg font-black leading-tight ${medal.text} font-['Alexandria']`}>{winner.name}</p>
+                    <div className="flex items-start gap-1.5 mt-auto pt-3 border-t border-black/5">
+                      <School className="w-3.5 h-3.5 mt-0.5 shrink-0 opacity-50" />
+                      <p className="text-xs leading-relaxed opacity-60 font-medium">{winner.school}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          <div className="rounded-xl bg-[#FDFBF7] border border-[#E5E1D8] p-4">
+            <p className="text-xs text-[#9CA3AF] text-center">
+              <strong className="text-[#8A1538]">{histYears.length} أعوام</strong> مسجلة ·
+              الفترة: <strong className="text-[#1A1A1A]">2008 – 2016</strong> ·
+              المصدر: <strong className="text-[#1A1A1A]">النتائج النهائية المعتمدة</strong>
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
