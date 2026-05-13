@@ -271,6 +271,89 @@ const WINNERS_2024 = {
   },
 };
 
+/* ══════════════════════════════════════════════
+   نتائج 2024-2025 — النتائج النهائية لبرنامج اللياقة البدنية
+   مرتبة حسب الفئة العمرية (سنة الميلاد) 2007 – 2015
+   ══════════════════════════════════════════════ */
+const WINNERS_2025 = {
+  بنين: [
+    { age: "2015",
+      gold:   { name: "خالد سعود عبد العزيز العلي",         school: "عبد الله الزبير النموذجية للبنين" },
+      silver: { name: "عمر السيد عمر السيد",                school: "خليفة النموذجية للبنين" },
+      bronze: { name: "مصطفى ابراهيم بكري",                 school: "القادسية النموذجية للبنين" } },
+    { age: "2014",
+      gold:   { name: "يوسف محمد سعيد",                    school: "جابر بن حيان الابتدائية للبنين" },
+      silver: { name: "فضل عبد الرحمن درويش المنصور",        school: "احمد منصور الابتدائية للبنين" },
+      bronze: { name: "علي جاسم زهري",                      school: "ابن الهيثم الابتدائية للبنين" } },
+    { age: "2013",
+      gold:   { name: "تميم سلطان الزعابي",                 school: "معيذر الابتدائية للبنين" },
+      silver: { name: "حسان محمد نجاح الشرقاوي",            school: "جابر بن حيان الابتدائية للبنين" },
+      bronze: { name: "ياسين أحمد عبد السيد",               school: "عبد الله بن تركي الابتدائية للبنين" } },
+    { age: "2012",
+      gold:   { name: "كرم احمد عبدالكريم الزيتاوي",        school: "ابن خلدون الاعدادية للبنين" },
+      silver: { name: "حازم محمد الشرقاوي",                 school: "عبدالرحمن بن جاسم الإعدادية للبنين" },
+      bronze: { name: "يعقوب يوسف صالح",                    school: "ابن الهيثم الابتدائية للبنين" } },
+    { age: "2011",
+      gold:   { name: "عبد الرحمن أحمد الناغي",             school: "حمزة بن عبد المطلب الإعدادية للبنين" },
+      silver: { name: "احمد باسل مسمار",                    school: "ابن خلدون الاعدادية للبنين" },
+      bronze: { name: "مازن محمد غنيم",                     school: "المعهد الديني الاعدادي الثانوي المستقل للبنين" } },
+    { age: "2010",
+      gold:   { name: "ابراهيم محمد سعيد",                  school: "عبدالرحمن بن جاسم الإعدادية للبنين" },
+      silver: { name: "أبو بكر عبد العزيز",                  school: "حمزة بن عبد المطلب الإعدادية للبنين" },
+      bronze: { name: "عبدالرحمن أحمد قطان",                school: "المعهد الديني الاعدادي الثانوي المستقل للبنين" } },
+    { age: "2009",
+      gold:   { name: "جهاد بدر الدين محمد الأسمر",          school: "الدوحة الثانوية للبنين" },
+      silver: { name: "راكان محمد الجسيمان",                 school: "ابن تيمية الثانوية للبنين" },
+      bronze: { name: "عبدالرحمن محمد هاشم",                school: "حسان بن ثابت الثانوية للبنين" } },
+    { age: "2008",
+      gold:   { name: "عمر احمد حسين عبد النبي",             school: "حسان بن ثابت الثانوية للبنين" },
+      silver: { name: "أمين سالار محمد",                    school: "المعهد الديني الاعدادي الثانوي المستقل للبنين" },
+      bronze: { name: "علي أحمد الطيري",                    school: "ابن تيمية الثانوية للبنين" } },
+    { age: "2007",
+      gold:   { name: "عبدالله محمد عبدالله عثمان خليفة",    school: "عمر بن الخطاب الثانوية للبنين" },
+      silver: { name: "موسى كامارا",                        school: "المعهد الديني الاعدادي الثانوي المستقل للبنين" },
+      bronze: { name: "محمد خير راوي كردي",                  school: "الدوحة الثانوية للبنين" } },
+  ],
+  بنات: [
+    { age: "2015",
+      gold:   { name: "وضحى شايع المفقاعي",                 school: "البروق الابتدائية للبنات" },
+      silver: { name: "عائشة سالم المري",                   school: "الخوارزمي الابتدائية للبنات" },
+      bronze: { name: "معجبة جابر سعد",                     school: "نسيبة بنت كعب الابتدائية للبنات" } },
+    { age: "2014",
+      gold:   { name: "لولوة علي الأحرق",                   school: "الخوارزمي الابتدائية للبنات" },
+      silver: { name: "المها جار الله المري",                school: "العبيب الابتدائية للبنات" },
+      bronze: { name: "شذى علي بسيوني",                     school: "ام سلمه الابتدائية للبنات" } },
+    { age: "2013",
+      gold:   { name: "جويل علاء تواف",                     school: "العبيب الابتدائية للبنات" },
+      silver: { name: "عائشة علي سحابو",                    school: "الخوارزمي الابتدائية للبنات" },
+      bronze: { name: "مفلحة عبد الله المري",                school: "ام سلمه الابتدائية للبنات" } },
+    { age: "2012",
+      gold:   { name: "عائشة يوسف الغفاري",                 school: "زينب الإعدادية للبنات" },
+      silver: { name: "جنى حسام الصادي",                    school: "الظعاين الإعدادية للبنات" },
+      bronze: { name: "شهد عرفات عبد الله",                  school: "حفصه الإعدادية للبنات" } },
+    { age: "2011",
+      gold:   { name: "زينات عاطف مصطفى",                   school: "الوجبة الإعدادية للبنات" },
+      silver: { name: "لمار هيثم العريض",                   school: "زينب الإعدادية للبنات" },
+      bronze: { name: "الريم خميس المريخي",                  school: "الخور الإعدادية للبنات" } },
+    { age: "2010",
+      gold:   { name: "الريم عبد الله النعيمي",              school: "زينب الإعدادية للبنات" },
+      silver: { name: "فرح عبد الله صلاح",                  school: "رقية الإعدادية للبنات" },
+      bronze: { name: "روزا عبيدان المري",                   school: "فاطمة الزهراء الإعدادية للبنات" } },
+    { age: "2009",
+      gold:   { name: "هبه محمد علي",                       school: "قطر التقنية الثانوية للبنات" },
+      silver: { name: "منة الله عاطف مصطفى أحمد",            school: "أروى بنت عبد المطلب الثانوية للبنات" },
+      bronze: { name: "ساره محمد راغب",                     school: "الإيمان الثانوية للبنات" } },
+    { age: "2008",
+      gold:   { name: "رزان غسان مرسي",                     school: "الإيمان الثانوية للبنات" },
+      silver: { name: "هيا خميس الكبيسي",                   school: "الكعبان الثانوية للبنات" },
+      bronze: { name: "فاطمة محمد الجابرية",                 school: "قطر التقنية الثانوية للبنات" } },
+    { age: "2007",
+      gold:   { name: "سلمى ناصر حامد",                     school: "امنه بنت وهب الثانوية للبنات" },
+      silver: { name: "نوره محمد المري",                    school: "الوكرة الثانوية للبنات" },
+      bronze: { name: "إيناس محمد الجدوع",                   school: "الإيمان الثانوية للبنات" } },
+  ],
+};
+
 const MEDALS = [
   { key: "gold",   label: "المركز الأول",  emoji: "🥇", bg: "bg-amber-50",   border: "border-amber-300",  text: "text-amber-700",   num: "text-amber-600",  badge: "bg-amber-100 text-amber-700" },
   { key: "silver", label: "المركز الثاني", emoji: "🥈", bg: "bg-slate-50",   border: "border-slate-300",  text: "text-slate-700",   num: "text-slate-500",  badge: "bg-slate-100 text-slate-600" },
@@ -303,7 +386,7 @@ function MedalCard({ medal, winner, unit, lowerBetter }) {
 
 function HistoricalSection() {
   const histYears = HISTORICAL_WINNERS["بنين"].map(r => r.year);
-  const [mode, setMode]     = useState("2024");        // "2024" | "hist"
+  const [mode, setMode]     = useState("2025");        // "2025" | "2024" | "hist"
   const [gender, setGender] = useState("بنين");
   const [year, setYear]     = useState(histYears[0]);
   const [test, setTest]     = useState("الضغط");
@@ -332,7 +415,7 @@ function HistoricalSection() {
 
       {/* ── Mode toggle: 2023-2024 vs historical ── */}
       <div className="inline-flex rounded-xl border border-[#E5E1D8] bg-[#FDFBF7] p-1 gap-1">
-        {[{ k: "2024", label: "2023 – 2024 ✨" }, { k: "hist", label: "2008 – 2016" }].map(m => (
+        {[{ k: "2025", label: "2024 – 2025 🆕" }, { k: "2024", label: "2023 – 2024" }, { k: "hist", label: "2008 – 2016" }].map(m => (
           <button key={m.k} onClick={() => setMode(m.k)}
             className={`px-4 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap ${
               mode === m.k ? "bg-[#8A1538] text-white shadow-sm" : "text-[#6B7280] hover:text-[#8A1538]"
@@ -355,6 +438,71 @@ function HistoricalSection() {
           </button>
         ))}
       </div>
+
+      {/* ════════════════════
+          MODE: 2024-2025
+      ════════════════════ */}
+      {mode === "2025" && (
+        <div className="space-y-4">
+          {/* Age group tabs */}
+          <div className="flex flex-wrap gap-2" dir="rtl">
+            {WINNERS_2025[gender].map(row => (
+              <span key={row.age}
+                className="px-3 py-1 rounded-lg text-xs font-semibold bg-[#8A1538]/8 text-[#8A1538] border border-[#8A1538]/15">
+                مواليد {row.age}
+              </span>
+            ))}
+          </div>
+
+          {/* One row per age group */}
+          {WINNERS_2025[gender].map(row => (
+            <div key={row.age} className="space-y-2">
+              {/* Age label */}
+              <div className="flex items-center gap-2">
+                <div className="h-px flex-1 bg-[#E5E1D8]" />
+                <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#8A1538]/8 text-[#8A1538] border border-[#8A1538]/15 whitespace-nowrap">
+                  الفئة العمرية · مواليد {row.age}
+                </span>
+                <div className="h-px flex-1 bg-[#E5E1D8]" />
+              </div>
+              {/* 3 medal cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {MEDALS.map(medal => {
+                  const winner = row[medal.key];
+                  return (
+                    <div key={medal.key}
+                      className={`rounded-2xl border-2 p-4 ${medal.bg} ${medal.border} flex flex-col gap-2.5`}>
+                      <div className="flex items-center justify-between">
+                        <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${medal.badge}`}>{medal.label}</span>
+                        <span className="text-2xl">{medal.emoji}</span>
+                      </div>
+                      <p className={`text-base font-black leading-tight ${medal.text} font-['Alexandria']`}>{winner.name}</p>
+                      <div className="flex items-start gap-1 pt-2 border-t border-black/5">
+                        <School className="w-3 h-3 mt-0.5 shrink-0 opacity-50" />
+                        <p className="text-[11px] leading-relaxed opacity-60 font-medium">{winner.school}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+
+          {/* Stats strip */}
+          <div className="grid grid-cols-3 gap-3 pt-1">
+            {[
+              { n: "9",  label: "فئات عمرية" },
+              { n: "54", label: "طالب وطالبة فائز" },
+              { n: "3",  label: "مستويات (ذهبي · فضي · برونزي)" },
+            ].map(s => (
+              <div key={s.label} className="rounded-xl bg-[#FDFBF7] border border-[#E5E1D8] p-3 text-center">
+                <p className="text-xl font-black text-[#8A1538]">{s.n}</p>
+                <p className="text-[11px] text-[#9CA3AF] font-medium">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* ════════════════════
           MODE: 2023-2024
