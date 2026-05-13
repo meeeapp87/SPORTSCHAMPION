@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { useQuery, useMutation } from "convex/react";
+import { useQuery, useMutation, useAction } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -13,7 +13,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from "@/components/ui/command";
 import schoolNamesData from "@/data/schools_names.json";
 import { toast } from "sonner";
-import { Save, Plus, X, ArrowRight, Upload, IdCard, Loader2 } from "lucide-react";
+import { Save, Plus, X, ArrowRight, Upload, IdCard, Loader2, ScanLine } from "lucide-react";
 import { Toaster } from "@/components/ui/sonner";
 
 
@@ -23,6 +23,37 @@ const GENDER_MATCH = {
 };
 
 const NATIONALITIES = ["قطري", "سعودي", "إماراتي", "كويتي", "بحريني", "عماني", "مصري", "أردني", "سوري", "عراقي", "لبناني", "فلسطيني", "يمني", "سوداني", "تونسي", "جزائري", "مغربي", "أخرى"];
+
+const NATIONALITY_MAP = {
+  "قطري":     ["قطر", "qatari", "qatar"],
+  "سعودي":    ["السعودية", "سعودية", "saudi", "ksa"],
+  "إماراتي":  ["الإمارات", "إمارات", "emirati", "uae"],
+  "كويتي":    ["الكويت", "كويت", "kuwaiti", "kuwait"],
+  "بحريني":   ["البحرين", "بحرين", "bahraini", "bahrain"],
+  "عماني":    ["عمان", "omani", "oman"],
+  "مصري":     ["مصر", "egyptian", "egypt"],
+  "أردني":    ["الأردن", "أردن", "jordanian", "jordan"],
+  "سوري":     ["سوريا", "سورية", "syrian", "syria"],
+  "عراقي":    ["العراق", "عراق", "iraqi", "iraq"],
+  "لبناني":   ["لبنان", "lebanese", "lebanon"],
+  "فلسطيني":  ["فلسطين", "palestinian", "palestine"],
+  "يمني":     ["اليمن", "يمن", "yemeni", "yemen"],
+  "سوداني":   ["السودان", "سودان", "sudanese", "sudan"],
+  "تونسي":    ["تونس", "tunisian", "tunisia"],
+  "جزائري":   ["الجزائر", "جزائر", "algerian", "algeria"],
+  "مغربي":    ["المغرب", "مغرب", "moroccan", "morocco"],
+};
+
+function mapNationality(raw) {
+  if (!raw) return null;
+  const r = raw.trim();
+  if (NATIONALITIES.includes(r)) return r;
+  const lower = r.toLowerCase();
+  for (const [key, variants] of Object.entries(NATIONALITY_MAP)) {
+    if (variants.some(v => lower.includes(v.toLowerCase()) || r.includes(v))) return key;
+  }
+  return null;
+}
 
 const STAGE_KEYWORDS = {
   "ابتدائي": { en: ["Primary"], ar: ["الابتدائية", "الابتدائي"] },
@@ -46,6 +77,7 @@ export default function StudentFormPage() {
   const createStudent = useMutation(api.students.createBasic);
   const updateStudent = useMutation(api.students.update);
   const generateUploadUrl = useMutation(api.files.generateUploadUrl);
+  const scanIdCard = useAction(api.ai.scanIdCard);
 
   const [form, setForm] = useState({
     schoolId: "", schoolName: "", gender: "", stage: "", grade: "",
@@ -56,6 +88,7 @@ export default function StudentFormPage() {
   const [saving, setSaving] = useState(false);
   const [schoolOpen, setSchoolOpen] = useState(false);
   const [uploadingIdCard, setUploadingIdCard] = useState(false);
+  const [scanning, setScanning] = useState(false);
   const [idCardPreview, setIdCardPreview] = useState(null);
 
   const existingIdCardUrl = useQuery(
@@ -83,6 +116,15 @@ export default function StudentFormPage() {
   const handleIdCardUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
+
+    const toBase64 = (f) => new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result.split(",")[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(f);
+    });
+
+    // Step 1: Upload to Convex storage
     setUploadingIdCard(true);
     try {
       const uploadUrl = await generateUploadUrl({ callerId: user.id });
@@ -94,11 +136,38 @@ export default function StudentFormPage() {
       const { storageId } = await result.json();
       updateField("idCardStorageId", storageId);
       setIdCardPreview(URL.createObjectURL(file));
-      toast.success("تم رفع البطاقة الشخصية بنجاح");
     } catch {
       toast.error("حدث خطأ أثناء رفع البطاقة");
-    } finally {
       setUploadingIdCard(false);
+      return;
+    }
+    setUploadingIdCard(false);
+
+    // Step 2: Scan with Gemini Vision
+    setScanning(true);
+    try {
+      const base64 = await toBase64(file);
+      const scanned = await scanIdCard({ imageBase64: base64, mimeType: file.type });
+
+      // Step 3: Auto-fill form fields
+      if (scanned.fullName)   updateField("fullName",   scanned.fullName);
+      if (scanned.personalId) updateField("personalId", scanned.personalId);
+      if (scanned.birthYear)  updateField("birthYear",  scanned.birthYear);
+      if (scanned.nationality) {
+        const mapped = mapNationality(scanned.nationality);
+        if (mapped) updateField("nationality", mapped);
+      }
+      const filled = [scanned.fullName, scanned.personalId, scanned.birthYear, scanned.nationality].filter(Boolean).length;
+      if (filled > 0) {
+        toast.success(`تم استخراج ${filled} حقول من البطاقة ✓`);
+      } else {
+        toast.warning("لم يتم التعرف على بيانات من البطاقة — تأكد أن الصورة واضحة");
+      }
+    } catch (err) {
+      console.error("Gemini scan error:", err);
+      toast.warning(`خطأ في استخراج البيانات: ${err?.message || "unknown"} — يمكنك إدخالها يدوياً`);
+    } finally {
+      setScanning(false);
     }
   };
 
@@ -426,7 +495,14 @@ export default function StudentFormPage() {
       {/* Personal Section */}
       <Card className="border-[#E5E1D8]">
         <CardContent className="p-5">
-          <h3 className="text-base font-semibold text-[#8A1538] mb-4 font-['Alexandria']">البيانات الشخصية</h3>
+          <h3 className="text-base font-semibold text-[#8A1538] mb-4 font-['Alexandria'] flex items-center gap-2">
+            البيانات الشخصية
+            {scanning && (
+              <span className="flex items-center gap-1 text-xs font-normal text-[#D4AF37] bg-[#D4AF37]/10 px-2 py-0.5 rounded-full">
+                <Loader2 className="w-3 h-3 animate-spin" />جاري استخراج البيانات...
+              </span>
+            )}
+          </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="md:col-span-2">
               <Label className="text-[#4B5563]">الاسم الكامل *</Label>
@@ -473,10 +549,14 @@ export default function StudentFormPage() {
       {/* ID Card Upload */}
       <Card className="border-[#E5E1D8]">
         <CardContent className="p-5">
-          <h3 className="text-base font-semibold text-[#8A1538] mb-4 font-['Alexandria'] flex items-center gap-2">
+          <h3 className="text-base font-semibold text-[#8A1538] mb-1 font-['Alexandria'] flex items-center gap-2">
             <IdCard className="w-5 h-5" />صورة البطاقة الشخصية
             <span className="text-xs font-normal text-[#9CA3AF]">(اختياري)</span>
           </h3>
+          <p className="text-xs text-[#9CA3AF] mb-4 flex items-center gap-1">
+            <ScanLine className="w-3.5 h-3.5" />
+            سيتم استخراج البيانات تلقائياً من البطاقة بعد الرفع
+          </p>
 
           {(idCardPreview || existingIdCardUrl) ? (
             <div className="space-y-3">
@@ -486,12 +566,26 @@ export default function StudentFormPage() {
                   alt="البطاقة الشخصية"
                   className="max-w-sm w-full h-48 object-cover rounded-lg border-2 border-[#D4AF37]/30"
                 />
+                {scanning && (
+                  <div className="absolute inset-0 rounded-lg bg-black/50 flex flex-col items-center justify-center gap-2">
+                    <ScanLine className="w-8 h-8 text-[#D4AF37] animate-pulse" />
+                    <p className="text-white text-sm font-medium">جاري استخراج البيانات...</p>
+                  </div>
+                )}
               </div>
-              <label className="flex items-center gap-2 cursor-pointer text-sm text-[#8A1538] hover:text-[#6D102A] w-fit">
-                <Upload className="w-4 h-4" />
-                <span>استبدال الصورة</span>
-                <input type="file" accept="image/*" className="hidden" onChange={handleIdCardUpload} disabled={uploadingIdCard} />
-              </label>
+              {scanning && (
+                <div className="flex items-center gap-2 text-sm text-[#D4AF37]">
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>يتم تحليل البطاقة واستخراج البيانات تلقائياً...</span>
+                </div>
+              )}
+              {!scanning && (
+                <label className="flex items-center gap-2 cursor-pointer text-sm text-[#8A1538] hover:text-[#6D102A] w-fit">
+                  <Upload className="w-4 h-4" />
+                  <span>استبدال الصورة</span>
+                  <input type="file" accept="image/*" className="hidden" onChange={handleIdCardUpload} disabled={uploadingIdCard || scanning} />
+                </label>
+              )}
             </div>
           ) : (
             <label className={`flex flex-col items-center justify-center w-full h-36 border-2 border-dashed rounded-xl cursor-pointer transition-all ${
@@ -508,7 +602,7 @@ export default function StudentFormPage() {
                 <>
                   <IdCard className="w-8 h-8 text-[#9CA3AF] mb-2" />
                   <p className="text-sm text-[#4B5563] font-medium">اضغط لرفع صورة البطاقة</p>
-                  <p className="text-xs text-[#9CA3AF] mt-1">JPG, PNG — حتى 5MB</p>
+                  <p className="text-xs text-[#9CA3AF] mt-1">هوية قطرية أو إقامة — JPG, PNG</p>
                 </>
               )}
               <input type="file" accept="image/*" className="hidden" onChange={handleIdCardUpload} disabled={uploadingIdCard} />
@@ -522,11 +616,11 @@ export default function StudentFormPage() {
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3 pb-6">
-        <Button onClick={() => handleSave(false)} disabled={saving} data-testid="save-btn" className="bg-[#8A1538] hover:bg-[#6D102A] text-white h-11 px-8">
-          <Save className="w-4 h-4 ml-2" />{saving ? "جاري الحفظ..." : "حفظ"}
+        <Button onClick={() => handleSave(false)} disabled={saving || scanning} data-testid="save-btn" className="bg-[#8A1538] hover:bg-[#6D102A] text-white h-11 px-8">
+          <Save className="w-4 h-4 ml-2" />{saving ? "جاري الحفظ..." : scanning ? "جاري التحليل..." : "حفظ"}
         </Button>
         {!isEdit && (
-          <Button onClick={() => handleSave(true)} disabled={saving} data-testid="save-and-new-btn" variant="outline" className="border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/5 h-11 px-8">
+          <Button onClick={() => handleSave(true)} disabled={saving || scanning} data-testid="save-and-new-btn" variant="outline" className="border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/5 h-11 px-8">
             <Plus className="w-4 h-4 ml-2" />حفظ وإضافة جديد
           </Button>
         )}
