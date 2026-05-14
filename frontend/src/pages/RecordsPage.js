@@ -7,8 +7,8 @@ import { getSchoolDisplayName } from "@/lib/schoolUtils";
 import { Trophy, Dumbbell, Heart, Ruler, Zap, Timer, ChevronRight, Medal, School, Calendar } from "lucide-react";
 
 /* ══════════════════════════════════════════════
-   بيانات الفائزين الحقيقية — برنامج اللياقة البدنية والصحة قطر
-   المصدر: النتائج النهائية المعتمدة 2008 – 2016
+   بيانات الفائزين — برنامج اللياقة البدنية والصحة قطر
+   نتائج موسم 2025-2026 حسب الفئة العمرية (سنة الميلاد 2008 – 2016)
    ══════════════════════════════════════════════ */
 const HISTORICAL_WINNERS = {
   بنين: [
@@ -385,16 +385,13 @@ function MedalCard({ medal, winner, unit, lowerBetter }) {
 }
 
 function HistoricalSection() {
-  const histYears = HISTORICAL_WINNERS["بنين"].map(r => r.year);
-  const [mode, setMode]     = useState("2025");        // "2025" | "2024" | "hist"
+  const [mode, setMode]     = useState("hist");        // "hist" (2025-2026) | "2025" (2024-2025) | "2024" (2023-2024)
   const [gender, setGender] = useState("بنين");
-  const [year, setYear]     = useState(histYears[0]);
   const [test, setTest]     = useState("الضغط");
 
   const TESTS_2024 = Object.keys(WINNERS_2024["بنين"]);
   const stages2024 = Object.keys(WINNERS_2024[gender]?.[test]?.stages ?? {});
   const testData   = WINNERS_2024[gender]?.[test];
-  const histRow    = HISTORICAL_WINNERS[gender]?.find(r => r.year === year);
 
   return (
     <div className="space-y-5">
@@ -415,7 +412,7 @@ function HistoricalSection() {
 
       {/* ── Mode toggle: 2023-2024 vs historical ── */}
       <div className="inline-flex rounded-xl border border-[#E5E1D8] bg-[#FDFBF7] p-1 gap-1">
-        {[{ k: "2025", label: "2024 – 2025 🆕" }, { k: "2024", label: "2023 – 2024" }, { k: "hist", label: "2008 – 2016" }].map(m => (
+        {[{ k: "hist", label: "2025 – 2026 🆕" }, { k: "2025", label: "2024 – 2025" }, { k: "2024", label: "2023 – 2024" }].map(m => (
           <button key={m.k} onClick={() => setMode(m.k)}
             className={`px-4 py-2 rounded-lg text-sm font-bold transition-all whitespace-nowrap ${
               mode === m.k ? "bg-[#8A1538] text-white shadow-sm" : "text-[#6B7280] hover:text-[#8A1538]"
@@ -571,54 +568,66 @@ function HistoricalSection() {
       )}
 
       {/* ════════════════════
-          MODE: 2008-2016
+          MODE: 2025-2026 (results by birth-year age group)
       ════════════════════ */}
       {mode === "hist" && (
-        <div className="space-y-5">
-
-          {/* Year tabs */}
+        <div className="space-y-4">
+          {/* Age group tabs */}
           <div className="flex flex-wrap gap-2" dir="rtl">
-            {histYears.map(y => (
-              <button key={y} onClick={() => setYear(y)}
-                className={`px-3.5 py-1.5 rounded-lg text-sm font-semibold border transition-all ${
-                  year === y
-                    ? "bg-[#8A1538] text-white border-[#8A1538] shadow-sm"
-                    : "bg-white text-[#6B7280] border-[#E5E1D8] hover:border-[#8A1538] hover:text-[#8A1538]"
-                }`}>
-                {y}
-              </button>
+            {HISTORICAL_WINNERS[gender].map(row => (
+              <span key={row.year}
+                className="px-3 py-1 rounded-lg text-xs font-semibold bg-[#8A1538]/8 text-[#8A1538] border border-[#8A1538]/15">
+                مواليد {row.year}
+              </span>
             ))}
           </div>
 
-          {/* 3 overall medal cards */}
-          {histRow && (
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {MEDALS.map(medal => {
-                const winner = histRow[medal.key];
-                return (
-                  <div key={medal.key}
-                    className={`rounded-2xl border-2 p-5 ${medal.bg} ${medal.border} flex flex-col gap-3`}>
-                    <div className="flex items-center justify-between">
-                      <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${medal.badge}`}>{medal.label}</span>
-                      <span className="text-3xl">{medal.emoji}</span>
+          {/* One row per age group */}
+          {HISTORICAL_WINNERS[gender].map(row => (
+            <div key={row.year} className="space-y-2">
+              {/* Age label */}
+              <div className="flex items-center gap-2">
+                <div className="h-px flex-1 bg-[#E5E1D8]" />
+                <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#8A1538]/8 text-[#8A1538] border border-[#8A1538]/15 whitespace-nowrap">
+                  الفئة العمرية · مواليد {row.year}
+                </span>
+                <div className="h-px flex-1 bg-[#E5E1D8]" />
+              </div>
+              {/* 3 medal cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {MEDALS.map(medal => {
+                  const winner = row[medal.key];
+                  return (
+                    <div key={medal.key}
+                      className={`rounded-2xl border-2 p-4 ${medal.bg} ${medal.border} flex flex-col gap-2.5`}>
+                      <div className="flex items-center justify-between">
+                        <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${medal.badge}`}>{medal.label}</span>
+                        <span className="text-2xl">{medal.emoji}</span>
+                      </div>
+                      <p className={`text-base font-black leading-tight ${medal.text} font-['Alexandria']`}>{winner.name}</p>
+                      <div className="flex items-start gap-1 pt-2 border-t border-black/5">
+                        <School className="w-3 h-3 mt-0.5 shrink-0 opacity-50" />
+                        <p className="text-[11px] leading-relaxed opacity-60 font-medium">{winner.school}</p>
+                      </div>
                     </div>
-                    <p className={`text-lg font-black leading-tight ${medal.text} font-['Alexandria']`}>{winner.name}</p>
-                    <div className="flex items-start gap-1.5 mt-auto pt-3 border-t border-black/5">
-                      <School className="w-3.5 h-3.5 mt-0.5 shrink-0 opacity-50" />
-                      <p className="text-xs leading-relaxed opacity-60 font-medium">{winner.school}</p>
-                    </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
-          )}
+          ))}
 
-          <div className="rounded-xl bg-[#FDFBF7] border border-[#E5E1D8] p-4">
-            <p className="text-xs text-[#9CA3AF] text-center">
-              <strong className="text-[#8A1538]">{histYears.length} أعوام</strong> مسجلة ·
-              الفترة: <strong className="text-[#1A1A1A]">2008 – 2016</strong> ·
-              المصدر: <strong className="text-[#1A1A1A]">النتائج النهائية المعتمدة</strong>
-            </p>
+          {/* Stats strip */}
+          <div className="grid grid-cols-3 gap-3 pt-1">
+            {[
+              { n: String(HISTORICAL_WINNERS[gender].length), label: "فئات عمرية" },
+              { n: String(HISTORICAL_WINNERS[gender].length * 3 * 2), label: "طالب وطالبة فائز" },
+              { n: "3", label: "مستويات (ذهبي · فضي · برونزي)" },
+            ].map(s => (
+              <div key={s.label} className="rounded-xl bg-[#FDFBF7] border border-[#E5E1D8] p-3 text-center">
+                <p className="text-xl font-black text-[#8A1538]">{s.n}</p>
+                <p className="text-[11px] text-[#9CA3AF] font-medium">{s.label}</p>
+              </div>
+            ))}
           </div>
         </div>
       )}
