@@ -29,6 +29,7 @@ export default defineSchema({
     grade: v.string(),
     birthYear: v.number(),
     personalId: v.string(),
+    academicYear: v.optional(v.string()),   // مثال: "2025-2026" — للسنة الأكاديمية
     height: v.optional(v.number()),
     weight: v.optional(v.number()),
     bmi: v.optional(v.number()),
@@ -43,7 +44,8 @@ export default defineSchema({
     createdAt: v.string(),
     updatedAt: v.string(),
   }).index("by_school", ["schoolId"])
-    .index("by_personalId", ["personalId"]),
+    .index("by_personalId", ["personalId"])
+    .index("by_academicYear", ["academicYear"]),
   settings: defineTable({
     key: v.string(),
     value: v.any(),

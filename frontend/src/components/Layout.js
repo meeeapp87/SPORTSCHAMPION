@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Outlet, NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { LayoutDashboard, UserPlus, Users, Settings, LogOut, Menu, BarChart3, ClipboardList, Ruler, School, Trophy, BookOpen } from "lucide-react";
+import { LayoutDashboard, UserPlus, Users, Settings, LogOut, Menu, BarChart3, ClipboardList, Ruler, School, Trophy, BookOpen, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import "@/App.css";
@@ -30,6 +30,7 @@ function getNavItems(role) {
     { path: "/schools-list", label: "قائمة المدارس", icon: School },
     { path: "/comparison", label: "مقارنة المدارس", icon: BarChart3 },
     { path: "/records", label: "نتائج الطلاب", icon: Trophy },
+    { path: "/records-analysis", label: "تحليل الأرقام القياسية", icon: Award },
     { path: "/tests-info", label: "دليل الاختبارات", icon: BookOpen },
     ...(role === "admin" ? [{ path: "/admin", label: "الإدارة", icon: Settings }] : []),
   ];

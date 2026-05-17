@@ -13,6 +13,7 @@ import SchoolPortalPage from "@/pages/SchoolPortalPage";
 import TrainerPortalPage from "@/pages/TrainerPortalPage";
 import SchoolsListPage from "@/pages/SchoolsListPage";
 import RecordsPage from "@/pages/RecordsPage";
+import RecordsAnalysisPage from "@/pages/RecordsAnalysisPage";
 import TestsInfoPage from "@/pages/TestsInfoPage";
 
 function ProtectedRoute({ children }) {
@@ -61,6 +62,7 @@ function AppRoutes() {
         <Route path="comparison" element={<ComparisonPage />} />
         <Route path="schools-list" element={<SchoolsListPage />} />
         <Route path="records" element={<RecordsPage />} />
+        <Route path="records-analysis" element={<RecordsAnalysisPage />} />
         <Route path="tests-info" element={<TestsInfoPage />} />
         <Route path="admin" element={<AdminPage />} />
       </Route>
