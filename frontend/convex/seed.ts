@@ -9,7 +9,7 @@ export const seedInitialData = mutation({
     const school1 = await ctx.db.insert("schools", {
       name: "مدرسة الدوحة الثانوية",
       stage: "ثانوي",
-      grades: ["الأول الثانوي", "الثاني الثانوي", "الثالث الثانوي"],
+      grades: ["10", "11", "12"],
       allowedBirthYears: [2008, 2009, 2010],
       maxStudents: 3,
       isActive: true,
@@ -38,9 +38,9 @@ export const seedInitialData = mutation({
 
     const now = new Date().toISOString();
     const studentsData = [
-      { schoolId: school1, schoolName: "مدرسة الدوحة الثانوية", fullName: "أحمد محمد العلي", stage: "ثانوي", grade: "الأول الثانوي", birthYear: 2009, personalId: "29901001", nationality: "قطري", height: 175, weight: 68, pushUpScore: 45, sitUpScore: 40, flexibilityScore: 35, agilityScore: 42, enduranceScore: 38 },
-      { schoolId: school1, schoolName: "مدرسة الدوحة الثانوية", fullName: "خالد عبدالله الهاجري", stage: "ثانوي", grade: "الثاني الثانوي", birthYear: 2008, personalId: "29901002", nationality: "قطري", height: 180, weight: 75, pushUpScore: 50, sitUpScore: 48, flexibilityScore: 30, agilityScore: 44, enduranceScore: 42 },
-      { schoolId: school1, schoolName: "مدرسة الدوحة الثانوية", fullName: "سعد ناصر المري", stage: "ثانوي", grade: "الثالث الثانوي", birthYear: 2010, personalId: "29901003", nationality: "قطري", height: 170, weight: 65, pushUpScore: 38, sitUpScore: 35, flexibilityScore: 40, agilityScore: 36, enduranceScore: 34 },
+      { schoolId: school1, schoolName: "مدرسة الدوحة الثانوية", fullName: "أحمد محمد العلي", stage: "ثانوي", grade: "10", birthYear: 2009, personalId: "29901001", nationality: "قطري", height: 175, weight: 68, pushUpScore: 45, sitUpScore: 40, flexibilityScore: 35, agilityScore: 42, enduranceScore: 38 },
+      { schoolId: school1, schoolName: "مدرسة الدوحة الثانوية", fullName: "خالد عبدالله الهاجري", stage: "ثانوي", grade: "11", birthYear: 2008, personalId: "29901002", nationality: "قطري", height: 180, weight: 75, pushUpScore: 50, sitUpScore: 48, flexibilityScore: 30, agilityScore: 44, enduranceScore: 42 },
+      { schoolId: school1, schoolName: "مدرسة الدوحة الثانوية", fullName: "سعد ناصر المري", stage: "ثانوي", grade: "12", birthYear: 2010, personalId: "29901003", nationality: "قطري", height: 170, weight: 65, pushUpScore: 38, sitUpScore: 35, flexibilityScore: 40, agilityScore: 36, enduranceScore: 34 },
       { schoolId: school2, schoolName: "مدرسة الريان الإعدادية", fullName: "يوسف علي الكواري", stage: "إعدادي", grade: "الأول الإعدادي", birthYear: 2012, personalId: "29901004", nationality: "قطري", height: 160, weight: 52, pushUpScore: 35, sitUpScore: 38, flexibilityScore: 42, agilityScore: 40, enduranceScore: 36 },
       { schoolId: school2, schoolName: "مدرسة الريان الإعدادية", fullName: "عمر حسن المهندي", stage: "إعدادي", grade: "الثاني الإعدادي", birthYear: 2011, personalId: "29901005", nationality: "قطري", height: 165, weight: 58, pushUpScore: 42, sitUpScore: 44, flexibilityScore: 38, agilityScore: 46, enduranceScore: 40 },
       { schoolId: school2, schoolName: "مدرسة الريان الإعدادية", fullName: "فهد جاسم النعيمي", stage: "إعدادي", grade: "الثالث الإعدادي", birthYear: 2013, personalId: "29901006", nationality: "قطري", height: 155, weight: 48, pushUpScore: 30, sitUpScore: 32, flexibilityScore: 28, agilityScore: 34, enduranceScore: 30 },

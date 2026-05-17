@@ -645,6 +645,31 @@ const TESTS = [
 
 const STAGES = ["ابتدائي", "إعدادي", "ثانوي"];
 
+// خرائط لربط أكواد الاختبارات بأسمائها العربية في WINNERS_2024
+const TEST_NAME_MAP = {
+  pushUpScore:      "الضغط",
+  sitUpScore:       "البطن",
+  flexibilityScore: "المرونة",
+  agilityScore:     "الرشاقة",
+  enduranceScore:   "التحمل",
+};
+// المراحل في WINNERS_2024 (النموذجية + الابتدائية → ابتدائي)
+const STAGE_2024_MAP = {
+  ابتدائي: ["النموذجية", "الابتدائية"],
+  إعدادي:  ["الإعدادية"],
+  ثانوي:   ["الثانوية"],
+};
+// تحويل score النصي لرقم للمقارنة (يدعم 3:11.59 للجري)
+const parseScoreValue = (s, isTime) => {
+  if (s == null) return NaN;
+  const str = String(s);
+  if (isTime && str.includes(":")) {
+    const [m, rest] = str.split(":");
+    return parseInt(m, 10) * 60 + parseFloat(rest);
+  }
+  return parseFloat(str);
+};
+
 export default function RecordsPage() {
   const navigate = useNavigate();
   const studentsRaw = useQuery(api.students.list);
@@ -670,16 +695,37 @@ export default function RecordsPage() {
     });
   }, [students, selectedGender, selectedStage, schoolGenderMap]);
 
+  // الأرقام القياسية من بيانات 2023-2024 (WINNERS_2024)
   const records = useMemo(() => {
+    if (!selectedGender || !selectedStage) return [];
     return TESTS.map(test => {
-      const scored = filteredStudents.filter(s => s[test.key] != null && s[test.key] > 0);
-      if (scored.length === 0) return { ...test, holder: null };
-      const holder = test.lowerBetter
-        ? scored.reduce((a, b) => a[test.key] < b[test.key] ? a : b)
-        : scored.reduce((a, b) => a[test.key] > b[test.key] ? a : b);
-      return { ...test, holder };
+      const arName    = TEST_NAME_MAP[test.key];
+      const subStages = STAGE_2024_MAP[selectedStage] || [];
+      const testData  = WINNERS_2024[selectedGender]?.[arName];
+      if (!testData) return { ...test, holder: null };
+
+      const golds = subStages.map(stg => testData.stages?.[stg]?.gold).filter(Boolean);
+      if (golds.length === 0) return { ...test, holder: null };
+
+      const isTime = test.key === "enduranceScore";
+      const best = golds.reduce((a, b) => {
+        const av = parseScoreValue(a.score, isTime);
+        const bv = parseScoreValue(b.score, isTime);
+        return test.lowerBetter ? (av < bv ? a : b) : (av > bv ? a : b);
+      });
+
+      return {
+        ...test,
+        holder: {
+          _id:        null,
+          [test.key]: best.score,
+          fullName:   best.name,
+          schoolName: best.school,
+          grade:      "—",
+        },
+      };
     });
-  }, [filteredStudents]);
+  }, [selectedGender, selectedStage]);
 
   const handleGenderSelect = (gender) => {
     setSelectedGender(gender);
@@ -789,17 +835,57 @@ export default function RecordsPage() {
       {/* Step 3: Records */}
       {selectedGender && selectedStage && (
         <>
+          {/* Quick switcher: gender + stage tabs */}
+          <Card className="border-[#E5E1D8] bg-[#FDFBF7]">
+            <CardContent className="p-3 space-y-2.5">
+              {/* Gender quick switch */}
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-xs font-bold text-[#9CA3AF] shrink-0">النوع:</span>
+                {[
+                  { value: "بنين", emoji: "👦" },
+                  { value: "بنات", emoji: "👧" },
+                ].map(g => (
+                  <button key={g.value} onClick={() => setSelectedGender(g.value)}
+                    className={`px-3 py-1.5 rounded-lg text-sm font-semibold border transition-all ${
+                      selectedGender === g.value
+                        ? "bg-[#8A1538] text-white border-[#8A1538] shadow-sm"
+                        : "bg-white text-[#6B7280] border-[#E5E1D8] hover:border-[#8A1538] hover:text-[#8A1538]"
+                    }`}>
+                    {g.emoji} {g.value}
+                  </button>
+                ))}
+              </div>
+              {/* Stage quick switch */}
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-xs font-bold text-[#9CA3AF] shrink-0">المرحلة:</span>
+                {STAGES.map((stage, i) => {
+                  const emojis = ["🏫", "📚", "🎓"];
+                  return (
+                    <button key={stage} onClick={() => setSelectedStage(stage)}
+                      className={`px-3 py-1.5 rounded-lg text-sm font-semibold border transition-all ${
+                        selectedStage === stage
+                          ? "bg-[#D4AF37] text-white border-[#D4AF37] shadow-sm"
+                          : "bg-white text-[#6B7280] border-[#E5E1D8] hover:border-[#D4AF37] hover:text-[#D4AF37]"
+                      }`}>
+                      {emojis[i]} {stage}
+                    </button>
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Card>
+
           <div className="flex items-center justify-between">
             <p className="text-sm text-[#9CA3AF]">
-              {filteredStudents.length} طالب في {selectedStage} - {selectedGender}
+              الأرقام القياسية لمرحلة {selectedStage} - {selectedGender} (موسم 2023-2024)
             </p>
           </div>
 
-          {filteredStudents.length === 0 ? (
+          {records.every(r => !r.holder) ? (
             <Card className="border-[#E5E1D8]">
               <CardContent className="p-10 text-center">
                 <Trophy className="w-10 h-10 mx-auto mb-3 text-[#E5E1D8]" />
-                <p className="text-[#9CA3AF]">لا توجد نتائج مسجلة لهذه الفئة بعد</p>
+                <p className="text-[#9CA3AF]">لا توجد أرقام قياسية لهذه الفئة</p>
               </CardContent>
             </Card>
           ) : (
@@ -842,8 +928,8 @@ export default function RecordsPage() {
 
                           {/* Record holder */}
                           <div
-                            className="flex items-center gap-2 p-2.5 rounded-lg bg-[#FDFBF7] border border-[#E5E1D8] cursor-pointer hover:bg-[#F5F3EC] transition-colors"
-                            onClick={() => navigate(`/students/${test.holder._id}`)}
+                            className={`flex items-center gap-2 p-2.5 rounded-lg bg-[#FDFBF7] border border-[#E5E1D8] transition-colors ${test.holder._id ? "cursor-pointer hover:bg-[#F5F3EC]" : ""}`}
+                            onClick={() => test.holder._id && navigate(`/students/${test.holder._id}`)}
                           >
                             <div className="w-8 h-8 rounded-full bg-[#8A1538]/10 flex items-center justify-center shrink-0">
                               <span className="text-[10px] font-bold text-[#8A1538]">
@@ -853,10 +939,10 @@ export default function RecordsPage() {
                             <div className="min-w-0 flex-1">
                               <p className="text-sm font-semibold text-[#1A1A1A] truncate">{test.holder.fullName}</p>
                               <p className="text-[11px] text-[#9CA3AF] truncate">
-                                {getSchoolDisplayName(test.holder.schoolName)} · {test.holder.grade}
+                                {getSchoolDisplayName(test.holder.schoolName)}
                               </p>
                             </div>
-                            <ChevronRight className="w-4 h-4 text-[#9CA3AF] shrink-0 rotate-180" />
+                            {test.holder._id && <ChevronRight className="w-4 h-4 text-[#9CA3AF] shrink-0 rotate-180" />}
                           </div>
                         </>
                       ) : (

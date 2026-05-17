@@ -10,14 +10,14 @@ function getNavItems(role) {
   if (role === "school_user") {
     return [
       { path: "/school-portal", label: "تسجيل الطلاب", icon: ClipboardList },
-      { path: "/records", label: "الأرقام القياسية", icon: Trophy },
+      { path: "/records", label: "نتائج الطلاب", icon: Trophy },
       { path: "/tests-info", label: "دليل الاختبارات", icon: BookOpen },
     ];
   }
   if (role === "trainer") {
     return [
       { path: "/trainer", label: "القياسات والاختبارات", icon: Ruler },
-      { path: "/records", label: "الأرقام القياسية", icon: Trophy },
+      { path: "/records", label: "نتائج الطلاب", icon: Trophy },
       { path: "/tests-info", label: "دليل الاختبارات", icon: BookOpen },
     ];
   }
@@ -29,7 +29,7 @@ function getNavItems(role) {
     { path: "/students", label: "قائمة الطلاب", icon: Users },
     { path: "/schools-list", label: "قائمة المدارس", icon: School },
     { path: "/comparison", label: "مقارنة المدارس", icon: BarChart3 },
-    { path: "/records", label: "الأرقام القياسية", icon: Trophy },
+    { path: "/records", label: "نتائج الطلاب", icon: Trophy },
     { path: "/tests-info", label: "دليل الاختبارات", icon: BookOpen },
     ...(role === "admin" ? [{ path: "/admin", label: "الإدارة", icon: Settings }] : []),
   ];

@@ -28,7 +28,7 @@ const GENDERS = ["بنين", "بنات"];
 const GRADES_MAP = {
   "ابتدائي": ["الرابع", "الخامس", "السادس"],
   "إعدادي": ["الأول الإعدادي", "الثاني الإعدادي", "الثالث الإعدادي"],
-  "ثانوي": ["الأول الثانوي", "الثاني الثانوي", "الثالث الثانوي"],
+  "ثانوي": ["10", "11", "12"],
 };
 
 const defaultSchool = { name: "", stage: "", gender: "", grades: [], allowedBirthYears: [], maxStudents: 3, isActive: true };
@@ -428,7 +428,7 @@ export default function AdminPage() {
     const GRADES = {
       "ابتدائي": ["الرابع", "الخامس", "السادس"],
       "إعدادي":  ["الأول الإعدادي", "الثاني الإعدادي", "الثالث الإعدادي"],
-      "ثانوي":   ["الأول الثانوي", "الثاني الثانوي", "الثالث الثانوي"],
+      "ثانوي":   ["10", "11", "12"],
     };
     const prepared = schoolNamesData.map(s => {
       let stage = "ابتدائي";
@@ -767,7 +767,7 @@ export default function AdminPage() {
                     disabled={!schoolForm.stage && !schoolForm.gender}
                     className="w-full mt-1 justify-between text-right font-normal h-auto min-h-[40px] whitespace-normal"
                   >
-                    {schoolForm.name || <span className="text-muted-foreground">{(!schoolForm.stage && !schoolForm.gender) ? "اختر النوع أو المرحلة أولاً" : "اختر أو ابحث عن المدرسة..."}</span>}
+                    {schoolForm.name || <span className="text-muted-foreground">{(!schoolForm.stage && !schoolForm.gender) ? "اختر النوع أو المرحلة أولاً" : "اختر من القائمة أو اكتب اسم مخصص بالأسفل"}</span>}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-[460px] p-0" align="start">
@@ -780,7 +780,7 @@ export default function AdminPage() {
                   }}>
                     <CommandInput placeholder="ابحث بالعربي أو الإنجليزي..." />
                     <CommandList className="max-h-60">
-                      <CommandEmpty>لا توجد نتائج</CommandEmpty>
+                      <CommandEmpty>لا توجد نتائج — استخدم خانة "اسم مخصص" بالأسفل</CommandEmpty>
                       <CommandGroup>
                         {filteredSchoolNames.map(s => (
                           <CommandItem
@@ -800,6 +800,18 @@ export default function AdminPage() {
                   </Command>
                 </PopoverContent>
               </Popover>
+
+              {/* خانة اسم مخصص لإضافة مدرسة غير موجودة في القائمة */}
+              <div className="mt-2 flex items-center gap-2">
+                <span className="text-xs text-[#9CA3AF] whitespace-nowrap">أو اكتب اسم مخصص:</span>
+                <Input
+                  data-testid="school-name-custom-input"
+                  value={schoolForm.name}
+                  onChange={e => setSchoolForm(p => ({ ...p, name: e.target.value }))}
+                  placeholder="اسم المدرسة الجديدة..."
+                  className="flex-1"
+                />
+              </div>
             </div>
             <div>
               <Label>الصفوف</Label>
