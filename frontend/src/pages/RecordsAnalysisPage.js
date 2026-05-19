@@ -20,6 +20,8 @@ import { getCurrentAcademicYear } from "@/lib/classification";
 
 // نستورد بيانات WINNERS_2024 مباشرة من ملف RecordsPage (مصدر واحد للحقيقة)
 import { WINNERS_2024, WINNERS_2025, HISTORICAL_WINNERS } from "@/pages/RecordsPage";
+// بيانات النتائج الكاملة لموسم 2025-2026 (176 طالب)
+import results2026Data from "@/data/results2026.json";
 
 // ──────────────────────────────────────────────────────────
 // المكوّن الرئيسي
@@ -50,6 +52,7 @@ export default function RecordsAnalysisPage() {
       winners2024: WINNERS_2024,
       winners2025: WINNERS_2025,
       winners2026: HISTORICAL_WINNERS,
+      results2026: results2026Data,                  // 176 طالب بنتائج تفصيلية
       currentAcademicYear: getCurrentAcademicYear(),
     });
   }, [students, schools, loading]);

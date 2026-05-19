@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { getSchoolDisplayName } from "@/lib/schoolUtils";
 import { Trophy, Dumbbell, Heart, Ruler, Zap, Timer, ChevronRight, Medal, School, Calendar } from "lucide-react";
+import { runRecordsPipeline, computeRecords } from "@/lib/recordsAnalysis";
+import { getCurrentAcademicYear } from "@/lib/classification";
+import results2026Data from "@/data/results2026.json";
 
 /* ══════════════════════════════════════════════
    بيانات الفائزين — برنامج اللياقة البدنية والصحة قطر
@@ -677,6 +680,7 @@ export default function RecordsPage() {
 
   const [selectedGender, setSelectedGender] = useState(null);
   const [selectedStage,  setSelectedStage]  = useState(null);
+  const [selectedYear,   setSelectedYear]   = useState("ALL");  // "ALL" | "2025-2026" | "2024-2025" | "2023-2024"
 
   const schools = useMemo(() => schoolsRaw || [], [schoolsRaw]);
   const students = useMemo(() => studentsRaw || [], [studentsRaw]);
@@ -695,37 +699,52 @@ export default function RecordsPage() {
     });
   }, [students, selectedGender, selectedStage, schoolGenderMap]);
 
-  // الأرقام القياسية من بيانات 2023-2024 (WINNERS_2024)
+  // pipeline موحّد (يجمع كل المصادر + ينظّف + يصنّف ديناميكياً)
+  const pipeline = useMemo(() => {
+    return runRecordsPipeline({
+      dbStudents:  students,
+      schools,
+      winners2024: WINNERS_2024,
+      winners2025: WINNERS_2025,             // أبطال 2024-2025 (أسماء بدون أرقام)
+      winners2026: HISTORICAL_WINNERS,       // أبطال 2025-2026 (أسماء بدون أرقام)
+      results2026: results2026Data,          // 176 طالب بنتائج تفصيلية
+      currentAcademicYear: getCurrentAcademicYear(),
+    });
+  }, [students, schools]);
+
+  // كل السنوات الأكاديمية المتاحة للـ tabs (مرتبة من الأحدث للأقدم)
+  const availableYears = useMemo(() => {
+    const set = new Set(pipeline.allEntries.map(e => e.academicYear).filter(Boolean));
+    return Array.from(set).sort().reverse();
+  }, [pipeline]);
+
+  // الأرقام القياسية حسب السنة المختارة
+  const allRecords = useMemo(() => {
+    if (selectedYear === "ALL") return pipeline.records;
+    const filtered = pipeline.allEntries.filter(e => e.academicYear === selectedYear);
+    return computeRecords(filtered);
+  }, [pipeline, selectedYear]);
+
+  // فلتر السجلات حسب الجنس والمرحلة المختارة
   const records = useMemo(() => {
     if (!selectedGender || !selectedStage) return [];
     return TESTS.map(test => {
-      const arName    = TEST_NAME_MAP[test.key];
-      const subStages = STAGE_2024_MAP[selectedStage] || [];
-      const testData  = WINNERS_2024[selectedGender]?.[arName];
-      if (!testData) return { ...test, holder: null };
-
-      const golds = subStages.map(stg => testData.stages?.[stg]?.gold).filter(Boolean);
-      if (golds.length === 0) return { ...test, holder: null };
-
-      const isTime = test.key === "enduranceScore";
-      const best = golds.reduce((a, b) => {
-        const av = parseScoreValue(a.score, isTime);
-        const bv = parseScoreValue(b.score, isTime);
-        return test.lowerBetter ? (av < bv ? a : b) : (av > bv ? a : b);
-      });
-
+      const r = allRecords.find(x =>
+        x.test === test.key && x.gender === selectedGender && x.stage === selectedStage
+      );
+      if (!r || !r.holder) return { ...test, holder: null };
       return {
         ...test,
         holder: {
-          _id:        null,
-          [test.key]: best.score,
-          fullName:   best.name,
-          schoolName: best.school,
-          grade:      "—",
+          _id:        r.holder._id || null,
+          [test.key]: r.displayScore,
+          fullName:   r.holder.fullName,
+          schoolName: r.holder.schoolName,
+          grade:      r.holder.academicYear || "—",
         },
       };
     });
-  }, [selectedGender, selectedStage]);
+  }, [allRecords, selectedGender, selectedStage]);
 
   const handleGenderSelect = (gender) => {
     setSelectedGender(gender);
@@ -835,9 +854,32 @@ export default function RecordsPage() {
       {/* Step 3: Records */}
       {selectedGender && selectedStage && (
         <>
-          {/* Quick switcher: gender + stage tabs */}
+          {/* Quick switcher: year + gender + stage tabs */}
           <Card className="border-[#E5E1D8] bg-[#FDFBF7]">
             <CardContent className="p-3 space-y-2.5">
+              {/* Year quick switch */}
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-xs font-bold text-[#9CA3AF] shrink-0">السنة:</span>
+                <button
+                  onClick={() => setSelectedYear("ALL")}
+                  className={`px-3 py-1.5 rounded-lg text-sm font-semibold border transition-all ${
+                    selectedYear === "ALL"
+                      ? "bg-[#1A1A1A] text-white border-[#1A1A1A] shadow-sm"
+                      : "bg-white text-[#6B7280] border-[#E5E1D8] hover:border-[#1A1A1A]"
+                  }`}>
+                  كل السنوات
+                </button>
+                {availableYears.map((y, i) => (
+                  <button key={y} onClick={() => setSelectedYear(y)}
+                    className={`px-3 py-1.5 rounded-lg text-sm font-semibold border transition-all ${
+                      selectedYear === y
+                        ? "bg-[#8A1538] text-white border-[#8A1538] shadow-sm"
+                        : "bg-white text-[#6B7280] border-[#E5E1D8] hover:border-[#8A1538] hover:text-[#8A1538]"
+                    }`}>
+                    {i === 0 ? `${y} 🆕` : y}
+                  </button>
+                ))}
+              </div>
               {/* Gender quick switch */}
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="text-xs font-bold text-[#9CA3AF] shrink-0">النوع:</span>
@@ -877,7 +919,9 @@ export default function RecordsPage() {
 
           <div className="flex items-center justify-between">
             <p className="text-sm text-[#9CA3AF]">
-              الأرقام القياسية لمرحلة {selectedStage} - {selectedGender} (موسم 2023-2024)
+              الأرقام القياسية لمرحلة {selectedStage} - {selectedGender}
+              {" "}
+              {selectedYear === "ALL" ? "(جميع المواسم)" : `(موسم ${selectedYear})`}
             </p>
           </div>
 
@@ -885,7 +929,16 @@ export default function RecordsPage() {
             <Card className="border-[#E5E1D8]">
               <CardContent className="p-10 text-center">
                 <Trophy className="w-10 h-10 mx-auto mb-3 text-[#E5E1D8]" />
-                <p className="text-[#9CA3AF]">لا توجد أرقام قياسية لهذه الفئة</p>
+                <p className="text-[#9CA3AF]">
+                  {selectedYear !== "ALL"
+                    ? `لا توجد أرقام قياسية رقمية لموسم ${selectedYear} في هذه الفئة`
+                    : "لا توجد أرقام قياسية لهذه الفئة"}
+                </p>
+                {selectedYear === "2024-2025" && (
+                  <p className="text-[11px] text-[#D4AF37] mt-2">
+                    📌 بيانات موسم 2024-2025 المتوفرة هي أسماء الفائزين فقط (بدون نتائج رقمية)
+                  </p>
+                )}
               </CardContent>
             </Card>
           ) : (

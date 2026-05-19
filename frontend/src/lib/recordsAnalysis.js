@@ -161,6 +161,36 @@ export function flattenWinners2024(winners2024) {
 }
 
 /**
+ * يحوّل JSON نتائج موسم (مثل results2026.json) إلى AnalyticsEntry[]
+ *
+ * @param {object} data            { academicYear, students: [...] }
+ * @param {string?} academicYearOverride  override للسنة الأكاديمية
+ * @returns {AnalyticsEntry[]}
+ */
+export function flattenSeasonResults(data, academicYearOverride) {
+  if (!data || !Array.isArray(data.students)) return [];
+  const academicYear = academicYearOverride || data.academicYear || "—";
+  return data.students.map(s => ({
+    source:       "results_json",
+    academicYear,
+    fullName:     s.fullName,
+    schoolName:   s.school,
+    gender:       s.gender,
+    stage:        s.stage,
+    birthYear:    s.birthYear,
+    personalId:   s.personalId,
+    nationality:  s.nationality,
+    scores: {
+      pushUpScore:      s.pushUp,
+      sitUpScore:       s.sitUp,
+      flexibilityScore: s.flexibility,
+      agilityScore:     s.agility,
+      enduranceScore:   s.endurance,
+    },
+  }));
+}
+
+/**
  * يحوّل صفوف الـ DB إلى AnalyticsEntry[]
  * @param {Array} students    students from Convex
  * @param {object} schoolsMap  map<schoolId, school>
@@ -325,17 +355,19 @@ export function runRecordsPipeline({
   winners2024 = null,
   winners2025 = null,
   winners2026 = null,
+  results2026 = null,                          // النتائج الكاملة لموسم 2025-2026 (raw data)
   currentAcademicYear = getCurrentAcademicYear(),
 }) {
   const schoolsMap = {};
   for (const s of schools) schoolsMap[s._id] = s;
 
   // ① تجميع المصادر
-  const dbEntries     = flattenDbStudents(dbStudents, schoolsMap, currentAcademicYear);
-  const w2024Entries  = winners2024 ? flattenWinners2024(winners2024) : [];
-  const w2025Entries  = winners2025 ? flattenAgeGroupWinners(winners2025, "2024-2025", "winners_2025") : [];
-  const w2026Entries  = winners2026 ? flattenAgeGroupWinners(winners2026, "2025-2026", "winners_2026") : [];
-  const allRaw        = [...dbEntries, ...w2024Entries, ...w2025Entries, ...w2026Entries];
+  const dbEntries        = flattenDbStudents(dbStudents, schoolsMap, currentAcademicYear);
+  const w2024Entries     = winners2024 ? flattenWinners2024(winners2024) : [];
+  const w2025Entries     = winners2025 ? flattenAgeGroupWinners(winners2025, "2024-2025", "winners_2025") : [];
+  const w2026Entries     = winners2026 ? flattenAgeGroupWinners(winners2026, "2025-2026", "winners_2026") : [];
+  const seasonEntries    = results2026 ? flattenSeasonResults(results2026, "2025-2026") : [];
+  const allRaw           = [...dbEntries, ...w2024Entries, ...w2025Entries, ...w2026Entries, ...seasonEntries];
 
   // ② تنظيف + تصنيف ديناميكي + dedup
   const allEntries = cleanAndDedup(allRaw);
