@@ -12,6 +12,7 @@ const TESTS = [
     icon: Dumbbell,
     color: "#8A1538",
     bgLight: "#8A153810",
+    imgBg: "#FDF5F7",
     definition: "تعريف القوة: هي أقصى قوة يمكن لعضلة واحدة أو مجموعة من العضلات توليدها ضد مقاومة.",
     purpose: "قياس التحمل العضلي لعضلات الصدر.",
     tools: "جهاز قياس.",
@@ -27,6 +28,7 @@ const TESTS = [
     icon: Heart,
     color: "#D4AF37",
     bgLight: "#D4AF3710",
+    imgBg: "#FDFBF4",
     definition: "تعريف تحمل القوة: هو قدرة العضلة على مقاومة شدة لأطول فترة ممكنة.",
     purpose: "قياس التحمل العضلي لعضلات البطن.",
     tools: "ساعة إيقاف.",
@@ -42,6 +44,7 @@ const TESTS = [
     icon: Ruler,
     color: "#10B981",
     bgLight: "#10B98110",
+    imgBg: "#F4FDF8",
     definition: "تعريف المرونة: هي القدرة على تحريك المفاصل لأقصى مدى حركي ممكن.",
     purpose: "قياس مرونة عضلات الظهر والعضلات الخلفية للرجلين.",
     tools: "صندوق قياس المرونة من وضع الجلوس.",
@@ -57,6 +60,7 @@ const TESTS = [
     icon: Zap,
     color: "#3B82F6",
     bgLight: "#3B82F610",
+    imgBg: "#F4F8FE",
     definition: "تعريف الرشاقة: هي القدرة على تغيير أوضاع الجسم على الأرض أو في الهواء.",
     purpose: "قياس مستوى الرشاقة.",
     tools: "ساعة إيقاف - أقماع/قوائم/علامات أرضية.",
@@ -73,6 +77,7 @@ const TESTS = [
     icon: Timer,
     color: "#8B5CF6",
     bgLight: "#8B5CF610",
+    imgBg: "#F8F4FE",
     definition: "تعريف التحمل: هو قدرة الجسم على الاستمرار في أداء نشاط بدني لأطول فترة ممكنة.",
     purpose: "قياس مستوى التحمل القلبي التنفسي.",
     tools: "ميدان/مضمار - ساعة إيقاف.",
@@ -87,7 +92,7 @@ function TestImage({ testId, color, name }) {
   const allSettings = useQuery(api.settings.getAll) || [];
   const storageId = allSettings.find(s => s.key === `testImage_${testId}`)?.value || null;
   const convexUrl = useQuery(api.files.getStorageUrl, storageId ? { storageId } : "skip");
-  const publicUrl = `/tests/test-${testId}.svg`;
+  const publicUrl = `/tests/test-${testId}.png`;
   const [useFallback, setUseFallback] = useState(false);
   const [imgError, setImgError] = useState(false);
 
@@ -106,8 +111,8 @@ function TestImage({ testId, color, name }) {
     <img
       src={src}
       alt={name}
-      className="w-full"
-      style={{ maxHeight: "210px", objectFit: "contain", display: "block" }}
+      className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105 mix-blend-multiply"
+      style={{ display: "block" }}
       onError={() => {
         if (src === publicUrl) setImgError(true);
       }}
@@ -120,10 +125,13 @@ function TestCard({ test, index }) {
   const Icon = test.icon;
 
   return (
-    <div className="bg-white rounded-2xl border border-[#E5E1D8] overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+    <div className="bg-white rounded-2xl border border-[#E5E1D8] overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
 
       {/* Image Banner — full width at top */}
-      <div className="relative w-full overflow-hidden" style={{ background: `linear-gradient(135deg, ${test.color}18, ${test.color}08)`, minHeight: "200px" }}>
+      <div 
+        className="relative w-full overflow-hidden flex items-center justify-center" 
+        style={{ backgroundColor: test.imgBg || (test.color + "08"), height: "220px" }}
+      >
         {/* number badge */}
         <div className="absolute top-3 left-3 w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-base z-10 shadow" style={{ backgroundColor: test.color }}>
           {index + 1}
