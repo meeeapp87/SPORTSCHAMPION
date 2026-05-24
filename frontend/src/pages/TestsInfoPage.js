@@ -158,7 +158,7 @@ function TestCard({ test, index }) {
         </div>
 
         {/* Quick info */}
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div className="rounded-xl p-3 flex items-start gap-2" style={{ backgroundColor: test.color + "10" }}>
             <Target className="w-4 h-4 mt-0.5 shrink-0" style={{ color: test.color }} />
             <div>
@@ -171,6 +171,13 @@ function TestCard({ test, index }) {
             <div>
               <p className="text-[10px] text-[#9CA3AF] font-medium">الأدوات</p>
               <p className="text-xs text-[#1A1A1A] leading-relaxed">{test.tools}</p>
+            </div>
+          </div>
+          <div className="rounded-xl p-3 flex items-start gap-2" style={{ backgroundColor: test.color + "10" }}>
+            <ClipboardCheck className="w-4 h-4 mt-0.5 shrink-0" style={{ color: test.color }} />
+            <div>
+              <p className="text-[10px] text-[#9CA3AF] font-medium">طريقة التسجيل</p>
+              <p className="text-xs text-[#1A1A1A] leading-relaxed">{test.scoring}</p>
             </div>
           </div>
         </div>
