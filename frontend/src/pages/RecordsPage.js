@@ -8,6 +8,7 @@ import { Trophy, Dumbbell, Heart, Ruler, Zap, Timer, ChevronRight, Medal, School
 import { runRecordsPipeline, computeRecords } from "@/lib/recordsAnalysis";
 import { getCurrentAcademicYear } from "@/lib/classification";
 import results2026Data from "@/data/results2026.json";
+import results2025Data from "@/data/results2025.json";
 
 /* ══════════════════════════════════════════════
    بيانات الفائزين — برنامج اللياقة البدنية والصحة قطر
@@ -707,6 +708,7 @@ export default function RecordsPage() {
       winners2024: WINNERS_2024,
       winners2025: WINNERS_2025,             // أبطال 2024-2025 (أسماء بدون أرقام)
       winners2026: HISTORICAL_WINNERS,       // أبطال 2025-2026 (أسماء بدون أرقام)
+      results2025: results2025Data,          // 169 طالب بنتائج تفصيلية (2024-2025)
       results2026: results2026Data,          // 176 طالب بنتائج تفصيلية
       currentAcademicYear: getCurrentAcademicYear(),
     });
@@ -934,11 +936,6 @@ export default function RecordsPage() {
                     ? `لا توجد أرقام قياسية رقمية لموسم ${selectedYear} في هذه الفئة`
                     : "لا توجد أرقام قياسية لهذه الفئة"}
                 </p>
-                {selectedYear === "2024-2025" && (
-                  <p className="text-[11px] text-[#D4AF37] mt-2">
-                    📌 بيانات موسم 2024-2025 المتوفرة هي أسماء الفائزين فقط (بدون نتائج رقمية)
-                  </p>
-                )}
               </CardContent>
             </Card>
           ) : (

@@ -355,6 +355,7 @@ export function runRecordsPipeline({
   winners2024 = null,
   winners2025 = null,
   winners2026 = null,
+  results2025 = null,                          // النتائج الكاملة لموسم 2024-2025 (raw data)
   results2026 = null,                          // النتائج الكاملة لموسم 2025-2026 (raw data)
   currentAcademicYear = getCurrentAcademicYear(),
 }) {
@@ -366,8 +367,9 @@ export function runRecordsPipeline({
   const w2024Entries     = winners2024 ? flattenWinners2024(winners2024) : [];
   const w2025Entries     = winners2025 ? flattenAgeGroupWinners(winners2025, "2024-2025", "winners_2025") : [];
   const w2026Entries     = winners2026 ? flattenAgeGroupWinners(winners2026, "2025-2026", "winners_2026") : [];
+  const season25Entries  = results2025 ? flattenSeasonResults(results2025, "2024-2025") : [];
   const seasonEntries    = results2026 ? flattenSeasonResults(results2026, "2025-2026") : [];
-  const allRaw           = [...dbEntries, ...w2024Entries, ...w2025Entries, ...w2026Entries, ...seasonEntries];
+  const allRaw           = [...dbEntries, ...w2024Entries, ...w2025Entries, ...w2026Entries, ...season25Entries, ...seasonEntries];
 
   // ② تنظيف + تصنيف ديناميكي + dedup
   const allEntries = cleanAndDedup(allRaw);
